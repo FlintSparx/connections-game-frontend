@@ -1,6 +1,5 @@
 import React from 'react'
 import GameBoard from './components/GameBoard'
-import './App.css'
 
 function App() {
   return (
@@ -13,18 +12,7 @@ function App() {
       {/* added our game board component */}
       <GameBoard />
       
-      {/* todo: add other game controls and info later */}
-      <div className="mt-4">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2">
-          Submit
-        </button>
-        <button className="bg-gray-300 px-4 py-2 rounded mr-2">
-          Shuffle
-        </button>
-        <button className="bg-green-500 text-white px-4 py-2 rounded">
-          New Game
-        </button>
-      </div>
+      {/* Buttons moved into GameBoard component */}
     </div>
   )
 }
