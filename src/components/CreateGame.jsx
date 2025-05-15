@@ -12,17 +12,12 @@ function CreateGame() {
   const [array4, setArray4] = useState([]);
 
   const handleArrayCreation = (i) => {
-    console.log(
-      i
-        .split(",")
-        .map((e) => e.trim())
-        .sort((a, b) => a.localeCompare(b))
-    );
-
-    return i
+    const arr = i
       .split(",")
       .map((e) => e.trim())
       .sort((a, b) => a.localeCompare(b));
+    // Only allow up to 4 items
+    return arr.slice(0, 4);
   };
 
   //TODO: fix this object, it keeps putting game name at the end
