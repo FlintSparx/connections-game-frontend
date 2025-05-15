@@ -3,15 +3,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GameBoard from "./components/GameComponents/GameBoard";
 import CreateGame from "./components/CreateGame";
 import GameBoardsList from "./components/GameComponents/GameBoardsList";
+import Login from "./components/Login";
 import "./App.css";
 
 function App() {
   const [view, setView] = useState("game"); // 'game' or 'admin'
 
   return (
+    // Routing set up for the app
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/CreateGame" element={<CreateGame />} />
           <Route
             path="/"
@@ -22,13 +25,19 @@ function App() {
                 {/* Navigation */}
                 <div className="mb-4">
                   <button
-                    className={`px-4 py-2 mx-2 rounded ${view === "game" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+                    className={`px-4 py-2 mx-2 rounded ${
+                      view === "game" ? "bg-blue-500 text-white" : "bg-gray-200"
+                    }`}
                     onClick={() => setView("game")}
                   >
                     Play Game
                   </button>
                   <button
-                    className={`px-4 py-2 mx-2 rounded ${view === "admin" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+                    className={`px-4 py-2 mx-2 rounded ${
+                      view === "admin"
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200"
+                    }`}
                     onClick={() => setView("admin")}
                   >
                     Manage Boards
