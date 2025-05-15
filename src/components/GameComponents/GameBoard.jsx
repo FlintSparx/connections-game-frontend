@@ -75,7 +75,9 @@ function GameBoard() {
   };
 
   // fetch game when component mounts
-  useEffect(() => { fetchGame(); }, []);
+  useEffect(() => { 
+    fetchGame(); 
+  }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div style={{ color: 'red' }}>{error}</div>;
@@ -100,7 +102,7 @@ function GameBoard() {
         {organizedWords.map((item, idx) => {
           return (
             <WordTile
-              key={`${item.catIndex}-${item.word}`} // use stable key based on content
+              key={`${item.catIndex}-${item.word}-${idx}`} // use stable key based on content
               word={item.word}
               selected={selected.includes(idx)}
               correct={foundCategories.includes(item.catIndex)}
