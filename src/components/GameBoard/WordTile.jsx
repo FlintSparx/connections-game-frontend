@@ -1,13 +1,45 @@
-import React from 'react'
+import React from 'react';
 
-// basic component for displaying a word tile in the connections game
-// todo: add selection state and different colors for categories
-function WordTile({ word }) {
+const CATEGORY_COLORS = [
+  '#fde68a', // yellow
+  '#a7f3d0', // green
+  '#fca5a5', // red
+  '#93c5fd', // blue
+];
+
+function WordTile({ word, selected, correct, onClick, catIndex, foundGroupCatIndex }) {
+  // pick background color
+  const background =
+    typeof foundGroupCatIndex === 'number'
+      ? CATEGORY_COLORS[foundGroupCatIndex]
+      : correct
+      ? '#bbf7d0'
+      : selected
+      ? '#bfdbfe'
+      : '#ecebe4';
+
   return (
-    <div className="bg-gray-200 p-3 rounded m-1 text-center font-medium cursor-pointer hover:bg-gray-300 transition-colors duration-150 select-none">
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        width: '7rem',
+        height: '4rem',
+        border: '1px solid black',
+        borderRadius: '0.375rem',
+        fontWeight: 600,
+        fontSize: '1rem',
+        background,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 0,
+        padding: 0,
+      }}
+    >
       {word}
-    </div>
-  )
+    </button>
+  );
 }
 
-export default WordTile
+export default WordTile;
