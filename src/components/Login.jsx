@@ -21,14 +21,14 @@ function Login(props) {
       <input
         type="text"
         placeholder="Username"
-        // value={username}
-        // onChange={(e) => setUsername(e.target.value)}
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
       />
       <input
         type="password"
         placeholder="Password"
-        // value={password}
-        // onChange={(e) => setPassword(e.target.value)}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={logIn}>Log In</button>
       {error && <p style={{ color: "red" }}>{error}</p>}

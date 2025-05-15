@@ -6,6 +6,7 @@ import "./App.css";
 
 function App() {
   return (
+    // Routing set up for the app
     <>
       <BrowserRouter>
         <Routes>
