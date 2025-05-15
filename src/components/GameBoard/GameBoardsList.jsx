@@ -11,6 +11,7 @@ function GameBoardsList() {
   
   // initial form state
   const initialFormState = {
+    name: "", // Added name field
     category1: { name: "", word: ["", "", "", ""] },
     category2: { name: "", word: ["", "", "", ""] },
     category3: { name: "", word: ["", "", "", ""] },
@@ -80,6 +81,11 @@ function GameBoardsList() {
     setFormError("");
     
     // validate form data
+    if (!formData.name.trim()) {
+      setFormError("Game board name is required");
+      return;
+    }
+
     for (let i = 1; i <= 4; i++) {
       const cat = formData[`category${i}`];
       if (!cat.name.trim()) {
@@ -137,6 +143,19 @@ function GameBoardsList() {
       {showForm && (
         <form onSubmit={handleSubmit} className="mb-8 p-4 border rounded max-w-2xl mx-auto">
           <h3 className="text-lg font-medium mb-4">Create New Game Board</h3>
+
+          {/* Input for game board name */}
+          <div className="mb-4">
+            <label htmlFor="gameName" className="block text-sm font-medium mb-1">Game Board Name</label>
+            <input
+              type="text"
+              id="gameName"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full px-3 py-2 border rounded"
+              required
+            />
+          </div>
           
           {formError && (
             <div className="bg-red-100 text-red-700 p-2 mb-4 rounded">
