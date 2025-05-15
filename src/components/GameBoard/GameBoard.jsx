@@ -2,24 +2,13 @@ import React, { useState, useEffect } from 'react';
 const API_URL = import.meta.env.VITE_API_URL;
 import WordTile from './WordTile';
 
-/**
- * GameBoard - the main Connections game board
- * Handles fetching a random game, shuffling, selection, and group logic
- *
- * This is a 4x4 grid of WordTiles. When you select 4, hit Submit to check if they're a group!
- */
 function GameBoard() {
-  // Loading and error state for fetching game data
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Array of word objects: { word, catIndex }
   const [words, setWords] = useState([]);
-  // Indices of currently selected tiles
   const [selected, setSelected] = useState([]);
-  // Array of arrays, each containing indices of a found group
   const [foundGroups, setFoundGroups] = useState([]);
-
-  // Fetch a random game from the backend and prepare the board
+  const [gameWon, setGameWon] = useState(false);
   const fetchGame = async () => {
     try {
       setLoading(true);
@@ -27,7 +16,6 @@ function GameBoard() {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data.length > 0) {
-        // Pick a random game and flatten all category words into a single array
         const game = data[Math.floor(Math.random() * data.length)];
         const all = [
           ...game.category1.word.map(w => ({ word: w, catIndex: 0 })),
@@ -46,8 +34,7 @@ function GameBoard() {
       setLoading(false);
     }
   };
-
-  // Shuffle an array using Fisher-Yates
+  // shuffle array using fisher-yates algorithm
   const shuffleArray = (array) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -57,13 +44,12 @@ function GameBoard() {
     return newArray;
   };
 
-  // Fetch game on mount
+  // fetch game when component mounts
   useEffect(() => { fetchGame(); }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div style={{ color: 'red' }}>{error}</div>;
-
-  // Render the 4x4 board as a grid of WordTiles
+  // render 4x4 grid of word tiles
   return (
     <div>
       <h2>Connections Game</h2>
@@ -76,9 +62,8 @@ function GameBoard() {
         alignItems: 'center',
         maxWidth: '400px',
         margin: '0 auto 1.5rem auto',
-      }}>
-        {words.map((item, idx) => {
-          // Find the category index of a found group this tile belongs to, if any
+      }}>        {words.map((item, idx) => {
+          // find category index if tile belongs to a found group
           let foundGroupCatIndex = undefined;
           foundGroups.forEach(group => {
             if (group.includes(idx)) foundGroupCatIndex = item.catIndex;
@@ -89,13 +74,12 @@ function GameBoard() {
               word={item.word}
               selected={selected.includes(idx)}
               correct={foundGroups.some(group => group.includes(idx))}
-              onClick={() => {
-                // Don't let users select a tile that's already in a found group
+              onClick={() => {                // prevent selecting tiles already in a found group
                 if (foundGroups.flat().includes(idx)) return;
                 setSelected(prev =>
                   prev.includes(idx)
-                    ? prev.filter(i => i !== idx) // Deselect if already selected
-                    : prev.length < 4 ? [...prev, idx] : prev // Select if less than 4 selected
+                    ? prev.filter(i => i !== idx) // deselect if already selected
+                    : prev.length < 4 ? [...prev, idx] : prev // select if less than 4 selected
                 );
               }}
               catIndex={item.catIndex}
@@ -103,25 +87,52 @@ function GameBoard() {
             />
           );
         })}
-      </div>
-      {/* Button row for game actions */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+      </div>      
+      {gameWon && (
+        <div style={{ 
+          marginTop: '1rem', 
+          padding: '0.5rem', 
+          backgroundColor: '#d1fae5', 
+          borderRadius: '0.375rem',
+          fontWeight: 'bold' 
+        }}>
+          🎉 Congratulations! You've found all categories! 🎉
+        </div>
+      )}
+      {/* game control buttons */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>        
         <button
           disabled={selected.length !== 4}
           onClick={() => {
-            // Only allow submit if exactly 4 selected
+            // validate selection of exactly 4 tiles            
             if (selected.length === 4) {
-              // Check if all selected tiles belong to the same category
+              // check if all tiles belong to same category
               const cats = selected.map(i => words[i].catIndex);
-              if (cats.every(c => c === cats[0])) setFoundGroups([...foundGroups, selected]);
+              if (cats.every(c => c === cats[0])) {
+                const newFoundGroups = [...foundGroups, selected];
+                setFoundGroups(newFoundGroups);
+                // check if all four categories have been found
+                if (newFoundGroups.length === 4) {
+                  setGameWon(true);
+                }
+              }
             }
-            setSelected([]); // Always clear selection after submit
+            setSelected([]); // reset selection after submit attempt
           }}
         >
           Submit
         </button>
-        <button onClick={() => { setWords(shuffleArray(words)); setSelected([]); }}>Shuffle</button>
-        <button onClick={() => { fetchGame(); setFoundGroups([]); setSelected([]); }}>New Game</button>
+        <button onClick={() => { 
+          setWords(shuffleArray(words)); 
+          setSelected([]); 
+          setGameWon(false); 
+        }}>Shuffle</button>
+        <button onClick={() => { 
+          fetchGame(); 
+          setFoundGroups([]); 
+          setSelected([]);
+          setGameWon(false); 
+        }}>New Game</button>
       </div>
     </div>
   );

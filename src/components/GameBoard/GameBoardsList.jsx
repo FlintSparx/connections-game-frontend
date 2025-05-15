@@ -5,8 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 function GameBoardsList() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Fetch all games
+  // fetch all games when component mounts
   useEffect(() => {
     fetch(`${API_URL}/games`)
       .then(res => res.json())
@@ -15,11 +14,21 @@ function GameBoardsList() {
         setLoading(false);
       });
   }, []);
-
-  // Delete a game
+  // remove game from database with confirmation
   const handleDelete = async (id) => {
-    await fetch(`${API_URL}/games/${id}`, { method: "DELETE" });
-    setGames(games.filter(game => game._id !== id));
+    if (window.confirm("Are you sure you want to delete this game board?")) {
+      try {
+        const response = await fetch(`${API_URL}/games/${id}`, { method: "DELETE" });
+        if (response.ok) {
+          setGames(games.filter(game => game._id !== id));
+        } else {
+          alert("Failed to delete the game board.");
+        }
+      } catch (error) {
+        console.error("Error deleting game:", error);
+        alert("An error occurred while trying to delete the game board.");
+      }
+    }
   };
 
   if (loading) return <div>Loading...</div>;
