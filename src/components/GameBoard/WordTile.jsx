@@ -1,5 +1,6 @@
 import React from 'react';
 
+// color scheme for the four different categories
 const CATEGORY_COLORS = [
   '#fde68a', // yellow
   '#a7f3d0', // green
@@ -7,13 +8,12 @@ const CATEGORY_COLORS = [
   '#93c5fd', // blue
 ];
 
-function WordTile({ word, selected, correct, onClick, catIndex, foundGroupCatIndex }) {
-  // pick background color
+// single tile component that displays a word and changes appearance based on selection state
+function WordTile({ word, selected, correct, onClick, catIndex, foundGroupCatIndex, categoryName }) {
+  // set background color based on tile state
   const background =
     typeof foundGroupCatIndex === 'number'
       ? CATEGORY_COLORS[foundGroupCatIndex]
-      : correct
-      ? '#bbf7d0'
       : selected
       ? '#bfdbfe'
       : '#ecebe4';
@@ -31,13 +31,23 @@ function WordTile({ word, selected, correct, onClick, catIndex, foundGroupCatInd
         fontSize: '1rem',
         background,
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         margin: 0,
-        padding: 0,
+        padding: '0.25rem',
       }}
     >
       {word}
+      {categoryName && (
+        <div style={{ 
+          fontSize: '0.6rem', 
+          marginTop: '0.25rem',
+          opacity: 0.8 
+        }}>
+          {categoryName}
+        </div>
+      )}
     </button>
   );
 }
