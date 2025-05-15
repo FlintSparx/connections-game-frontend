@@ -10,17 +10,23 @@ function CreateGame() {
   const [array2, setArray2] = useState([]);
   const [array3, setArray3] = useState([]);
   const [array4, setArray4] = useState([]);
+  const [error1, setError1] = useState("");
+  const [error2, setError2] = useState("");
+  const [error3, setError3] = useState("");
+  const [error4, setError4] = useState("");
 
-  const handleArrayCreation = (i) => {
+  const handleArrayCreation = (i, setError) => {
     const arr = i
       .split(",")
       .map((e) => e.trim())
       .sort((a, b) => a.localeCompare(b));
-    // Only allow up to 4 items
+    if (arr.length > 4) {
+      setError("Only 4 words allowed per category.");
+    } else {
+      setError("");
+    }
     return arr.slice(0, 4);
   };
-
-  //TODO: fix this object, it keeps putting game name at the end
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -70,9 +76,10 @@ function CreateGame() {
             type="text"
             placeholder="Words (comma separated)"
             onChange={(e) => {
-              setArray1(handleArrayCreation(e.target.value));
+              setArray1(handleArrayCreation(e.target.value, setError1));
             }}
           />
+          {error1 && <div style={{ color: "red" }}>{error1}</div>}
         </div>
         <div>
           <label>Category 2: </label>
@@ -85,9 +92,10 @@ function CreateGame() {
             type="text"
             placeholder="Words (comma separated)"
             onChange={(e) => {
-              setArray2(handleArrayCreation(e.target.value));
+              setArray2(handleArrayCreation(e.target.value, setError2));
             }}
           />
+          {error2 && <div style={{ color: "red" }}>{error2}</div>}
         </div>
         <div>
           <label>Category 3: </label>
@@ -100,9 +108,10 @@ function CreateGame() {
             type="text"
             placeholder="Words (comma separated)"
             onChange={(e) => {
-              setArray3(handleArrayCreation(e.target.value));
+              setArray3(handleArrayCreation(e.target.value, setError3));
             }}
           />
+          {error3 && <div style={{ color: "red" }}>{error3}</div>}
         </div>
         <div>
           <label>Category 4: </label>
@@ -115,9 +124,10 @@ function CreateGame() {
             type="text"
             placeholder="Words (comma separated)"
             onChange={(e) => {
-              setArray4(handleArrayCreation(e.target.value));
+              setArray4(handleArrayCreation(e.target.value, setError4));
             }}
           />
+          {error4 && <div style={{ color: "red" }}>{error4}</div>}
         </div>
         <button type="submit">Create Game</button>
       </form>
