@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
-import WordTile from './WordTile';
+import WordTile from "./WordTile";
 
 // words are organized in a 4x4 grid, with found categories moving to the top
 function GameBoard() {
@@ -11,7 +11,7 @@ function GameBoard() {
   // track found categories by their index (0-3)
   const [foundCategories, setFoundCategories] = useState([]);
   const [gameWon, setGameWon] = useState(false);
-  
+
   const fetchGame = async () => {
     try {
       setLoading(true);
@@ -21,18 +21,34 @@ function GameBoard() {
       if (data.length > 0) {
         const game = data[Math.floor(Math.random() * data.length)];
         const all = [
-          ...game.category1.word.map(w => ({ word: w, catIndex: 0, categoryName: game.category1.name })),
-          ...game.category2.word.map(w => ({ word: w, catIndex: 1, categoryName: game.category2.name })),
-          ...game.category3.word.map(w => ({ word: w, catIndex: 2, categoryName: game.category3.name })),
-          ...game.category4.word.map(w => ({ word: w, catIndex: 3, categoryName: game.category4.name })),
+          ...game.category1.words.map((w) => ({
+            word: w,
+            catIndex: 0,
+            categoryName: game.category1.name,
+          })),
+          ...game.category2.words.map((w) => ({
+            word: w,
+            catIndex: 1,
+            categoryName: game.category2.name,
+          })),
+          ...game.category3.words.map((w) => ({
+            word: w,
+            catIndex: 2,
+            categoryName: game.category3.name,
+          })),
+          ...game.category4.words.map((w) => ({
+            word: w,
+            catIndex: 3,
+            categoryName: game.category4.name,
+          })),
         ];
         setWords(shuffleUnfoundWords(all, []));
       } else {
-        setError('No games available');
+        setError("No games available");
       }
     } catch (err) {
       console.error(err);
-      setError('Error loading game');
+      setError("Error loading game");
     } finally {
       setLoading(false);
     }
@@ -41,17 +57,24 @@ function GameBoard() {
   // shuffle array using fisher-yates algorithm, but keep found categories intact
   const shuffleUnfoundWords = (array, foundCats) => {
     // extract words from found categories
-    const foundWords = array.filter(item => foundCats.includes(item.catIndex));
+    const foundWords = array.filter((item) =>
+      foundCats.includes(item.catIndex)
+    );
     // extract words from unfound categories
-    const unfoundWords = array.filter(item => !foundCats.includes(item.catIndex));
-    
+    const unfoundWords = array.filter(
+      (item) => !foundCats.includes(item.catIndex)
+    );
+
     // shuffle only the unfound words
     const shuffledUnfound = [...unfoundWords];
     for (let i = shuffledUnfound.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffledUnfound[i], shuffledUnfound[j]] = [shuffledUnfound[j], shuffledUnfound[i]];
+      [shuffledUnfound[i], shuffledUnfound[j]] = [
+        shuffledUnfound[j],
+        shuffledUnfound[i],
+      ];
     }
-    
+
     // arrange all words with found categories first
     return [...foundWords, ...shuffledUnfound];
   };
@@ -60,45 +83,49 @@ function GameBoard() {
   const organizeWords = (words, foundCats) => {
     // sort words: found categories first (in order they were found), then unfound words
     const organizedWords = [];
-    
+
     // add found categories in the order they were found
-    foundCats.forEach(catIndex => {
-      const categoryWords = words.filter(item => item.catIndex === catIndex);
+    foundCats.forEach((catIndex) => {
+      const categoryWords = words.filter((item) => item.catIndex === catIndex);
       organizedWords.push(...categoryWords);
     });
-    
+
     // add remaining unfound words
-    const unfoundWords = words.filter(item => !foundCats.includes(item.catIndex));
+    const unfoundWords = words.filter(
+      (item) => !foundCats.includes(item.catIndex)
+    );
     organizedWords.push(...unfoundWords);
-    
+
     return organizedWords;
   };
 
   // fetch game when component mounts
-  useEffect(() => { 
-    fetchGame(); 
+  useEffect(() => {
+    fetchGame();
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div style={{ color: 'red' }}>{error}</div>;
-  
+  if (error) return <div style={{ color: "red" }}>{error}</div>;
+
   // organize words with found categories at the top
   const organizedWords = organizeWords(words, foundCategories);
-  
+
   // render 4x4 grid of word tiles
   return (
     <div>
       <h2>Connections Game</h2>
       <p>Create four groups of four!</p>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '0.5rem',
-        justifyContent: 'center',
-        alignItems: 'center',
-        maxWidth: '400px',
-        margin: '0 auto 1.5rem auto',
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gap: "0.5rem",
+          justifyContent: "center",
+          alignItems: "center",
+          maxWidth: "400px",
+          margin: "0 auto 1.5rem auto",
+        }}
+      >
         {organizedWords.map((item, idx) => {
           return (
             <WordTile
@@ -109,54 +136,67 @@ function GameBoard() {
               onClick={() => {
                 // prevent selecting tiles from categories that are already found
                 if (foundCategories.includes(item.catIndex)) return;
-                
-                setSelected(prev =>
-                  prev.includes(idx)
-                    ? prev.filter(i => i !== idx) // deselect if already selected
-                    : prev.length < 4 ? [...prev, idx] : prev // select if less than 4 selected
+
+                setSelected(
+                  (prev) =>
+                    prev.includes(idx)
+                      ? prev.filter((i) => i !== idx) // deselect if already selected
+                      : prev.length < 4
+                      ? [...prev, idx]
+                      : prev // select if less than 4 selected
                 );
               }}
               catIndex={item.catIndex}
-              foundGroupCatIndex={foundCategories.includes(item.catIndex) ? item.catIndex : undefined}
-              categoryName={foundCategories.includes(item.catIndex) ? item.categoryName : undefined}
+              foundGroupCatIndex={
+                foundCategories.includes(item.catIndex)
+                  ? item.catIndex
+                  : undefined
+              }
+              categoryName={
+                foundCategories.includes(item.catIndex)
+                  ? item.categoryName
+                  : undefined
+              }
             />
           );
         })}
       </div>
-      
+
       {gameWon && (
-        <div style={{ 
-          marginTop: '1rem', 
-          padding: '0.5rem', 
-          backgroundColor: '#d1fae5', 
-          borderRadius: '0.375rem',
-          fontWeight: 'bold' 
-        }}>
+        <div
+          style={{
+            marginTop: "1rem",
+            padding: "0.5rem",
+            backgroundColor: "#d1fae5",
+            borderRadius: "0.375rem",
+            fontWeight: "bold",
+          }}
+        >
           🎉 Congratulations! You've found all categories! 🎉
         </div>
       )}
-      
+
       {/* game control buttons */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+      <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
         <button
           disabled={selected.length !== 4}
           onClick={() => {
             // validate all selected tiles are from the same category
             if (selected.length === 4) {
               const firstCat = organizedWords[selected[0]].catIndex;
-              
-              const allSameCategory = selected.every(idx => 
-                organizedWords[idx].catIndex === firstCat
+
+              const allSameCategory = selected.every(
+                (idx) => organizedWords[idx].catIndex === firstCat
               );
-              
+
               if (allSameCategory) {
                 // add category to found categories
                 const newFoundCategories = [...foundCategories, firstCat];
                 setFoundCategories(newFoundCategories);
-                
+
                 // reorganize words with found categories first
                 setWords(organizeWords(words, newFoundCategories));
-                
+
                 // check if all four categories have been found
                 if (newFoundCategories.length === 4) {
                   setGameWon(true);
@@ -168,18 +208,22 @@ function GameBoard() {
         >
           Submit
         </button>
-        <button onClick={() => { 
-          setWords(shuffleUnfoundWords(words, foundCategories)); 
-          setSelected([]); 
-        }}>
+        <button
+          onClick={() => {
+            setWords(shuffleUnfoundWords(words, foundCategories));
+            setSelected([]);
+          }}
+        >
           Shuffle
         </button>
-        <button onClick={() => { 
-          fetchGame(); 
-          setFoundCategories([]); 
-          setSelected([]);
-          setGameWon(false); 
-        }}>
+        <button
+          onClick={() => {
+            fetchGame();
+            setFoundCategories([]);
+            setSelected([]);
+            setGameWon(false);
+          }}
+        >
           New Game
         </button>
       </div>
