@@ -61,6 +61,16 @@ function GameBoard() {
     setTries(0);
   };
 
+  const newGame = () => {
+    fetchGame();
+    setFoundCategories([]);
+    setSelected([]);
+    setGameWon(false);
+    resetTries();
+    setKeepPlaying(false);
+    setGameLost(false);
+  };
+
   // shuffle array using fisher-yates algorithm, but keep found categories intact
   const shuffleUnfoundWords = (array, foundCats) => {
     // extract words from found categories
@@ -184,7 +194,7 @@ function GameBoard() {
       )}
       {tries > 0 && !gameWon && !gameLost && (
         <div>
-          <p style={{ fontWeight: "bold" }}>Tries Left: {4 - tries}</p>
+          <p style={{ fontWeight: "bold" }}>Wrong answers Left: {4 - tries}</p>
         </div>
       )}
       {keepPlaying && (
@@ -207,7 +217,14 @@ function GameBoard() {
           Would you like to keep playing?
           <br />
           <button onClick={() => setKeepPlaying(true)}>Yes</button>{" "}
-          <button onClick={() => setKeepPlaying(false)}>No</button>
+          <button
+            onClick={() => {
+              setKeepPlaying(false);
+              newGame();
+            }}
+          >
+            No
+          </button>
         </div>
       )}
 
@@ -259,13 +276,7 @@ function GameBoard() {
         </button>
         <button
           onClick={() => {
-            fetchGame();
-            setFoundCategories([]);
-            setSelected([]);
-            setGameWon(false);
-            resetTries();
-            setKeepPlaying(false);
-            setGameLost(false);
+            newGame();
           }}
         >
           New Game
