@@ -38,4 +38,4 @@ function App() {
   );
 }
 
-export default PlayGameBoard;
+export default App;
