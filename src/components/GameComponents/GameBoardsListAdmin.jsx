@@ -5,7 +5,7 @@ import PuzzleForm from "./PuzzleForm";
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Displays and manages all available game boards
-function GameBoardsList({ admin }) {
+function GameBoardsListAdmin({ admin }) {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [formLoading, setFormLoading] = useState(false);
@@ -112,14 +112,31 @@ function GameBoardsList({ admin }) {
         <table className="game-boards-table">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Name</th>
+              <th>Categories</th>
+              <th>Words</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {games.map((game) => (
               <tr key={game._id}>
+                <td>{game._id}</td>
                 <td>{game.name}</td>
+                <td>
+                  <div>
+                    {game.category1?.name}, {game.category2?.name},{" "}
+                    {game.category3?.name}, {game.category4?.name}
+                  </div>
+                </td>
+                <td>
+                  {(game.category1?.words.length || 0) +
+                    (game.category2?.words.length || 0) +
+                    (game.category3?.words.length || 0) +
+                    (game.category4?.words.length || 0)}{" "}
+                  words total
+                </td>
                 <td>
                   {/* Show Play for all, Delete only for admin */}
                   <button
@@ -137,6 +154,23 @@ function GameBoardsList({ admin }) {
                   >
                     Play
                   </button>
+                  {admin && (
+                    <button
+                      style={{
+                        background: "#ef4444",
+                        color: "#fff",
+                        padding: "0.5em 1em",
+                        border: "none",
+                        borderRadius: 6,
+                        cursor: "pointer",
+                        fontWeight: 600,
+                        marginLeft: 8,
+                      }}
+                      onClick={() => handleDelete(game._id)}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -147,4 +181,4 @@ function GameBoardsList({ admin }) {
   );
 }
 
-export default GameBoardsList;
+export default GameBoardsListAdmin;
