@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PuzzleForm from "./PuzzleForm";
+import PuzzleForm from "../GameComponents/PuzzleForm";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Displays and manages all available game boards
-function GameBoardsListAdmin({ admin }) {
+function GameBoardsListAdmin() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [formLoading, setFormLoading] = useState(false);
@@ -138,7 +138,6 @@ function GameBoardsListAdmin({ admin }) {
                   words total
                 </td>
                 <td>
-                  {/* Show Play for all, Delete only for admin */}
                   <button
                     style={{
                       background: "#4299e1",
@@ -148,29 +147,27 @@ function GameBoardsListAdmin({ admin }) {
                       borderRadius: 6,
                       cursor: "pointer",
                       fontWeight: 600,
-                      marginRight: admin ? 8 : 0,
+                      marginRight: 8,
                     }}
                     onClick={() => navigate(`/play/${game._id}`)}
                   >
                     Play
                   </button>
-                  {admin && (
-                    <button
-                      style={{
-                        background: "#ef4444",
-                        color: "#fff",
-                        padding: "0.5em 1em",
-                        border: "none",
-                        borderRadius: 6,
-                        cursor: "pointer",
-                        fontWeight: 600,
-                        marginLeft: 8,
-                      }}
-                      onClick={() => handleDelete(game._id)}
-                    >
-                      Delete
-                    </button>
-                  )}
+                  <button
+                    style={{
+                      background: "#ef4444",
+                      color: "#fff",
+                      padding: "0.5em 1em",
+                      border: "none",
+                      borderRadius: 6,
+                      cursor: "pointer",
+                      fontWeight: 600,
+                      marginLeft: 8,
+                    }}
+                    onClick={() => handleDelete(game._id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

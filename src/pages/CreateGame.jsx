@@ -1,4 +1,4 @@
-import CreateGame from "../components/CreateGame";
+import CreateGame from "../components/GameComponents/CreateGame";
 
 function CreateGamePage() {
   return <CreateGame />;

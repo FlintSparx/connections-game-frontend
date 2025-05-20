@@ -108,7 +108,7 @@ const Register = () => {
       };
 
       // Make the API call
-      const response = await fetch("http://localhost:5000/auth", {
+      const response = await fetch("http://localhost:5000/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

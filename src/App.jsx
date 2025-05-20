@@ -2,10 +2,12 @@ import { createContext, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import GameBoard from "./components/GameComponents/GameBoard";
-import Navigation from "./components/Navigation";
-import BrowseBoards from "./components/BrowseBoards";
+import Navigation from "./components/Navigation/Navigation";
+import BrowseBoards from "./pages/BrowseBoards";
 import CreateGamePage from "./pages/CreateGame";
 import Authenticate from "./pages/Authenticate";
+import AdminDashboard from "./pages/AdminDashboard";
+
 import { useParams } from "react-router-dom";
 import "./App.css";
 
@@ -38,22 +40,13 @@ const getUserFromToken = () => {
     const payload = jwtDecode(token);
     // return user details directly from payload
     return {
-      userID: payload.userID,
-      firstName: payload.firstName,
-      lastName: payload.lastName,
+      userID: payload.id,
+      username: payload.username,
       isAdmin: payload.isAdmin,
     };
   } catch {
     return null;
   }
-};
-
-const handleLogout = () => {
-  document.cookie =
-    "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  setToken(null);
-  setUser(null);
-  window.location = "/login";
 };
 
 function Logout({ onLogout }) {
@@ -87,10 +80,22 @@ function App() {
         <Navigation />
         <Routes>
           <Route path="/browse" element={<BrowseBoards />} />
-          <Route path="/create" element={<CreateGamePage />} />
+          <Route
+            path="/create"
+            element={
+              token ? (
+                <CreateGamePage />
+              ) : (
+                <div style={{ padding: "2rem", textAlign: "center" }}>
+                  <h2>You need to login to make a game</h2>
+                </div>
+              )
+            }
+          />
           <Route path="/play/:id" element={<PlayGameBoard />} />
           <Route path="/login" element={<Authenticate />} />
           <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route
             path="/"
             element={
