@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PuzzleForm from "./PuzzleForm";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -9,6 +10,7 @@ function GameBoardsList({ admin }) {
   const [loading, setLoading] = useState(true);
   const [formLoading, setFormLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch all games when component mounts
   useEffect(() => {
@@ -146,7 +148,7 @@ function GameBoardsList({ admin }) {
                       fontWeight: 600,
                       marginRight: admin ? 8 : 0
                     }}
-                    onClick={() => window.location.href = `/play/${game._id}`}
+                    onClick={() => navigate(`/play/${game._id}`)}
                   >
                     Play
                   </button>

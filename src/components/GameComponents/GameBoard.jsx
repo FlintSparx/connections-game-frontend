@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 import WordTile from "./WordTile";
 
 // words are organized in a 4x4 grid, with found categories moving to the top
-function GameBoard() {
+function GameBoard({ gameId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [words, setWords] = useState([]);
@@ -12,14 +12,17 @@ function GameBoard() {
   const [foundCategories, setFoundCategories] = useState([]);
   const [gameWon, setGameWon] = useState(false);
 
+  // Fetch a specific game if gameId is provided, otherwise random
   const fetchGame = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_URL}/games`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (data.length > 0) {
-        const game = data[Math.floor(Math.random() * data.length)];
+      let res, data;
+      if (gameId) {
+        res = await fetch(`${API_URL}/games/${gameId}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        data = await res.json();
+        if (!data) throw new Error("Game not found");
+        const game = data;
         const all = [
           ...game.category1.words.map((w) => ({
             word: w,
@@ -44,7 +47,37 @@ function GameBoard() {
         ];
         setWords(shuffleUnfoundWords(all, []));
       } else {
-        setError("No games available");
+        res = await fetch(`${API_URL}/games`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        data = await res.json();
+        if (data.length > 0) {
+          const game = data[Math.floor(Math.random() * data.length)];
+          const all = [
+            ...game.category1.words.map((w) => ({
+              word: w,
+              catIndex: 0,
+              categoryName: game.category1.name,
+            })),
+            ...game.category2.words.map((w) => ({
+              word: w,
+              catIndex: 1,
+              categoryName: game.category2.name,
+            })),
+            ...game.category3.words.map((w) => ({
+              word: w,
+              catIndex: 2,
+              categoryName: game.category3.name,
+            })),
+            ...game.category4.words.map((w) => ({
+              word: w,
+              catIndex: 3,
+              categoryName: game.category4.name,
+            })),
+          ];
+          setWords(shuffleUnfoundWords(all, []));
+        } else {
+          setError("No games available");
+        }
       }
     } catch (err) {
       console.error(err);
@@ -102,7 +135,7 @@ function GameBoard() {
   // fetch game when component mounts
   useEffect(() => {
     fetchGame();
-  }, []);
+  }, [gameId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
