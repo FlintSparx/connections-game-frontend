@@ -5,7 +5,6 @@ import Login from "./components/Login";
 import Navigation from "./components/Navigation";
 import BrowseBoards from "./components/BrowseBoards";
 import CreateGamePage from "./pages/CreateGame";
-import RegistrationForm from "./components/RegistrationForm";
 import { useParams } from "react-router-dom";
 import "./App.css";
 
@@ -15,13 +14,12 @@ function PlayGameBoard() {
   return <GameBoard gameId={id} />;
 }
 
-function GamePage() {
+function App() {
   return (
     <BrowserRouter>
       <Navigation />
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<RegistrationForm />} />
         <Route path="/browse" element={<BrowseBoards />} />
         <Route path="/create" element={<CreateGamePage />} />
         <Route path="/play/:id" element={<PlayGameBoard />} />
