@@ -183,7 +183,7 @@ function PuzzleForm({
           value={gameName}
           onChange={(e) => setGameName(e.target.value)}
           style={{
-            width: "100%",
+            width: "90%", // slightly shorter for better fit
             padding: "8px 12px",
             border: "1px solid #bbb",
             borderRadius: 6,
