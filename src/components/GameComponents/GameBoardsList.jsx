@@ -4,7 +4,7 @@ import PuzzleForm from "./PuzzleForm";
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Displays and manages all available game boards
-function GameBoardsList() {
+function GameBoardsList({ admin }) {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [formLoading, setFormLoading] = useState(false);
@@ -79,20 +79,13 @@ function GameBoardsList() {
 
   return (
     <div>
-      {/* Page title */}
-      <h2 className="text-xl font-semibold mb-4">Game Board Management</h2>
-
-      {/* Toggle create form button */}
+      {/* Show create form */}
       <button
-        className={`mb-4 px-4 py-2 rounded ${
-          showForm ? "bg-red-500" : "bg-green-500"
-        } text-white`}
+        className="mb-4 px-4 py-2 rounded bg-green-500 text-white"
         onClick={() => setShowForm(!showForm)}
       >
         {showForm ? "Cancel" : "Create New Game Board"}
       </button>
-
-      {/* Create Game Form */}
       {showForm && (
         <>
           <h3
@@ -112,7 +105,6 @@ function GameBoardsList() {
           />
         </>
       )}
-
       {/* List of existing game boards */}
       <div style={{ overflowX: "auto" }}>
         <table className="game-boards-table">
@@ -131,34 +123,50 @@ function GameBoardsList() {
                 <td>{game._id}</td>
                 <td>{game.name}</td>
                 <td>
-                  {/* Show all category names */}
                   <div>
                     {game.category1?.name}, {game.category2?.name}, {game.category3?.name}, {game.category4?.name}
                   </div>
                 </td>
                 <td>
-                  {/* Total words in all categories */}
                   {(game.category1?.words.length || 0) +
                     (game.category2?.words.length || 0) +
                     (game.category3?.words.length || 0) +
                     (game.category4?.words.length || 0)} words total
                 </td>
                 <td>
-                  {/* Delete button */}
+                  {/* Show Play for all, Delete only for admin */}
                   <button
                     style={{
-                      background: "#ef4444",
+                      background: "#4299e1",
                       color: "#fff",
                       padding: "0.5em 1em",
                       border: "none",
                       borderRadius: 6,
                       cursor: "pointer",
                       fontWeight: 600,
+                      marginRight: admin ? 8 : 0
                     }}
-                    onClick={() => handleDelete(game._id)}
+                    onClick={() => window.location.href = `/play/${game._id}`}
                   >
-                    Delete
+                    Play
                   </button>
+                  {admin && (
+                    <button
+                      style={{
+                        background: "#ef4444",
+                        color: "#fff",
+                        padding: "0.5em 1em",
+                        border: "none",
+                        borderRadius: 6,
+                        cursor: "pointer",
+                        fontWeight: 600,
+                        marginLeft: 8
+                      }}
+                      onClick={() => handleDelete(game._id)}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
