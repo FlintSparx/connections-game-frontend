@@ -40,4 +40,4 @@ function GamePage() {
   );
 }
 
-export default App;
+export default PlayGameBoard;
