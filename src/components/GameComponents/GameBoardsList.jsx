@@ -3,19 +3,19 @@ import PuzzleForm from "./PuzzleForm";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// displays and manages all available game boards with delete functionality
+// Displays and manages all available game boards
 function GameBoardsList() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [formLoading, setFormLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
-  // fetch all games when component mounts
+  // Fetch all games when component mounts
   useEffect(() => {
     fetchGames();
   }, []);
 
-  // fetch all games from the API
+  // Fetch all games from the API
   const fetchGames = () => {
     fetch(`${API_URL}/games`)
       .then((res) => res.json())
@@ -29,7 +29,7 @@ function GameBoardsList() {
       });
   };
 
-  // remove game from database with confirmation
+  // Remove game from database with confirmation
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this game board?")) {
       try {
@@ -48,10 +48,9 @@ function GameBoardsList() {
     }
   };
 
-  // submit the form to create a new game
+  // Submit the form to create a new game
   const handleFormSubmit = async (formData) => {
     setFormLoading(true);
-
     try {
       const response = await fetch(`${API_URL}/games`, {
         method: "POST",
@@ -60,11 +59,9 @@ function GameBoardsList() {
         },
         body: JSON.stringify(formData),
       });
-
       if (response.ok) {
-        // reset form and fetch updated games
-        setShowForm(false);
-        fetchGames();
+        setShowForm(false); // Hide form after success
+        fetchGames(); // Refresh list
         alert("Game board created successfully!");
       } else {
         const error = await response.json();
@@ -82,9 +79,10 @@ function GameBoardsList() {
 
   return (
     <div>
+      {/* Page title */}
       <h2 className="text-xl font-semibold mb-4">Game Board Management</h2>
 
-      {/* Create form toggle button */}
+      {/* Toggle create form button */}
       <button
         className={`mb-4 px-4 py-2 rounded ${
           showForm ? "bg-red-500" : "bg-green-500"
@@ -116,57 +114,56 @@ function GameBoardsList() {
       )}
 
       {/* List of existing game boards */}
-      <div className="mt-6">
-        <h3 className="text-lg font-medium mb-4">Existing Game Boards</h3>
-
-        {games.length === 0 ? (
-          <p className="text-gray-500">No game boards available</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="py-2 px-4 border">ID</th>
-                  <th className="py-2 px-4 border">Name</th>
-                  <th className="py-2 px-4 border">Categories</th>
-                  <th className="py-2 px-4 border">Words</th>
-                  <th className="py-2 px-4 border">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {games.map((game) => (
-                  <tr key={game._id} className="hover:bg-gray-50">
-                    <td className="py-2 px-4 border text-sm font-mono">
-                      {game._id}
-                    </td>
-                    <td className="py-2 px-4 border text-sm">{game.name}</td>
-                    <td className="py-2 px-4 border">
-                      <div className="text-sm">
-                        {game.category1?.name}, {game.category2?.name},
-                        {game.category3?.name}, {game.category4?.name}
-                      </div>
-                    </td>
-                    <td className="py-2 px-4 border text-sm">
-                      {game.category1?.words.length +
-                        game.category2?.words.length +
-                        game.category3?.words.length +
-                        game.category4?.words.length}{" "}
-                      words total
-                    </td>
-                    <td className="py-2 px-4 border">
-                      <button
-                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                        onClick={() => handleDelete(game._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+      <div style={{ overflowX: "auto" }}>
+        <table className="game-boards-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Categories</th>
+              <th>Words</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {games.map((game) => (
+              <tr key={game._id}>
+                <td>{game._id}</td>
+                <td>{game.name}</td>
+                <td>
+                  {/* Show all category names */}
+                  <div>
+                    {game.category1?.name}, {game.category2?.name}, {game.category3?.name}, {game.category4?.name}
+                  </div>
+                </td>
+                <td>
+                  {/* Total words in all categories */}
+                  {(game.category1?.words.length || 0) +
+                    (game.category2?.words.length || 0) +
+                    (game.category3?.words.length || 0) +
+                    (game.category4?.words.length || 0)} words total
+                </td>
+                <td>
+                  {/* Delete button */}
+                  <button
+                    style={{
+                      background: "#ef4444",
+                      color: "#fff",
+                      padding: "0.5em 1em",
+                      border: "none",
+                      borderRadius: 6,
+                      cursor: "pointer",
+                      fontWeight: 600,
+                    }}
+                    onClick={() => handleDelete(game._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
