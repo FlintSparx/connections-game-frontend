@@ -1,0 +1,45 @@
+import { useState } from "react";
+import PuzzleForm from "./GameComponents/PuzzleForm";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+function CreateGame() {
+  const [loading, setLoading] = useState(false);
+
+  const handleFormSubmit = async (formData) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/games`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to create game board");
+      }
+      alert("Game board created successfully!");
+      window.location.href = "/browse";
+    } catch (err) {
+      console.error("Error creating game:", err);
+      alert("There was an error creating the game board. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Create Game</h1>
+      <PuzzleForm
+        onSubmit={handleFormSubmit}
+        submitButtonText="Create Game Board"
+        loading={loading}
+      />
+    </div>
+  );
+}
+
+export default CreateGame;
