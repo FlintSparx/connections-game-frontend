@@ -115,16 +115,16 @@ function GameBoardsList({ admin }) {
       {/* List of existing game boards */}
       <div style={{ overflowX: "auto" }}>
         <table className="game-boards-table">
-          <thead>
-            <tr>
+          <thead>            <tr>
               <th>Name</th>
+              <th>Creator</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {games.map((game) => (
-              <tr key={game._id}>
+            {games.map((game) => (              <tr key={game._id}>
                 <td>{game.name}</td>
+                <td>{game.createdBy ? `Created by ${game.createdBy.username}` : 'Unknown creator'}</td>
                 <td>
                   {/* Show Play for all, Delete only for admin */}
                   <button
