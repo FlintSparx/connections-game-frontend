@@ -178,7 +178,7 @@ function UsersAdmin() {
           ))}
         </tbody>
       </table>
-      <p>This is the Users Admin page.</p>
+      
     </div>
   );
 }
