@@ -13,8 +13,7 @@ function Login(props) {
     if (username === "" || password === "") {
       setError("Username and password cannot be empty.");
       return;
-    } else {
-      fetch(`${process.env.REACT_APP_API_BASE_URL || "http://localhost:5000"}/user/login`, {
+    } else {      fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/users/login`, {
         method: "POST",
         body: JSON.stringify({ username, password }),
         headers: {
