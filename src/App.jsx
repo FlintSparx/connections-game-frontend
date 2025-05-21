@@ -7,6 +7,7 @@ import BrowseBoards from "./pages/BrowseBoards";
 import CreateGamePage from "./pages/CreateGame";
 import Authenticate from "./pages/Authenticate";
 import AdminDashboard from "./pages/AdminDashboard";
+import Profile from "./pages/Profile";
 
 import { useParams } from "react-router-dom";
 import "./App.css";
@@ -91,11 +92,11 @@ function App() {
                 </div>
               )
             }
-          />
-          <Route path="/play/:id" element={<PlayGameBoard />} />
+          />          <Route path="/play/:id" element={<PlayGameBoard />} />
           <Route path="/login" element={<Authenticate />} />
           <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/profile" element={<Profile />} />
           <Route
             path="/"
             element={

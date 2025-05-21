@@ -40,8 +40,7 @@ function Navigation() {
           >
             Create Game Board
           </NavLink>
-        </li>
-        {token && user?.isAdmin && (
+        </li>        {token && user?.isAdmin && (
           <li>
             <NavLink
               to="/admin"
@@ -50,6 +49,18 @@ function Navigation() {
               }
             >
               Admin
+            </NavLink>
+          </li>
+        )}
+        {token && (
+          <li>
+            <NavLink
+              to="/profile"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
+              Profile
             </NavLink>
           </li>
         )}
