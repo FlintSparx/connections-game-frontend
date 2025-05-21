@@ -1,4 +1,3 @@
-// filepath: f:\Documents\schoolStuff\gitRepos\assignments\capstone\client\src\components\Navigation\AdminNav.jsx
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import "../../App.css";
