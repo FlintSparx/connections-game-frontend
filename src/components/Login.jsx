@@ -14,7 +14,7 @@ function Login(props) {
       setError("Username and password cannot be empty.");
       return;
     } else {
-      fetch(`http://localhost:5000/user/login`, {
+      fetch(`${process.env.REACT_APP_API_BASE_URL || "http://localhost:5000"}/user/login`, {
         method: "POST",
         body: JSON.stringify({ username, password }),
         headers: {
