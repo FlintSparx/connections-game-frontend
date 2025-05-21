@@ -103,19 +103,22 @@ const Register = () => {
         username: formData.username,
         first_name: formData.first_name,
         last_name: formData.last_name,
-        email: formData.email,
+        email: formData.email.toLowerCase(),
         password: formData.password,
       };
 
       // Make the API call
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(apiData),
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(apiData),
+          credentials: "include",
+        }
+      );
 
       // Parse the response
       const data = await response.json();
