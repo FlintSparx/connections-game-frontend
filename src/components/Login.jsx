@@ -3,24 +3,30 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 
 function Login(props) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { setToken } = useContext(UserContext);
   const nav = useNavigate();
 
   const logIn = () => {
-    if (username === "" || password === "") {
-      setError("Username and password cannot be empty.");
+    if (email === "" || password === "") {
+      setError("Email and password cannot be empty.");
       return;
-    } else {      fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/users/login`, {
-        method: "POST",
-        body: JSON.stringify({ username, password }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      })
+    } else {
+      fetch(
+        `${
+          import.meta.env.VITE_API_URL || "http://localhost:5000"
+        }/users/login`,
+        {
+          method: "POST",
+          body: JSON.stringify({ email: email.toLowerCase(), password }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      )
         .then((res) => {
           if (!res.ok) {
             throw new Error();
@@ -48,9 +54,9 @@ function Login(props) {
     <div>
       <input
         type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <input
         type="password"
