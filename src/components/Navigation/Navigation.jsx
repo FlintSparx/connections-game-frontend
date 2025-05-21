@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { UserContext } from "../App";
-import "../App.css";
+import { UserContext } from "../../App";
+import "../../App.css";
 
 //navbar for navigation between main pages
 function Navigation() {
-  const { token } = useContext(UserContext);
-
+  const { user, token } = useContext(UserContext);
   return (
     <nav className="navbar">
       <div className="navbar-logo">Connections</div>
@@ -42,6 +41,18 @@ function Navigation() {
             Create Game Board
           </NavLink>
         </li>
+        {token && user?.isAdmin && (
+          <li>
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
+              Admin
+            </NavLink>
+          </li>
+        )}
         <li>
           {!token && (
             <NavLink

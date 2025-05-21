@@ -1,5 +1,6 @@
 import { useState } from "react";
-import PuzzleForm from "./GameComponents/PuzzleForm";
+import PuzzleForm from "./PuzzleForm";
+import fetchWithAuth from "../../utils/fetchWithAuth";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -9,7 +10,7 @@ function CreateGame() {
   const handleFormSubmit = async (formData) => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/games`, {
+      const response = await fetchWithAuth(`${API_URL}/games`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

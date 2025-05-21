@@ -13,8 +13,7 @@ function Login(props) {
     if (username === "" || password === "") {
       setError("Username and password cannot be empty.");
       return;
-    } else {
-      fetch(`http://localhost:5000/auth/login`, {
+    } else {      fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/users/login`, {
         method: "POST",
         body: JSON.stringify({ username, password }),
         headers: {

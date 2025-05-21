@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PuzzleForm from "./PuzzleForm";
+import fetchWithAuth from "../../utils/fetchWithAuth";
+import { UserContext } from "../../App";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Displays and manages all available game boards
 function GameBoardsList({ admin }) {
+  const { token } = useContext(UserContext);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [formLoading, setFormLoading] = useState(false);
@@ -54,7 +57,7 @@ function GameBoardsList({ admin }) {
   const handleFormSubmit = async (formData) => {
     setFormLoading(true);
     try {
-      const response = await fetch(`${API_URL}/games`, {
+      const response = await fetchWithAuth(`${API_URL}/games`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,12 +85,14 @@ function GameBoardsList({ admin }) {
   return (
     <div>
       {/* Show create form */}
-      <button
-        className="mb-4 px-4 py-2 rounded bg-green-500 text-white"
-        onClick={() => setShowForm(!showForm)}
-      >
-        {showForm ? "Cancel" : "Create New Game Board"}
-      </button>
+      {token && (
+        <button
+          className="mb-4 px-4 py-2 rounded bg-green-500 text-white"
+          onClick={() => setShowForm(!showForm)}
+        >
+          {showForm ? "Cancel" : "Create New Game Board"}
+        </button>
+      )}
       {showForm && (
         <>
           <h3
