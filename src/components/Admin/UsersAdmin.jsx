@@ -95,7 +95,7 @@ function UsersAdmin() {
         <thead>
           <tr>
             <th>ID</th>
-            <th>UserName</th>
+            <th>Username</th>
             <th>Name</th>
             <th>Admin</th>
             <th>Email</th>
@@ -178,7 +178,7 @@ function UsersAdmin() {
           ))}
         </tbody>
       </table>
-      <p>This is the Users Admin page.</p>
+      
     </div>
   );
 }
