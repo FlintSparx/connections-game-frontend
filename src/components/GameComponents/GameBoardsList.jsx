@@ -125,19 +125,9 @@ function GameBoardsList({ admin }) {
             {games.map((game) => (              <tr key={game._id}>
                 <td>{game.name}</td>
                 <td>{game.createdBy ? `Created by ${game.createdBy.username}` : 'Unknown creator'}</td>
-                <td>
-                  {/* Show Play for all, Delete only for admin */}
+                <td>                  {/* Show Play for all, Delete only for admin */}
                   <button
-                    style={{
-                      background: "#4299e1",
-                      color: "#fff",
-                      padding: "0.5em 1em",
-                      border: "none",
-                      borderRadius: 6,
-                      cursor: "pointer",
-                      fontWeight: 600,
-                      marginRight: admin ? 8 : 0,
-                    }}
+                    className="btn btn-primary"
                     onClick={() => navigate(`/play/${game._id}`)}
                   >
                     Play

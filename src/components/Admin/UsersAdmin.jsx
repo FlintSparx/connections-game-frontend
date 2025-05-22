@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import fetchWithAuth from "../../utils/fetchWithAuth";
+import "../../styles/ListPageStyles.css";
 
 function UsersAdmin() {
   const [users, setUsers] = useState([]);
@@ -88,97 +89,97 @@ function UsersAdmin() {
     }
   };
 
-  return (
-    <div>
-      <h1>Users Admin</h1>
-      <table className="game-boards-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Admin</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <React.Fragment key={user._id}>
-              <tr
-                onClick={() =>
-                  userEdit === user._id
-                    ? setUserEdit(null)
-                    : handleEditClick(user)
-                }
-                style={{ cursor: "pointer" }}
-              >
-                <td>{user._id}</td>
-                <td>{user.username}</td>
-                <td>
-                  <div>
-                    {user.first_name} {user.last_name}
-                  </div>
-                </td>
-                <td>{user.isAdmin.toString()}</td>
-                <td>{user.email}</td>
-              </tr>
-              {userEdit === user._id && (
-                <tr key={user._id + "-expand"}>
-                  <td colSpan={5}>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "1rem",
-                        alignItems: "center",
-                      }}
-                    >
+  return (    <div className="list-page-container">
+      <h1 className="list-page-title mb-6">Users Admin</h1>
+      <div className="table-wrapper">
+        <table className="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Admin</th>
+              <th>Email</th>              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              userEdit === user._id ? (
+                <tr key={user._id}>
+                  <td>{user._id}</td>                  <td>
+                    <div className="flex flex-col gap-1">
                       <input
                         name="username"
                         value={editFields.username}
                         onChange={handleFieldChange}
-                        placeholder="Username"
+                        className="form-control"
                       />
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex flex-col gap-1">
                       <input
                         name="first_name"
                         value={editFields.first_name}
                         onChange={handleFieldChange}
                         placeholder="First Name"
+                        className="form-control"
                       />
                       <input
                         name="last_name"
                         value={editFields.last_name}
                         onChange={handleFieldChange}
                         placeholder="Last Name"
+                        className="form-control"
                       />
-                      <input
-                        name="email"
-                        value={editFields.email}
-                        onChange={handleFieldChange}
-                        placeholder="Email"
-                      />
-                      <label>
-                        Admin
+                    </div>
+                  </td>                  <td>
+                    <div className="flex flex-col gap-1">
+                      <label className="flex items-center">
                         <input
                           type="checkbox"
                           name="isAdmin"
                           checked={!!editFields.isAdmin}
                           onChange={handleFieldChange}
                         />
-                      </label>
-                      <button onClick={() => handleUpdate(user)}>Save</button>
-                      <button onClick={() => setUserEdit(null)}>Cancel</button>
-                      <button onClick={() => handleDelete(user._id)}>
-                        Delete
-                      </button>
+                        Admin                      </label>
+                    </div>
+                  </td><td>
+                    <div className="flex flex-col gap-1">
+                      <input
+                        name="email"
+                        value={editFields.email}
+                        onChange={handleFieldChange}
+                        placeholder="Email"
+                        className="form-control"
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex flex-wrap gap-1">
+                      <button className="btn btn-primary" onClick={() => handleUpdate(user)}>Save</button>
+                      <button className="btn btn-secondary" onClick={() => setUserEdit(null)}>Cancel</button>
+                      <button className="btn btn-danger" onClick={() => handleDelete(user._id)}>Delete</button>
                     </div>
                   </td>
                 </tr>
-              )}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
-      
+              ) : (
+                <tr key={user._id}>
+                  <td>{user._id}</td>
+                  <td>{user.username}</td>
+                  <td>{user.first_name} {user.last_name}</td>
+                  <td>{user.isAdmin.toString()}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    <button className="btn btn-primary" onClick={() => handleEditClick(user)}>Edit</button>
+                    <button className="btn btn-danger" onClick={() => handleDelete(user._id)}>Delete</button>
+                  </td>
+                </tr>
+              )
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

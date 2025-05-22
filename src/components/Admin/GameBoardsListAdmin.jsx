@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PuzzleForm from "../GameComponents/PuzzleForm";
 import fetchWithAuth from "../../utils/fetchWithAuth";
 import { UserContext } from "../../App";
+import "../../styles/ListPageStyles.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -81,13 +82,11 @@ function GameBoardsListAdmin() {
   };
 
   if (loading) return <div>Loading...</div>;
-
   return (
-    <div>
-      {/* Show create form */}
+    <div className="list-page-container">
       {token && (
         <button
-          className="mb-4 px-4 py-2 rounded bg-green-500 text-white"
+          className={showForm ? "btn btn-danger mb-6" : "btn btn-success mb-6"}
           onClick={() => setShowForm(!showForm)}
         >
           {showForm ? "Cancel" : "Create New Game Board"}
@@ -95,14 +94,7 @@ function GameBoardsListAdmin() {
       )}
       {showForm && (
         <>
-          <h3
-            style={{
-              fontSize: "1.2rem",
-              fontWeight: 600,
-              marginBottom: 16,
-              textAlign: "center",
-            }}
-          >
+          <h3 className="list-page-title mb-6 text-center">
             Create New Game Board
           </h3>
           <PuzzleForm
@@ -111,10 +103,8 @@ function GameBoardsListAdmin() {
             loading={formLoading}
           />
         </>
-      )}
-      {/* List of existing game boards */}
-      <div style={{ overflowX: "auto" }}>
-        <table className="game-boards-table">
+      )}      <div className="table-wrapper">
+        <table className="list-table game-boards-admin">
           <thead>
             <tr>
               <th>ID</th>
@@ -144,31 +134,13 @@ function GameBoardsListAdmin() {
                 </td>
                 <td>
                   <button
-                    style={{
-                      background: "#4299e1",
-                      color: "#fff",
-                      padding: "0.5em 1em",
-                      border: "none",
-                      borderRadius: 6,
-                      cursor: "pointer",
-                      fontWeight: 600,
-                      marginRight: 8,
-                    }}
+                    className="btn btn-primary"
                     onClick={() => navigate(`/play/${game._id}`)}
                   >
                     Play
                   </button>
                   <button
-                    style={{
-                      background: "#ef4444",
-                      color: "#fff",
-                      padding: "0.5em 1em",
-                      border: "none",
-                      borderRadius: 6,
-                      cursor: "pointer",
-                      fontWeight: 600,
-                      marginLeft: 8,
-                    }}
+                    className="btn btn-danger"
                     onClick={() => handleDelete(game._id)}
                   >
                     Delete
