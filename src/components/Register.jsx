@@ -109,7 +109,7 @@ const Register = () => {
 
       // Make the API call
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/user/register`,
+        `${import.meta.env.VITE_API_URL}/users/register`,
         {
           method: "POST",
           headers: {
