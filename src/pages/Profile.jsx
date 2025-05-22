@@ -17,7 +17,8 @@ function Profile() {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {    if (!user) {
+  useEffect(() => {    
+    if (!user) {
       navigate("/login");
       return;
     }
@@ -51,6 +52,33 @@ function Profile() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  // Reset form function when canceling edits
+  const handleCancelEdit = () => {
+    fetch(`${import.meta.env.VITE_API_URL}/users/profile/${user.userID}`, {
+      headers: {
+        'Authorization': `Bearer ${document.cookie.split("auth_token=")[1].split(";")[0]}`,
+        'Content-Type': 'application/json'
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setFormData({
+          username: data.username,
+          email: data.email,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          newPassword: "",
+          currentPassword: "",
+        });
+        setIsEditing(false);
+        setError("");
+      })
+      .catch((err) => {
+        setError("Failed to reload profile data");
+        console.error(err);
+      });
   };
 
   const handleSubmit = async (e) => {
@@ -90,6 +118,40 @@ function Profile() {
     }
   };
 
+  // Add an account deletion function
+  const handleDelete = async () => {
+    const password = window.prompt("Enter your password to confirm account deletion:");
+    
+    if (!password) {
+      return; // User canceled the prompt
+    }
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile/${user.userID}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${document.cookie.split("auth_token=")[1].split(";")[0]}`,
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete account");
+      }
+
+      // Clear auth token
+      document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      setToken(null);
+      alert("Your account has been deleted successfully.");
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Failed to delete account");
+    }
+  };
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -115,12 +177,20 @@ function Profile() {
             <label className="font-semibold">Last Name:</label>
             <p>{formData.last_name}</p>
           </div>
-          <button
-            onClick={() => setIsEditing(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Edit Profile
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={() => setIsEditing(true)}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Edit Profile
+            </button>
+            <button
+              onClick={handleDelete}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Delete Account
+            </button>
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6">
@@ -203,7 +273,7 @@ function Profile() {
             </button>
             <button
               type="button"
-              onClick={() => setIsEditing(false)}
+              onClick={handleCancelEdit}
               className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
             >
               Cancel
