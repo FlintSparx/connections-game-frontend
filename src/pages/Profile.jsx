@@ -46,14 +46,12 @@ function Profile() {
         console.error(err);
       });
   }, [user, navigate]);
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-    
-    // Clear any previous error messages when user types
-    if (error) setError("");
   };
 
   // Reset form function when canceling edits
@@ -82,23 +80,6 @@ function Profile() {
         console.error(err);
       });
   };
-  // Clear success message after 10 seconds
-  useEffect(() => {
-    let timer;
-    if (success) {
-      timer = setTimeout(() => {
-        setSuccess("");
-      }, 10000); // 10 seconds
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [success]);
-
-  // Clear success message when entering edit mode or on component mount
-  useEffect(() => {
-    setSuccess("");
-  }, [isEditing]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,37 +89,22 @@ function Profile() {
     if (!formData.currentPassword) {
       setError("Current password is required to make changes");
       return;
-    }    try {
-      const requestBody = {
-        username: formData.username,
-        email: formData.email,
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        currentPassword: formData.currentPassword,
-        newPassword: formData.newPassword
-      };
-        // Get token from cookie
-      const token = document.cookie
-        .split("; ")
-        .find(row => row.startsWith("auth_token="))
-        ?.split("=")[1];
-        
-      if (!token) {
-        throw new Error("Authentication token not found. Please log in again.");
-      }
-      
+    }
+
+    try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile/${user.userID}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${document.cookie.split("auth_token=")[1].split(";")[0]}`,
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify(formData),
       });
 
-      const data = await response.json();      if (!response.ok) {
-        console.error("Profile update failed:", data);
-        throw new Error(data.message || data.details || "Failed to update profile");
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to update profile");
       }
 
       setSuccess("Profile updated successfully!");
@@ -210,12 +176,10 @@ function Profile() {
           <div className="profile-field">
             <label className="profile-label">Last Name:</label>
             <p className="profile-value">{formData.last_name}</p>
-          </div>          <div className="profile-actions">
+          </div>
+          <div className="profile-actions">
             <button
-              onClick={() => {
-                setIsEditing(true);
-                setSuccess("");
-              }}
+              onClick={() => setIsEditing(true)}
               className="profile-edit-btn"
             >
               Edit Profile

@@ -1,24 +1,15 @@
-/* Shared CSS for admin pages and game board pages */
-
-/* Note: Use Tailwind classes for simple utilities:
- * - Margins (mb-4, mt-2, etc.)
- * - Flexbox (flex, items-center, gap-3)
- * - Padding (p-4, px-2, py-3)
- * - Text alignment (text-center, text-right)
- */
-
 /* Button styles */
-
-/* Base button style */
 .btn {
   display: inline-block;
-  padding: 0.4em 1em;
+  padding: 0.4em 1.1em;
   border-radius: 4px;
   font-weight: 500;
   border: none;
   cursor: pointer;
   margin-right: 0.5em;
   transition: background 0.2s;
+  font-size: 1rem;
+    min-width: 80px;
 }
 
 .btn:last-child { margin-right: 0; }
@@ -59,41 +50,26 @@
   background: #475569;
 }
 
-/* Button spacing in action columns */
-.list-table td:last-child .btn, 
-.game-boards-table td:last-child .btn {
-  margin-right: 0.3em;
-  margin-bottom: 0.3em;
+/* Utility classes for consistent spacing and alignment (replacing Tailwind) */
+.mb-4 {
+  margin-bottom: 1.5rem;
 }
-
-/* Container styles */
-
-.list-page-container {
-  max-width: 1100px;
-  margin: 2rem auto;
-  padding: 2rem 1rem;
-  background: #f7fafc;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+.flex {
+  display: flex;
 }
-
-.list-page-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-align: center;
-  /* Use Tailwind mb-6 class instead of margin-bottom in JSX */
+.gap-3 {
+  gap: 1rem;
 }
-
-/* For list-page-header, use Tailwind mb-6 directly in JSX */
-
-/* Table styles */
+.align-center {
+  align-items: center;
+}
 
 /* Table wrapper for horizontal scroll on small screens */
 .table-wrapper {
   overflow-x: auto;
 }
 
-/* Base table styling */
+/* Shared table styles for list and browse pages */
 .list-table, .game-boards-table {
   width: 100%;
   border-collapse: separate;
@@ -102,15 +78,12 @@
   font-size: 1rem;
 }
 
-/* Table header and cell styles */
 .list-table th, .list-table td,
 .game-boards-table th, .game-boards-table td {
   border: none;
-  padding: 0.75rem 1.25rem;
+  padding: 0.65em 1em;
   text-align: left;
   vertical-align: middle;
-  word-break: break-word; /* Break long words to prevent overflow */
-  max-width: 0; /* Works with overflow properties for text truncation */
 }
 
 .list-table th, .game-boards-table th {
@@ -120,7 +93,6 @@
   border-radius: 12px 12px 0 0;
 }
 
-/* Row styles */
 .list-table tr, .game-boards-table tr {
   background: #fff;
   border-radius: 16px;
@@ -137,7 +109,6 @@
   background: #f9fafb;
 }
 
-/* Rounded corners for tables */
 .list-table td:first-child, .list-table th:first-child,
 .game-boards-table td:first-child, .game-boards-table th:first-child {
   border-radius: 16px 0 0 16px;
@@ -148,96 +119,31 @@
   border-radius: 0 16px 16px 0;
 }
 
-/* Users admin table columns */
-
-/* ID column (shorter) */
-.list-table th:first-child, .list-table td:first-child {
-  width: 15%;
-  max-width: 200px;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+/* Container and header styles */
+.list-page-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  background: #f7fafc;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* Username column */
-.list-table th:nth-child(2), .list-table td:nth-child(2) {
-  width: 15%;
+.list-page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-/* Name column */
-.list-table th:nth-child(3), .list-table td:nth-child(3) {
-  width: 18%;
+.list-page-header {
+  margin-bottom: 1.5rem;
 }
-
-/* Admin column (narrower) */
-.list-table th:nth-child(4), .list-table td:nth-child(4) {
-  width: 10%;
-}
-
-/* Email column */
-.list-table th:nth-child(5), .list-table td:nth-child(5) {
-  width: 22%;
-}
-
-/* Actions column */
-.list-table th:last-child, .list-table td:last-child {
-  width: 20%;
-  white-space: nowrap;
-}
-
-/* Game boards admin table columns */
-
-/* ID column */
-.list-table.game-boards-admin th:first-child, 
-.list-table.game-boards-admin td:first-child {
-  width: 10%;
-  max-width: 150px;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Name column */
-.list-table.game-boards-admin th:nth-child(2), 
-.list-table.game-boards-admin td:nth-child(2) {
-  width: 18%;
-}
-
-/* Categories column */
-.list-table.game-boards-admin th:nth-child(3), 
-.list-table.game-boards-admin td:nth-child(3) {
-  width: 40%;
-}
-
-/* Categories cell special handling to prevent overflow */
-.list-table.game-boards-admin td:nth-child(3) div {
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Show max 2 lines */
-  line-clamp: 2; /* Standard property for compatibility */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Words column */
-.list-table.game-boards-admin th:nth-child(4), 
-.list-table.game-boards-admin td:nth-child(4) {
-  width: 12%;
-}
-
-/* Actions column */
-.list-table.game-boards-admin th:last-child, 
-.list-table.game-boards-admin td:last-child {
-  width: 20%;
-  text-align: right;
-}
-
-/* Form styles */
 
 /* Form control styles */
 .form-control {
   width: 100%;
-  padding: 0.5em 0.75em;
+  padding: 0.4em 0.75em;
   border: 1px solid #cbd5e1;
   border-radius: 4px;
   font-size: 1rem;
@@ -245,9 +151,8 @@
   color: #222;
   box-sizing: border-box;
   transition: border 0.2s;
-  height: 38px; /* Consistent height for all inputs */
+  min-height: 2.2em;
 }
-
 .form-control:focus {
   outline: none;
   border-color: #2563eb;
@@ -260,36 +165,117 @@
   flex: 1 1 0;
 }
 
-/* Consistent checkbox styling */
+/* Checkbox alignment and sizing */
 input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  margin-right: 6px;
-  vertical-align: middle;
+  width: 1.1em;
+    height: 1.1em;
+    accent-color: #2563eb;
 }
 
-/* Note: For compact edit modes, use Tailwind classes:
- * - Layout: flex flex-col gap-1
- * - Spacing: mb-1 py-1 px-2
- * - Text: text-sm
- */
+/* Categories cell style for better display */
+.categories-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3.2em;
+}
 
-/* Note: For action button layouts, use Tailwind's flex flex-wrap gap-1 classes directly in JSX */
+/* Responsive word grid for PuzzleForm */
+@media (min-width: 481px) {
+  .word-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
 
-/* Mobile styles */
-
+/* Responsive: shrink padding/font-size on small screens */
 @media (max-width: 768px) {
-  .list-table, .game-boards-table {
+  .list-page-container {
+      padding: 1rem 0.5rem;
+    }
+  
+    .list-table th,
+    .list-table td,
+    .game-boards-table th,
+    .game-boards-table td {
     font-size: 0.9rem;
+    padding: 0.4em 0.4em;
+    }
+    
+    /* Adjust ID column width and behavior on mobile */
+    .list-table td:first-child,
+    .game-boards-table td:first-child {
+      max-width: 80px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
   }
   
-  .btn {
-    padding: 0.3em 0.8em;
+    .btn {
     font-size: 0.9rem;
+    padding: 0.35em 0.7em;
+      min-width: 55px;
+      margin-bottom: 0.3rem;
   }
   
-  .form-control {
-    padding: 0.4em 0.6em;
+    .form-control {
     font-size: 0.9rem;
+    padding: 0.3em 0.5em;
+      min-height: 1.8em;
+    }
+    }
+    
+    /* Card view for very small screens */
+    @media (max-width: 600px) {
+      .table-wrapper {
+        overflow-x: visible;
+      }
+    
+      .list-table thead,
+      .game-boards-table thead {
+        display: none;
+      }
+    
+      .list-table tbody tr,
+      .game-boards-table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+      }
+    
+      .list-table tbody td,
+      .game-boards-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem;
+        text-align: right;
+        border-bottom: 1px solid #e2e8f0;
+      }
+    
+      .list-table tbody td:last-child,
+      .game-boards-table tbody td:last-child {
+        border-bottom: none;
+        justify-content: flex-end;
+      }
+    
+      .list-table tbody td::before,
+      .game-boards-table tbody td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-align: left;
+        padding-right: 0.5rem;
+      }
+    
+      /* Make sure the first td shows at the top of the card */
+      .list-table tbody td:first-child,
+      .game-boards-table tbody td:first-child {
+        max-width: none;
+      }
+    
+      /* Handle ID overflow */
+      .list-table td:first-child {
+        word-break: break-all;
   }
 }

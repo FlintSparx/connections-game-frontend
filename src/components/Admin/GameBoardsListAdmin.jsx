@@ -82,11 +82,12 @@ function GameBoardsListAdmin() {
   };
 
   if (loading) return <div>Loading...</div>;
+
   return (
     <div className="list-page-container">
       {token && (
         <button
-          className={showForm ? "btn btn-danger mb-6" : "btn btn-success mb-6"}
+          className={showForm ? "btn btn-danger mb-4" : "btn btn-success mb-4"}
           onClick={() => setShowForm(!showForm)}
         >
           {showForm ? "Cancel" : "Create New Game Board"}
@@ -94,7 +95,7 @@ function GameBoardsListAdmin() {
       )}
       {showForm && (
         <>
-          <h3 className="list-page-title mb-6 text-center">
+          <h3 className="list-page-title mb-4" style={{ textAlign: "center" }}>
             Create New Game Board
           </h3>
           <PuzzleForm
@@ -103,8 +104,9 @@ function GameBoardsListAdmin() {
             loading={formLoading}
           />
         </>
-      )}      <div className="table-wrapper">
-        <table className="list-table game-boards-admin">
+      )}
+      <div className="table-wrapper">
+        <table className="list-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -114,25 +116,24 @@ function GameBoardsListAdmin() {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {games.map((game) => (
+          <tbody>            {games.map((game) => (
               <tr key={game._id}>
-                <td>{game._id}</td>
-                <td>{game.name}</td>
-                <td>
-                  <div>
+                <td data-label="ID">{game._id}</td>
+                <td data-label="Name">{game.name}</td>
+                <td data-label="Categories">
+                  <div className="categories-cell">
                     {game.category1?.name}, {game.category2?.name},{" "}
                     {game.category3?.name}, {game.category4?.name}
                   </div>
                 </td>
-                <td>
+                <td data-label="Words">
                   {(game.category1?.words.length || 0) +
                     (game.category2?.words.length || 0) +
                     (game.category3?.words.length || 0) +
                     (game.category4?.words.length || 0)}{" "}
                   words total
                 </td>
-                <td>
+                <td data-label="Actions">
                   <button
                     className="btn btn-primary"
                     onClick={() => navigate(`/play/${game._id}`)}
@@ -156,7 +157,3 @@ function GameBoardsListAdmin() {
 }
 
 export default GameBoardsListAdmin;
-
-<div className="bg-blue-500 text-white p-4 rounded">
-  Tailwind v4 test - should be blue!
-</div>
