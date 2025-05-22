@@ -25,7 +25,7 @@ function CreateGame() {
       window.location.href = "/browse";
     } catch (err) {
       console.error("Error creating game:", err);
-      alert("There was an error creating the game board. Please try again.");
+      alert("Error creating game: " + err.message);
     } finally {
       setLoading(false);
     }
