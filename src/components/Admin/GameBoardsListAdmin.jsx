@@ -156,3 +156,7 @@ function GameBoardsListAdmin() {
 }
 
 export default GameBoardsListAdmin;
+
+<div className="bg-blue-500 text-white p-4 rounded">
+  Tailwind v4 test - should be blue!
+</div>
