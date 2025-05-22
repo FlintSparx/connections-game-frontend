@@ -1,4 +1,0 @@
-/* tried using tailwind for this part and had trouble putting the space between so went back to regular css grid for the board layout */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
