@@ -82,6 +82,23 @@ function Profile() {
         console.error(err);
       });
   };
+  // Clear success message after 10 seconds
+  useEffect(() => {
+    let timer;
+    if (success) {
+      timer = setTimeout(() => {
+        setSuccess("");
+      }, 10000); // 10 seconds
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [success]);
+
+  // Clear success message when entering edit mode or on component mount
+  useEffect(() => {
+    setSuccess("");
+  }, [isEditing]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -193,10 +210,12 @@ function Profile() {
           <div className="profile-field">
             <label className="profile-label">Last Name:</label>
             <p className="profile-value">{formData.last_name}</p>
-          </div>
-          <div className="profile-actions">
+          </div>          <div className="profile-actions">
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={() => {
+                setIsEditing(true);
+                setSuccess("");
+              }}
               className="profile-edit-btn"
             >
               Edit Profile
