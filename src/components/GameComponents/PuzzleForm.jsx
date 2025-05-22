@@ -153,23 +153,23 @@ function PuzzleForm({
       ...categoriesObj,
     });
   };
-
   return (
     <form
       onSubmit={handleSubmit}
       style={{
         marginBottom: 32,
-        padding: 16,
+        padding: "16px 8px",
         border: "1px solid #ddd",
         borderRadius: 12,
+        width: "100%",
         maxWidth: 600,
         marginLeft: "auto",
         marginRight: "auto",
         background: "#fff",
         boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+        boxSizing: "border-box",
       }}
-    >
-      <div style={{ marginBottom: 16 }}>
+    >      <div style={{ marginBottom: 16 }}>
         <label
           htmlFor="gameName"
           style={{ display: "block", marginBottom: 4, fontWeight: 600 }}
@@ -183,11 +183,13 @@ function PuzzleForm({
           value={gameName}
           onChange={(e) => setGameName(e.target.value)}
           style={{
-            width: "90%", // slightly shorter for better fit
+            width: "100%",
+            maxWidth: "400px",
             padding: "8px 12px",
             border: "1px solid #bbb",
             borderRadius: 6,
             fontSize: 16,
+            boxSizing: "border-box",
           }}
         />
       </div>
@@ -214,8 +216,7 @@ function PuzzleForm({
         }}
       >
         {categories.map((cat, catIdx) => (
-          <div key={catIdx}>
-            <div
+          <div key={catIdx}>            <div
               style={{
                 background: CATEGORY_COLORS[catIdx],
                 borderRadius: "6px 6px 0 0",
@@ -226,14 +227,18 @@ function PuzzleForm({
                 border: "1px solid #ccc",
                 borderBottom: "none",
                 letterSpacing: 1,
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <span style={{ marginRight: 8 }}>
+              <span style={{ margin: "0 4px 0 0" }}>
                 {DIFFICULTY_LABELS[catIdx]}
               </span>
               <input
                 type="text"
-                placeholder={`${DIFFICULTY_LABELS[catIdx]} Category Name`}
+                placeholder={`${DIFFICULTY_LABELS[catIdx]} Category`}
                 value={cat.name}
                 onChange={(e) =>
                   handleCategoryNameChange(catIdx, e.target.value)
@@ -243,28 +248,28 @@ function PuzzleForm({
                   border: "none",
                   outline: "none",
                   fontWeight: "bold",
-                  fontSize: "1rem",
+                  fontSize: "0.95rem",
                   textAlign: "center",
-                  width: "70%",
+                  width: "65%",
+                  minWidth: "100px",
                 }}
                 maxLength={32}
               />
-            </div>
-            <div
+            </div>            <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: 12,
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: 8,
                 background: "#fff",
                 borderRadius: "0 0 6px 6px",
                 border: "1px solid #ccc",
                 borderTop: "none",
-                padding: 10,
+                padding: 8,
                 justifyItems: "center",
               }}
+              className="word-grid"
             >
-              {cat.words.map((word, wordIdx) => (
-                <input
+              {cat.words.map((word, wordIdx) => (                <input
                   key={wordIdx}
                   type="text"
                   placeholder={`Word ${wordIdx + 1}`}
@@ -273,16 +278,18 @@ function PuzzleForm({
                     handleWordChange(catIdx, wordIdx, e.target.value)
                   }
                   style={{
-                    width: 80,
-                    height: 36,
+                    width: "100%",
+                    maxWidth: 100,
+                    height: 34,
                     textAlign: "center",
                     border: "1px solid #bbb",
                     borderRadius: 6,
-                    fontSize: "1rem",
+                    fontSize: "0.9rem",
                     background: "#f9fafb",
                     boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
                     margin: 0,
-                    padding: 0,
+                    padding: "0 2px",
+                    boxSizing: "border-box",
                   }}
                   maxLength={24}
                 />
@@ -302,13 +309,12 @@ function PuzzleForm({
             )}
           </div>
         ))}
-      </div>
-      <button
+      </div>      <button
         type="submit"
         disabled={loading}
         style={{
           marginTop: 24,
-          padding: "10px 32px",
+          padding: "10px 24px",
           background: loading ? "#9ca3af" : "#3b82f6",
           color: "#fff",
           border: "none",
@@ -317,6 +323,10 @@ function PuzzleForm({
           fontSize: 16,
           boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
           cursor: loading ? "not-allowed" : "pointer",
+          width: "100%",
+          maxWidth: "300px",
+          display: "block",
+          margin: "24px auto 0",
         }}
       >
         {loading ? "Processing..." : submitButtonText}

@@ -81,13 +81,12 @@ function GameBoardsList({ admin }) {
   };
 
   if (loading) return <div>Loading...</div>;
-
   return (
-    <div>
+    <div className="list-page-container">
       {/* Show create form */}
       {token && (
         <button
-          className="mb-4 px-4 py-2 rounded bg-green-500 text-white"
+          className="btn btn-success mb-4"
           onClick={() => setShowForm(!showForm)}
         >
           {showForm ? "Cancel" : "Create New Game Board"}
@@ -95,14 +94,7 @@ function GameBoardsList({ admin }) {
       )}
       {showForm && (
         <>
-          <h3
-            style={{
-              fontSize: "1.2rem",
-              fontWeight: 600,
-              marginBottom: 16,
-              textAlign: "center",
-            }}
-          >
+          <h3 className="list-page-title mb-4 text-center">
             Create New Game Board
           </h3>
           <PuzzleForm
@@ -113,31 +105,21 @@ function GameBoardsList({ admin }) {
         </>
       )}
       {/* List of existing game boards */}
-      <div style={{ overflowX: "auto" }}>
-        <table className="game-boards-table">
+      <div className="table-wrapper">
+        <table className="list-table">
           <thead>            <tr>
               <th>Name</th>
               <th>Creator</th>
               <th>Actions</th>
             </tr>
-          </thead>
-          <tbody>
-            {games.map((game) => (              <tr key={game._id}>
-                <td>{game.name}</td>
-                <td>{game.createdBy ? `Created by ${game.createdBy.username}` : 'Unknown creator'}</td>
-                <td>
-                  {/* Show Play for all, Delete only for admin */}
+          </thead>          <tbody>
+            {games.map((game) => (
+              <tr key={game._id}>
+                <td data-label="Name">{game.name}</td>
+                <td data-label="Creator">{game.createdBy ? `Created by ${game.createdBy.username}` : 'Unknown creator'}</td>
+                <td data-label="Actions">
                   <button
-                    style={{
-                      background: "#4299e1",
-                      color: "#fff",
-                      padding: "0.5em 1em",
-                      border: "none",
-                      borderRadius: 6,
-                      cursor: "pointer",
-                      fontWeight: 600,
-                      marginRight: admin ? 8 : 0,
-                    }}
+                    className="btn btn-primary"
                     onClick={() => navigate(`/play/${game._id}`)}
                   >
                     Play

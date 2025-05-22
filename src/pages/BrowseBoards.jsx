@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import GameBoardsList from "../components/GameComponents/GameBoardsList";
+import "../styles/ListPageStyles.css";
 
 // Page for browsing all game boards, with admin switch
 function BrowseBoards() {
@@ -7,59 +8,32 @@ function BrowseBoards() {
   const [input, setInput] = useState("");
 
   return (
-    <div className="container">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 24,
-        }}
-      >
-        <h2>Browse Game Boards</h2>
+    <div className="list-page-container">
+      <div className="list-page-header">
+        <h2 className="list-page-title">Browse Game Boards</h2>
       </div>
       {showPrompt && (
-        <form onSubmit={handlePasswordSubmit} style={{ marginBottom: 16 }}>
+        <form onSubmit={handlePasswordSubmit} className="mb-4 flex gap-3 align-center">
           <input
             type="password"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Enter admin password"
-            style={{
-              padding: "0.5em 1em",
-              borderRadius: 6,
-              border: "1px solid #ccc",
-              marginRight: 8,
-            }}
+            className="form-control"
             autoFocus
           />
           <button
             type="submit"
-            style={{
-              padding: "0.5em 1em",
-              borderRadius: 6,
-              border: "none",
-              background: "#4299e1",
-              color: "#fff",
-              fontWeight: 600,
-            }}
+            className="btn btn-primary"
           >
             Submit
           </button>
           <button
             type="button"
+            className="btn btn-secondary"
             onClick={() => {
               setShowPrompt(false);
               setInput("");
-            }}
-            style={{
-              marginLeft: 8,
-              padding: "0.5em 1em",
-              borderRadius: 6,
-              border: "none",
-              background: "#aaa",
-              color: "#fff",
-              fontWeight: 600,
             }}
           >
             Cancel

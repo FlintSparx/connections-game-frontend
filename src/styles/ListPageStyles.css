@@ -1,0 +1,281 @@
+/* Button styles */
+.btn {
+  display: inline-block;
+  padding: 0.4em 1.1em;
+  border-radius: 4px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5em;
+  transition: background 0.2s;
+  font-size: 1rem;
+    min-width: 80px;
+}
+
+.btn:last-child { margin-right: 0; }
+
+/* Blue buttons - for Play and primary actions */
+.btn-primary {
+  background: #2563eb;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+/* Red buttons - for Delete and Cancel */
+.btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* Green buttons - for Confirm/Submit actions */
+.btn-success {
+  background: #16a34a;
+  color: #fff;
+}
+.btn-success:hover {
+  background: #15803d;
+}
+
+/* Grey buttons - for secondary actions */
+.btn-secondary {
+  background: #64748b;
+  color: #fff;
+}
+.btn-secondary:hover {
+  background: #475569;
+}
+
+/* Utility classes for consistent spacing and alignment (replacing Tailwind) */
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+.flex {
+  display: flex;
+}
+.gap-3 {
+  gap: 1rem;
+}
+.align-center {
+  align-items: center;
+}
+
+/* Table wrapper for horizontal scroll on small screens */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* Shared table styles for list and browse pages */
+.list-table, .game-boards-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  background: transparent;
+  font-size: 1rem;
+}
+
+.list-table th, .list-table td,
+.game-boards-table th, .game-boards-table td {
+  border: none;
+  padding: 0.65em 1em;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.list-table th, .game-boards-table th {
+  background: #f7f7f7;
+  font-weight: bold;
+  color: #222;
+  border-radius: 12px 12px 0 0;
+}
+
+.list-table tr, .game-boards-table tr {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+.list-table tr:hover, .game-boards-table tr:hover {
+  background: #f1f5f9;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.list-table tr:nth-child(even), .game-boards-table tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.list-table td:first-child, .list-table th:first-child,
+.game-boards-table td:first-child, .game-boards-table th:first-child {
+  border-radius: 16px 0 0 16px;
+}
+
+.list-table td:last-child, .list-table th:last-child,
+.game-boards-table td:last-child, .game-boards-table th:last-child {
+  border-radius: 0 16px 16px 0;
+}
+
+/* Container and header styles */
+.list-page-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  background: #f7fafc;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.list-page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.list-page-header {
+  margin-bottom: 1.5rem;
+}
+
+/* Form control styles */
+.form-control {
+  width: 100%;
+  padding: 0.4em 0.75em;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 1rem;
+  background: #f8fafc;
+  color: #222;
+  box-sizing: border-box;
+  transition: border 0.2s;
+  min-height: 2.2em;
+}
+.form-control:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: #fff;
+}
+
+/* For flexed input groups in table cells */
+.flex.gap-3 > .form-control {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+/* Checkbox alignment and sizing */
+input[type="checkbox"] {
+  width: 1.1em;
+    height: 1.1em;
+    accent-color: #2563eb;
+}
+
+/* Categories cell style for better display */
+.categories-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3.2em;
+}
+
+/* Responsive word grid for PuzzleForm */
+@media (min-width: 481px) {
+  .word-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+
+/* Responsive: shrink padding/font-size on small screens */
+@media (max-width: 768px) {
+  .list-page-container {
+      padding: 1rem 0.5rem;
+    }
+  
+    .list-table th,
+    .list-table td,
+    .game-boards-table th,
+    .game-boards-table td {
+    font-size: 0.9rem;
+    padding: 0.4em 0.4em;
+    }
+    
+    /* Adjust ID column width and behavior on mobile */
+    .list-table td:first-child,
+    .game-boards-table td:first-child {
+      max-width: 80px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+  
+    .btn {
+    font-size: 0.9rem;
+    padding: 0.35em 0.7em;
+      min-width: 55px;
+      margin-bottom: 0.3rem;
+  }
+  
+    .form-control {
+    font-size: 0.9rem;
+    padding: 0.3em 0.5em;
+      min-height: 1.8em;
+    }
+    }
+    
+    /* Card view for very small screens */
+    @media (max-width: 600px) {
+      .table-wrapper {
+        overflow-x: visible;
+      }
+    
+      .list-table thead,
+      .game-boards-table thead {
+        display: none;
+      }
+    
+      .list-table tbody tr,
+      .game-boards-table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+      }
+    
+      .list-table tbody td,
+      .game-boards-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem;
+        text-align: right;
+        border-bottom: 1px solid #e2e8f0;
+      }
+    
+      .list-table tbody td:last-child,
+      .game-boards-table tbody td:last-child {
+        border-bottom: none;
+        justify-content: flex-end;
+      }
+    
+      .list-table tbody td::before,
+      .game-boards-table tbody td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-align: left;
+        padding-right: 0.5rem;
+      }
+    
+      /* Make sure the first td shows at the top of the card */
+      .list-table tbody td:first-child,
+      .game-boards-table tbody td:first-child {
+        max-width: none;
+      }
+    
+      /* Handle ID overflow */
+      .list-table td:first-child {
+        word-break: break-all;
+  }
+}
