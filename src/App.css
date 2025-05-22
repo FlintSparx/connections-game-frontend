@@ -113,3 +113,218 @@
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
 }
+
+/* Profile Styles */
+
+.profile-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.profile-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.profile-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: #2d3748;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* Profile View Mode Styles */
+.profile-view-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.profile-field {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.profile-label {
+  display: block;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-value {
+  font-size: 1.1rem;
+  color: #2d3748;
+  font-weight: 500;
+  margin: 0;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.profile-edit-btn {
+  background: linear-gradient(135deg, #4299e1, #63b3ed);
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.profile-edit-btn:hover {
+  background: linear-gradient(135deg, #3182ce, #4299e1);
+}
+
+.profile-delete-btn {
+  background: linear-gradient(135deg, #f56565, #fc8181);
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.profile-delete-btn:hover {
+  background: linear-gradient(135deg, #e53e3e, #f56565);
+}
+
+/* Profile Edit Form Styles */
+.profile-edit-form {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.profile-error {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #feb2b2;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.profile-success {
+  background: #c6f6d5;
+  color: #22543d;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #9ae6b4;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.profile-input-group {
+  margin-bottom: 1.5rem;
+}
+
+.profile-input-label {
+  display: block;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile-required-label {
+  color: #c53030;
+}
+
+.profile-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.profile-input:focus {
+  outline: none;
+  border-color: #4299e1;
+}
+
+.profile-required-input {
+  border-color: #feb2b2;
+}
+
+.profile-required-input:focus {
+  border-color: #f56565;
+}
+
+.profile-form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 2px solid #e2e8f0;
+}
+
+.profile-save-btn {
+  background: linear-gradient(135deg, #38a169, #48bb78);
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.profile-save-btn:hover {
+  background: linear-gradient(135deg, #2f855a, #38a169);
+}
+
+.profile-cancel-btn {
+  background: linear-gradient(135deg, #718096, #a0aec0);
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.profile-cancel-btn:hover {
+  background: linear-gradient(135deg, #4a5568, #718096);
+}

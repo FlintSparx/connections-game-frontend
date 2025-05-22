@@ -153,128 +153,128 @@ function Profile() {
   };
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <div className="profile-loading">Loading...</div>;
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Profile</h2>
+    <div className="profile-container">
+      <h2 className="profile-title">Profile</h2>
       {!isEditing ? (
-        <div className="bg-white shadow rounded-lg p-6">
-          <div className="mb-4">
-            <label className="font-semibold">Username:</label>
-            <p>{formData.username}</p>
+        <div className="profile-view-card">
+          <div className="profile-field">
+            <label className="profile-label">Username:</label>
+            <p className="profile-value">{formData.username}</p>
           </div>
-          <div className="mb-4">
-            <label className="font-semibold">Email:</label>
-            <p>{formData.email}</p>
+          <div className="profile-field">
+            <label className="profile-label">Email:</label>
+            <p className="profile-value">{formData.email}</p>
           </div>
-          <div className="mb-4">
-            <label className="font-semibold">First Name:</label>
-            <p>{formData.first_name}</p>
+          <div className="profile-field">
+            <label className="profile-label">First Name:</label>
+            <p className="profile-value">{formData.first_name}</p>
           </div>
-          <div className="mb-4">
-            <label className="font-semibold">Last Name:</label>
-            <p>{formData.last_name}</p>
+          <div className="profile-field">
+            <label className="profile-label">Last Name:</label>
+            <p className="profile-value">{formData.last_name}</p>
           </div>
-          <div className="flex gap-4">
+          <div className="profile-actions">
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              className="profile-edit-btn"
             >
               Edit Profile
             </button>
             <button
               onClick={handleDelete}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              className="profile-delete-btn"
             >
               Delete Account
             </button>
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6">
-          {error && <div className="text-red-500 mb-4">{error}</div>}
-          {success && <div className="text-green-500 mb-4">{success}</div>}
+        <form onSubmit={handleSubmit} className="profile-edit-form">
+          {error && <div className="profile-error">{error}</div>}
+          {success && <div className="profile-success">{success}</div>}
           
-          <div className="mb-4">
-            <label className="block font-semibold mb-1">Username:</label>
+          <div className="profile-input-group">
+            <label className="profile-input-label">Username:</label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded"
+              className="profile-input"
             />
           </div>
           
-          <div className="mb-4">
-            <label className="block font-semibold mb-1">Email:</label>
+          <div className="profile-input-group">
+            <label className="profile-input-label">Email:</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded"
+              className="profile-input"
             />
           </div>
           
-          <div className="mb-4">
-            <label className="block font-semibold mb-1">First Name:</label>
+          <div className="profile-input-group">
+            <label className="profile-input-label">First Name:</label>
             <input
               type="text"
               name="first_name"
               value={formData.first_name}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded"
+              className="profile-input"
             />
           </div>
           
-          <div className="mb-4">
-            <label className="block font-semibold mb-1">Last Name:</label>
+          <div className="profile-input-group">
+            <label className="profile-input-label">Last Name:</label>
             <input
               type="text"
               name="last_name"
               value={formData.last_name}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded"
+              className="profile-input"
             />
           </div>
           
-          <div className="mb-4">
-            <label className="block font-semibold mb-1">New Password (optional):</label>
+          <div className="profile-input-group">
+            <label className="profile-input-label">New Password (optional):</label>
             <input
               type="password"
               name="newPassword"
               value={formData.newPassword}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded"
+              className="profile-input"
             />
           </div>
           
-          <div className="mb-6">
-            <label className="block font-semibold mb-1">Current Password (required):</label>
+          <div className="profile-input-group">
+            <label className="profile-input-label profile-required-label">Current Password (required):</label>
             <input
               type="password"
               name="currentPassword"
               value={formData.currentPassword}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded"
+              className="profile-input profile-required-input"
               required
             />
           </div>
           
-          <div className="flex gap-4">
+          <div className="profile-form-actions">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              className="profile-save-btn"
             >
               Save Changes
             </button>
             <button
               type="button"
               onClick={handleCancelEdit}
-              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+              className="profile-cancel-btn"
             >
               Cancel
             </button>
