@@ -107,16 +107,35 @@ function GameBoardsList({ admin }) {
       {/* List of existing game boards */}
       <div className="table-wrapper">
         <table className="list-table">
-          <thead>            <tr>
+          <thead>
+            {" "}
+            <tr>
               <th>Name</th>
               <th>Creator</th>
+              <th>Difficulty</th>
               <th>Actions</th>
             </tr>
-          </thead>          <tbody>
+          </thead>{" "}
+          <tbody>
             {games.map((game) => (
               <tr key={game._id}>
                 <td data-label="Name">{game.name}</td>
-                <td data-label="Creator">{game.createdBy ? `Created by ${game.createdBy.username}` : 'Unknown creator'}</td>
+                <td data-label="Creator">
+                  {game.createdBy
+                    ? `Created by ${game.createdBy.username}`
+                    : "Unknown creator"}
+                </td>
+                <td data-label="Difficulty">
+                  {game.plays > 0
+                    ? game.wins / game.plays <= 0.25
+                      ? "Hard"
+                      : game.wins / game.plays <= 0.5
+                      ? "Medium"
+                      : game.wins / game.plays <= 0.75
+                      ? "Easy"
+                      : "Unknown"
+                    : "Unknown"}
+                </td>
                 <td data-label="Actions">
                   <button
                     className="btn btn-primary"

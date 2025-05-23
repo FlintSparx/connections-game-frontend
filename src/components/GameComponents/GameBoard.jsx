@@ -90,6 +90,20 @@ function GameBoard({ gameId }) {
     }
   };
 
+  // Update game stats when the game is won or lost
+  const updateGameStats = async (won) => {
+    if (!gameId) return; // Only update for specific games
+    try {
+      await fetch(`${API_URL}/games/${gameId}/play`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ won }),
+      });
+    } catch (err) {
+      console.error("Failed to update game stats", err);
+    }
+  };
+
   const resetTries = () => {
     setTries(0);
   };
@@ -286,15 +300,18 @@ function GameBoard({ gameId }) {
                   // check if all four categories have been found
                   if (newFoundCategories.length === 4) {
                     setGameWon(true);
+                    updateGameStats(true);
                   }
                 } else {
                   setTries(tries + 1);
+                  if (tries + 1 >= 4 && !keepPlaying) {
+                    setGameLost(true);
+                    updateGameStats(false);
+                  }
                 }
-              } else {
-                setGameLost(true);
               }
+              setSelected([]); // reset selection after submit attempt
             }
-            setSelected([]); // reset selection after submit attempt
           }}
         >
           Submit
