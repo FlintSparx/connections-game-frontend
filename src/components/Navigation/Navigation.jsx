@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import "../../styles/App.css";
 
@@ -7,6 +7,7 @@ import "../../styles/App.css";
 function Navigation() {
   const { user, token } = useContext(UserContext);
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
   
   // Close the menu when clicking outside
   useEffect(() => {
@@ -23,10 +24,15 @@ function Navigation() {
     };
   }, []);
 
+  // Helper for navigation
+  const handleNav = (path) => {
+    navigate(path);
+    setMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-logo">Connections</div>
-      
       {/* Mobile menu button */}
       <button 
         className="mobile-menu-button"
@@ -37,90 +43,73 @@ function Navigation() {
         <span></span>
         <span></span>
       </button>
-      
       <ul className={`navbar-links ${menuOpen ? "show-mobile-menu" : ""}`}>
         <li className="nav-item-main">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? "nav-link active" : "nav-link"
-            }
-            end
-            onClick={() => setMenuOpen(false)}
+          <button
+            className="nav-link"
+            onClick={() => handleNav("/")}
+            type="button"
           >
             Play Game
-          </NavLink>
+          </button>
         </li>
         <li className="nav-item-main">
-          <NavLink
-            to="/browse"
-            className={({ isActive }) =>
-              isActive ? "nav-link active" : "nav-link"
-            }
-            onClick={() => setMenuOpen(false)}
+          <button
+            className="nav-link"
+            onClick={() => handleNav("/browse")}
+            type="button"
           >
             Browse Game Boards
-          </NavLink>
+          </button>
         </li>
         <li className="nav-item-main">
-          <NavLink
-            to="/create"
-            className={({ isActive }) =>
-              isActive ? "nav-link active" : "nav-link"
-            }
-            onClick={() => setMenuOpen(false)}
+          <button
+            className="nav-link"
+            onClick={() => handleNav("/create")}
+            type="button"
           >
             Create Game Board
-          </NavLink>
-        </li>        {token && user?.isAdmin && (
+          </button>
+        </li>
+        {token && user?.isAdmin && (
           <li className="nav-item-main">
-            <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setMenuOpen(false)}
+            <button
+              className="nav-link"
+              onClick={() => handleNav("/admin")}
+              type="button"
             >
               Admin
-            </NavLink>
+            </button>
           </li>
         )}
-        
         {token && (
           <li className="nav-item-main">
-            <NavLink
-              to="/profile"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setMenuOpen(false)}
+            <button
+              className="nav-link"
+              onClick={() => handleNav("/profile")}
+              type="button"
             >
               Profile
-            </NavLink>
+            </button>
           </li>
         )}
-        
         <li className="nav-item-main">
           {!token ? (
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setMenuOpen(false)}
+            <button
+              className="nav-link"
+              onClick={() => handleNav("/login")}
+              type="button"
             >
               Login
-            </NavLink>
+            </button>
           ) : (
-            <NavLink
-              to="/logout"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setMenuOpen(false)}
+            <button
+              className="nav-link"
+              onClick={() => handleNav("/logout")}
+              type="button"
             >
               Logout
-            </NavLink>
+            </button>
           )}
         </li>
       </ul>
