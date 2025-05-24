@@ -95,6 +95,7 @@ function GameBoard({ gameId }) {
   };
 
   const newGame = () => {
+    gameId = null;
     fetchGame();
     setFoundCategories([]);
     setSelected([]);
