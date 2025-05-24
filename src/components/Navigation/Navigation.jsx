@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../../App";
-import "../../App.css";
+import "../../styles/App.css";
 
 //navbar for navigation between main pages
 function Navigation() {

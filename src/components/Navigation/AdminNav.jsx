@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../App";
 import { Link } from "react-router-dom";
-import "../../App.css";
+import "../../styles/App.css";
 import GameBoardsListAdmin from "../Admin/GameBoardsListAdmin";
 import UsersAdmin from "../Admin/UsersAdmin";
 
