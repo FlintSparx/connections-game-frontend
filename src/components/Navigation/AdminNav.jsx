@@ -1,24 +1,23 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../App";
-import { Link } from "react-router-dom";
 import "../../styles/App.css";
 import GameBoardsListAdmin from "../Admin/GameBoardsListAdmin";
 import UsersAdmin from "../Admin/UsersAdmin";
 
+// Admin navigation bar for switching between admin pages
 function Navigation() {
   const { user, token } = useContext(UserContext);
-  const [selectedPage, setSelectedPage] = useState("games");
-  const [menuOpen, setMenuOpen] = useState(false);
-  
+  const [selectedPage, setSelectedPage] = useState("games"); // Track the active admin page
+  const [menuOpen, setMenuOpen] = useState(false); // Track the state of the mobile menu
+
   // Close the menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
-      // Close menu when clicking outside the navbar
       if (!event.target.closest('.navbar')) {
         setMenuOpen(false);
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -29,7 +28,7 @@ function Navigation() {
     <>
       <nav className="navbar">
         <div className="navbar-logo">Administration</div>
-        
+
         {/* Mobile menu button */}
         <button 
           className="mobile-menu-button"
@@ -40,7 +39,7 @@ function Navigation() {
           <span></span>
           <span></span>
         </button>
-        
+
         <ul className={`navbar-links ${menuOpen ? "show-mobile-menu" : ""}`}>
           <li className="nav-item-main">
             <button
@@ -53,7 +52,8 @@ function Navigation() {
             >
               Games
             </button>
-          </li>          <li className="nav-item-main">
+          </li>
+          <li className="nav-item-main">
             <button
               className={selectedPage === "users" ? "nav-link active" : "nav-link"}
               onClick={() => {
@@ -65,30 +65,10 @@ function Navigation() {
               Users
             </button>
           </li>
-          
-          <li className="nav-item-main">
-            <Link
-              to="/"
-              className="nav-link"
-              onClick={() => setMenuOpen(false)}
-            >
-              Back to Home
-            </Link>
-          </li>
-          
-          {token && (
-            <li className="nav-item-main">
-              <Link
-                to="/profile"
-                className="nav-link"
-                onClick={() => setMenuOpen(false)}
-              >
-                Profile
-              </Link>
-            </li>
-          )}
         </ul>
       </nav>
+
+      {/* Render the selected admin page */}
       <div>
         {selectedPage === "games" && <GameBoardsListAdmin />}
         {selectedPage === "users" && <UsersAdmin />}

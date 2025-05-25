@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../App";
 import "../../styles/App.css";
 
@@ -7,8 +7,9 @@ import "../../styles/App.css";
 function Navigation() {
   const { user, token } = useContext(UserContext);
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
-  
+
   // Close the menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
@@ -17,7 +18,7 @@ function Navigation() {
         setMenuOpen(false);
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -32,7 +33,13 @@ function Navigation() {
 
   return (
     <nav className="navbar">
-      <div className="navbar-logo">Connections</div>
+      <div
+        className={`navbar-logo ${location.pathname === "/" ? "active" : ""}`}
+        onClick={() => handleNav("/")}
+        style={{ cursor: "pointer" }}
+      >
+        Connections
+      </div>
       {/* Mobile menu button */}
       <button 
         className="mobile-menu-button"
@@ -46,16 +53,7 @@ function Navigation() {
       <ul className={`navbar-links ${menuOpen ? "show-mobile-menu" : ""}`}>
         <li className="nav-item-main">
           <button
-            className="nav-link"
-            onClick={() => handleNav("/")}
-            type="button"
-          >
-            Play Game
-          </button>
-        </li>
-        <li className="nav-item-main">
-          <button
-            className="nav-link"
+            className={`nav-link ${location.pathname === "/browse" ? "active" : ""}`}
             onClick={() => handleNav("/browse")}
             type="button"
           >
@@ -64,7 +62,7 @@ function Navigation() {
         </li>
         <li className="nav-item-main">
           <button
-            className="nav-link"
+            className={`nav-link ${location.pathname === "/create" ? "active" : ""}`}
             onClick={() => handleNav("/create")}
             type="button"
           >
@@ -74,7 +72,7 @@ function Navigation() {
         {token && user?.isAdmin && (
           <li className="nav-item-main">
             <button
-              className="nav-link"
+              className={`nav-link ${location.pathname === "/admin" ? "active" : ""}`}
               onClick={() => handleNav("/admin")}
               type="button"
             >
@@ -85,7 +83,7 @@ function Navigation() {
         {token && (
           <li className="nav-item-main">
             <button
-              className="nav-link"
+              className={`nav-link ${location.pathname === "/profile" ? "active" : ""}`}
               onClick={() => handleNav("/profile")}
               type="button"
             >
@@ -96,7 +94,7 @@ function Navigation() {
         <li className="nav-item-main">
           {!token ? (
             <button
-              className="nav-link"
+              className={`nav-link ${location.pathname === "/login" ? "active" : ""}`}
               onClick={() => handleNav("/login")}
               type="button"
             >
@@ -104,7 +102,7 @@ function Navigation() {
             </button>
           ) : (
             <button
-              className="nav-link"
+              className={`nav-link ${location.pathname === "/logout" ? "active" : ""}`}
               onClick={() => handleNav("/logout")}
               type="button"
             >

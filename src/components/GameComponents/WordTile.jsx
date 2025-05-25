@@ -1,22 +1,30 @@
 import React from 'react';
 
-// color scheme for the four different categories
+// Color scheme for the four different categories with semantic names
 const CATEGORY_COLORS = [
-  '#fde68a', // yellow
-  '#a7f3d0', // green
-  '#fca5a5', // red
-  '#93c5fd', // blue
+  '#fde68a', // yellow - category 0
+  '#a7f3d0', // green - category 1
+  '#fca5a5', // red - category 2
+  '#93c5fd', // blue - category 3
 ];
 
-// single tile component that displays a word and changes appearance based on selection state
-function WordTile({ word, selected, correct, onClick, catIndex, foundGroupCatIndex, categoryName }) {
-  // set background color based on tile state
-  const background =
+// Single tile component that displays a word and changes appearance based on selection state
+function WordTile({ 
+  word,               // The word to display
+  selected,           // Whether this tile is currently selected
+  correct,            // Whether this tile's group has been correctly identified
+  onClick,            // Function to call when clicked
+  catIndex,           // The category index this word belongs to (0-3)
+  foundGroupCatIndex, // If this word's category has been found, its index
+  categoryName        // The name of the category (shown when found)
+}) {
+  // Set background color based on tile state
+  const tileBackground =
     typeof foundGroupCatIndex === 'number'
-      ? CATEGORY_COLORS[foundGroupCatIndex]
+      ? CATEGORY_COLORS[foundGroupCatIndex] // Use category color when found
       : selected
-      ? '#bfdbfe'
-      : '#ecebe4';
+      ? '#bfdbfe'  // Light blue when selected
+      : '#f8fafc'; // Very light gray for maximum readability when not selected
 
   return (
     <button
@@ -29,7 +37,8 @@ function WordTile({ word, selected, correct, onClick, catIndex, foundGroupCatInd
         borderRadius: '0.375rem',
         fontWeight: 600,
         fontSize: '1rem',
-        background,
+        background: tileBackground,
+        color: '#000', // Ensure text is always black
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

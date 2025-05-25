@@ -6,16 +6,16 @@ import { UserContext } from "../../App";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// Displays and manages all available game boards
+// Component for displaying and managing all available game boards
 function GameBoardsList({ admin }) {
-  const { token } = useContext(UserContext);
-  const [games, setGames] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [formLoading, setFormLoading] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const navigate = useNavigate();
+  const { token } = useContext(UserContext); // Access the user token from context
+  const [games, setGames] = useState([]); // Store the list of game boards
+  const [loading, setLoading] = useState(true); // Track loading state
+  const [formLoading, setFormLoading] = useState(false); // Track form submission state
+  const [showForm, setShowForm] = useState(false); // Track if the form is visible
+  const navigate = useNavigate(); // Navigation helper
 
-  // Fetch all games when component mounts
+  // Fetch all games when the component mounts
   useEffect(() => {
     fetchGames();
   }, []);
@@ -34,7 +34,7 @@ function GameBoardsList({ admin }) {
       });
   };
 
-  // Remove game from database with confirmation
+  // Remove a game from the database with confirmation
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this game board?")) {
       try {
@@ -55,7 +55,7 @@ function GameBoardsList({ admin }) {
 
   // Submit the form to create a new game
   const handleFormSubmit = async (formData) => {
-    setFormLoading(true);
+    setFormLoading(true); // Indicate form submission is in progress
     try {
       const response = await fetchWithAuth(`${API_URL}/games`, {
         method: "POST",
@@ -76,11 +76,11 @@ function GameBoardsList({ admin }) {
       console.error("Error creating game:", error);
       alert("An error occurred while trying to create the game board");
     } finally {
-      setFormLoading(false);
+      setFormLoading(false); // Reset form submission state
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>; // Show loading indicator while fetching data
   return (
     <div className="list-page-container">
       {/* Show create form */}
