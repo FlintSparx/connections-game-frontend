@@ -9,7 +9,8 @@ function Login(props) {
   const { setToken } = useContext(UserContext);
   const nav = useNavigate();
 
-  const logIn = () => {
+  const logIn = (e) => {
+    e.preventDefault();
     if (email === "" || password === "") {
       setError("Email and password cannot be empty.");
       return;
@@ -47,25 +48,45 @@ function Login(props) {
           setError("Login failed. Please try again.");
         });
     }
-    // Placeholder for login functionality
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={logIn}>Log In</button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="list-page-container" style={{ maxWidth: "500px" }}>
+      <h2 className="list-page-title">Log In</h2>
+      
+      {error && (
+        <div className="mb-4 p-3" style={{ backgroundColor: "#fee2e2", color: "#b91c1c", borderRadius: "4px" }}>
+          {error}
+        </div>
+      )}
+      
+      <form onSubmit={logIn}>
+        <div className="mb-4">
+          <label htmlFor="email" className="filter-label">Email</label>
+          <input
+            id="email"
+            type="text"
+            placeholder="Enter your email"
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        
+        <div className="mb-4">
+          <label htmlFor="password" className="filter-label">Password</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter your password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        
+        <button type="submit" className="btn btn-primary">Log In</button>
+      </form>
     </div>
   );
 }
