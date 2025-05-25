@@ -18,6 +18,7 @@ function WordTile({
   foundGroupCatIndex, // If this word's category has been found, its index
   categoryName, // The name of the category (shown when found)
   isJumping, // Whether the tile is currently jumping
+  isShaking, // Whether the tile is currently shaking
 }) {
   // Set background color based on tile state
   const tileBackground =
@@ -31,7 +32,9 @@ function WordTile({
     <button
       type="button"
       onClick={onClick}
-      className={`word-tile${isJumping ? " jump-up" : ""}`}
+      className={`word-tile${isJumping ? " jump-up" : ""}${
+        isShaking ? " shake" : ""
+      }`}
       style={{
         width: "7rem",
         height: "4rem",

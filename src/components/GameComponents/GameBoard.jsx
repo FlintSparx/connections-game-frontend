@@ -14,6 +14,7 @@ function GameBoard({ gameId }) {
   const [tries, setTries] = useState(0); // Track the number of tries
   const [gameLost, setGameLost] = useState(false); // Track if the game is lost
   const [animatingCats, setAnimatingCats] = useState([]); // Track categories being animated
+  const [shakingIndices, setShakingIndices] = useState([]); // Track indices of shaking tiles
   const [keepPlaying, setKeepPlaying] = useState(false); // Track if the user wants to keep playing
 
   // Fetch a specific game if gameId is provided, otherwise fetch a random game
@@ -226,6 +227,7 @@ function GameBoard({ gameId }) {
                   : undefined
               }
               isJumping={animatingCats.includes(item.catIndex)}
+              isShaking={shakingIndices.includes(idx)}
             />
           );
         })}
@@ -332,11 +334,15 @@ function GameBoard({ gameId }) {
                       setGameWon(true);
                       updateGameStats(true);
                     }
-                  }, 600); // Animation duration
+                  }, 400); // Animation duration
                 } else {
                   // Wrong answer - increment tries
                   const newTriesCount = tries + 1;
                   setTries(newTriesCount);
+
+                  // Trigger shake animation for selected tiles
+                  setShakingIndices(selected);
+                  setTimeout(() => setShakingIndices([]), 500);
 
                   // Check for game loss condition (4 wrong tries)
                   if (newTriesCount >= 4 && !keepPlaying) {
