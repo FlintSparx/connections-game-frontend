@@ -10,28 +10,45 @@ const API_URL = import.meta.env.VITE_API_URL;
 function GameBoardsList({ admin }) {
   const { token } = useContext(UserContext); // Access the user token from context
   const [games, setGames] = useState([]); // Store the list of game boards
+  const [filteredGames, setFilteredGames] = useState([]); // Store filtered games
+  const [difficultyFilter, setDifficultyFilter] = useState("all"); // Filter by difficulty
   const [loading, setLoading] = useState(true); // Track loading state
   const [formLoading, setFormLoading] = useState(false); // Track form submission state
   const [showForm, setShowForm] = useState(false); // Track if the form is visible
   const navigate = useNavigate(); // Navigation helper
-
   // Fetch all games when the component mounts
   useEffect(() => {
     fetchGames();
   }, []);
 
+  // Filter games when difficulty filter changes
+  useEffect(() => {
+    if (games.length > 0) {
+      filterGamesByDifficulty(games, difficultyFilter);
+    }
+  }, [difficultyFilter, games]);
   // Fetch all games from the API
   const fetchGames = () => {
     fetch(`${API_URL}/games`)
       .then((res) => res.json())
       .then((data) => {
         setGames(data);
+        filterGamesByDifficulty(data, difficultyFilter);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching games:", err);
         setLoading(false);
       });
+  };
+
+  // Filter games by difficulty
+  const filterGamesByDifficulty = (gamesData, difficulty) => {
+    if (difficulty === "all") {
+      setFilteredGames(gamesData);
+    } else {
+      setFilteredGames(gamesData.filter(game => game.difficulty === difficulty));
+    }
   };
 
   // Remove a game from the database with confirmation
@@ -102,8 +119,26 @@ function GameBoardsList({ admin }) {
             submitButtonText="Create Game Board"
             loading={formLoading}
           />
-        </>
-      )}
+        </>      )}
+
+      {/* Difficulty Filter */}
+      <div className="filter-wrapper mb-4">
+        <label htmlFor="difficultyFilter" className="me-2">Filter by Difficulty:</label>
+        <select 
+          id="difficultyFilter"
+          value={difficultyFilter}
+          onChange={(e) => setDifficultyFilter(e.target.value)}
+          className="form-select"
+          style={{ width: "auto", display: "inline-block" }}
+        >
+          <option value="all">All Difficulties</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+          <option value="unknown">Unknown</option>
+        </select>
+      </div>
+
       {/* List of existing game boards */}
       <div className="table-wrapper">
         <table className="list-table">
@@ -117,24 +152,15 @@ function GameBoardsList({ admin }) {
             </tr>
           </thead>{" "}
           <tbody>
-            {games.map((game) => (
+            {filteredGames.map((game) => (
               <tr key={game._id}>
                 <td data-label="Name">{game.name}</td>
                 <td data-label="Creator">
                   {game.createdBy
                     ? `Created by ${game.createdBy.username}`
                     : "Unknown creator"}
-                </td>
-                <td data-label="Difficulty">
-                  {game.plays > 0
-                    ? game.wins / game.plays <= 0.25
-                      ? "Hard"
-                      : game.wins / game.plays <= 0.5
-                      ? "Medium"
-                      : game.wins / game.plays <= 0.75
-                      ? "Easy"
-                      : "Unknown"
-                    : "Unknown"}
+                </td>                <td data-label="Difficulty">
+                  {game.difficulty ? game.difficulty.charAt(0).toUpperCase() + game.difficulty.slice(1) : "Unknown"}
                 </td>
                 <td data-label="Actions">
                   <button
