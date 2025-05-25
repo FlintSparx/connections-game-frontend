@@ -17,7 +17,7 @@ function WordTile({
   catIndex, // The category index this word belongs to (0-3)
   foundGroupCatIndex, // If this word's category has been found, its index
   categoryName, // The name of the category (shown when found)
-  isSnapping, // Whether the tile is currently snapping to the top
+  isJumping, // Whether the tile is currently jumping
 }) {
   // Set background color based on tile state
   const tileBackground =
@@ -31,7 +31,7 @@ function WordTile({
     <button
       type="button"
       onClick={onClick}
-      className={`word-tile${isSnapping ? " snap-to-top" : ""}`}
+      className={`word-tile${isJumping ? " jump-up" : ""}`}
       style={{
         width: "7rem",
         height: "4rem",

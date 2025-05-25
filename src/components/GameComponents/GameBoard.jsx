@@ -225,7 +225,7 @@ function GameBoard({ gameId }) {
                   ? item.categoryName
                   : undefined
               }
-              isSnapping={animatingCats.includes(item.catIndex)}
+              isJumping={animatingCats.includes(item.catIndex)}
             />
           );
         })}

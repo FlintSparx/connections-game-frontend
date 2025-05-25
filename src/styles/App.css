@@ -486,22 +486,35 @@ button[aria-current="page"] {
   background: #718096;
 }
 
-.word-tile.snap-to-top {
-  animation: snapToTop 0.4s cubic-bezier(0.4, 0.8, 0.2, 1);
+.word-tile.jump-up {
+  animation: jumpUp 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 2;
+  will-change: transform, box-shadow;
 }
 
-@keyframes snapToTop {
+@keyframes jumpUp {
   0% {
     transform: scale(1) translateY(0);
-    box-shadow: 0 0 0 0 #38a169;
+    box-shadow: 0 0 0 0 #38a16900;
+  }
+  20% {
+    transform: scale(1.03, 0.99) translateY(-8px);
+    box-shadow: 0 2px 8px 0 #38a16922;
+  }
+  40% {
+    transform: scale(1.06, 0.97) translateY(-16px);
+    box-shadow: 0 4px 16px 0 #38a16933;
   }
   60% {
-    transform: scale(1.15) translateY(-30px);
-    box-shadow: 0 8px 24px 0 #38a16944;
+    transform: scale(1.04, 1.01) translateY(-10px);
+    box-shadow: 0 3px 10px 0 #38a16922;
+  }
+  80% {
+    transform: scale(1.01, 1.02) translateY(-3px);
+    box-shadow: 0 1px 4px 0 #38a16911;
   }
   100% {
-    transform: scale(1) translateY(-60px);
-    box-shadow: 0 0 0 0 #38a169;
+    transform: scale(1) translateY(0);
+    box-shadow: 0 0 0 0 #38a16900;
   }
 }
