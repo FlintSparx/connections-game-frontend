@@ -17,6 +17,45 @@ function GameBoard({ gameId }) {
   const [shakingIndices, setShakingIndices] = useState([]); // Track indices of shaking tiles
   const [keepPlaying, setKeepPlaying] = useState(false); // Track if the user wants to keep playing
 
+  // Function to animate all tiles when a game is completed and won
+  // Function to animate all tiles when game is completed
+  const animateGameComplete = () => {
+    const allTiles = document.querySelectorAll('.word-tile');
+
+    allTiles.forEach((tile, index) => {
+      // Add a staggered delay for a wave effect
+      tile.style.setProperty('--delay', index);
+      tile.classList.add('game-complete');
+    });
+
+    // Clean up classes after animation completes
+    setTimeout(() => {
+      allTiles.forEach(tile => {
+        tile.classList.remove('game-complete');
+        tile.style.removeProperty('--delay');
+      });
+    }, 1500);
+  };
+
+  // Function to animate all tiles when game is failed
+  const animateGameFailed = () => {
+    const allTiles = document.querySelectorAll('.word-tile');
+
+    allTiles.forEach((tile, index) => {
+      // Add a slight staggered delay
+      tile.style.setProperty('--delay', index);
+      tile.classList.add('game-failed');
+    });
+
+    // Clean up classes after animation completes
+    setTimeout(() => {
+      allTiles.forEach(tile => {
+        tile.classList.remove('game-failed');
+        tile.style.removeProperty('--delay');
+      });
+    }, 800);
+  };
+
   // Fetch a specific game if gameId is provided, otherwise fetch a random game
   const fetchGame = async () => {
     try {
@@ -211,8 +250,8 @@ function GameBoard({ gameId }) {
                     prev.includes(idx)
                       ? prev.filter((i) => i !== idx) // Deselect if already selected
                       : prev.length < 4
-                      ? [...prev, idx]
-                      : prev // Select if less than 4 selected
+                        ? [...prev, idx]
+                        : prev // Select if less than 4 selected
                 );
               }}
               catIndex={item.catIndex}
@@ -333,6 +372,10 @@ function GameBoard({ gameId }) {
                     if (newFoundCategories.length === 4) {
                       setGameWon(true);
                       updateGameStats(true);
+                      // Animate all tiles jumping up for game completion
+                      setTimeout(() => {
+                        animateGameComplete();
+                      }, 600); // Small delay to let the last category animation finish
                     }
                   }, 400); // Animation duration
                 } else {
@@ -348,6 +391,10 @@ function GameBoard({ gameId }) {
                   if (newTriesCount >= 4 && !keepPlaying) {
                     setGameLost(true);
                     updateGameStats(false);
+                    // Animate all tiles shaking for game failure
+                    setTimeout(() => {
+                      animateGameFailed();
+                    }, 600); // Small delay to let the wrong selection shake finish
                   }
                 }
               }

@@ -545,3 +545,17 @@ button[aria-current="page"] {
     transform: translateX(0);
   }
 }
+
+/* Game completion animations */
+
+.word-tile.game-complete {
+  animation: jumpUp 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  animation-delay: calc(var(--delay) * 0.1s);
+  z-index: 2;
+  will-change: transform, box-shadow;
+}
+
+.word-tile.game-failed {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  animation-delay: calc(var(--delay) * 0.05s);
+}
