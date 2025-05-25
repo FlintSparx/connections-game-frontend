@@ -116,7 +116,8 @@ function GameBoardsListAdmin() {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>            {games.map((game) => (
+          <tbody>
+            {games.map((game) => (
               <tr key={game._id}>
                 <td data-label="ID">{game._id}</td>
                 <td data-label="Name">{game.name}</td>
@@ -135,14 +136,17 @@ function GameBoardsListAdmin() {
                 </td>
                 <td data-label="Actions">
                   <button
-                    className="btn btn-primary"
+                    className="nav-link btn btn-primary"
+                    style={{ marginRight: 8 }}
                     onClick={() => navigate(`/play/${game._id}`)}
+                    type="button"
                   >
                     Play
                   </button>
                   <button
-                    className="btn btn-danger"
+                    className="nav-link btn btn-danger"
                     onClick={() => handleDelete(game._id)}
+                    type="button"
                   >
                     Delete
                   </button>

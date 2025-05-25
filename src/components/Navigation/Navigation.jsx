@@ -1,13 +1,15 @@
 import { useContext, useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../App";
-import "../../App.css";
+import "../../styles/App.css";
 
 //navbar for navigation between main pages
 function Navigation() {
   const { user, token } = useContext(UserContext);
   const [menuOpen, setMenuOpen] = useState(false);
-  
+  const location = useLocation();
+  const navigate = useNavigate();
+
   // Close the menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
@@ -16,17 +18,28 @@ function Navigation() {
         setMenuOpen(false);
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
+  // Helper for navigation
+  const handleNav = (path) => {
+    navigate(path);
+    setMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
-      <div className="navbar-logo">Connections</div>
-      
+      <div
+        className={`navbar-logo ${location.pathname === "/" ? "active" : ""}`}
+        onClick={() => handleNav("/")}
+        style={{ cursor: "pointer" }}
+      >
+        Connections
+      </div>
       {/* Mobile menu button */}
       <button 
         className="mobile-menu-button"
@@ -37,90 +50,64 @@ function Navigation() {
         <span></span>
         <span></span>
       </button>
-      
       <ul className={`navbar-links ${menuOpen ? "show-mobile-menu" : ""}`}>
         <li className="nav-item-main">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? "nav-link active" : "nav-link"
-            }
-            end
-            onClick={() => setMenuOpen(false)}
-          >
-            Play Game
-          </NavLink>
-        </li>
-        <li className="nav-item-main">
-          <NavLink
-            to="/browse"
-            className={({ isActive }) =>
-              isActive ? "nav-link active" : "nav-link"
-            }
-            onClick={() => setMenuOpen(false)}
+          <button
+            className={`nav-link ${location.pathname === "/browse" ? "active" : ""}`}
+            onClick={() => handleNav("/browse")}
+            type="button"
           >
             Browse Game Boards
-          </NavLink>
+          </button>
         </li>
         <li className="nav-item-main">
-          <NavLink
-            to="/create"
-            className={({ isActive }) =>
-              isActive ? "nav-link active" : "nav-link"
-            }
-            onClick={() => setMenuOpen(false)}
+          <button
+            className={`nav-link ${location.pathname === "/create" ? "active" : ""}`}
+            onClick={() => handleNav("/create")}
+            type="button"
           >
             Create Game Board
-          </NavLink>
-        </li>        {token && user?.isAdmin && (
+          </button>
+        </li>
+        {token && user?.isAdmin && (
           <li className="nav-item-main">
-            <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setMenuOpen(false)}
+            <button
+              className={`nav-link ${location.pathname === "/admin" ? "active" : ""}`}
+              onClick={() => handleNav("/admin")}
+              type="button"
             >
               Admin
-            </NavLink>
+            </button>
           </li>
         )}
-        
         {token && (
           <li className="nav-item-main">
-            <NavLink
-              to="/profile"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setMenuOpen(false)}
+            <button
+              className={`nav-link ${location.pathname === "/profile" ? "active" : ""}`}
+              onClick={() => handleNav("/profile")}
+              type="button"
             >
               Profile
-            </NavLink>
+            </button>
           </li>
         )}
-        
         <li className="nav-item-main">
           {!token ? (
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setMenuOpen(false)}
+            <button
+              className={`nav-link ${location.pathname === "/login" ? "active" : ""}`}
+              onClick={() => handleNav("/login")}
+              type="button"
             >
               Login
-            </NavLink>
+            </button>
           ) : (
-            <NavLink
-              to="/logout"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-              onClick={() => setMenuOpen(false)}
+            <button
+              className={`nav-link ${location.pathname === "/logout" ? "active" : ""}`}
+              onClick={() => handleNav("/logout")}
+              type="button"
             >
               Logout
-            </NavLink>
+            </button>
           )}
         </li>
       </ul>

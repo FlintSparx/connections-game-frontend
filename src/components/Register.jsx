@@ -141,16 +141,15 @@ const Register = () => {
       setIsLoading(false);
     }
   };
-
   // Show a success message once the form is submitted
   if (isSubmitted) {
     return (
-      <div className="max-w-md mx-auto mt-10 p-6 bg-green-100 rounded-lg shadow-md">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-green-800 mb-4">
+      <div className="list-page-container" style={{ maxWidth: "500px", backgroundColor: "#dcfce7" }}>
+        <div style={{ textAlign: "center" }}>
+          <h2 className="list-page-title" style={{ color: "#166534" }}>
             Registration Successful!
           </h2>
-          <p className="text-green-700">
+          <p style={{ color: "#166534" }}>
             Thank you for registering, {formData.first_name}{" "}
             {formData.last_name}. Your account has been created successfully.
           </p>
@@ -160,14 +159,12 @@ const Register = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-xl font-semibold text-center text-gray-800 mb-6">
-        Create Account
-      </h2>
+    <div className="list-page-container" style={{ maxWidth: "500px" }}>
+      <h2 className="list-page-title">Create Account</h2>
 
       {/* Show server errors at the top of the form */}
       {serverError && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mb-4 p-3" style={{ backgroundColor: "#fee2e2", color: "#b91c1c", borderRadius: "4px" }}>
           {serverError}
         </div>
       )}
@@ -175,10 +172,7 @@ const Register = () => {
       <form onSubmit={handleSubmit}>
         {/* Username Field */}
         <div className="mb-4">
-          <label
-            htmlFor="username"
-            className="block text-gray-700 font-medium mb-1"
-          >
+          <label htmlFor="username" className="filter-label">
             Username
           </label>
           <input
@@ -188,20 +182,16 @@ const Register = () => {
             value={formData.username}
             onChange={handleChange}
             placeholder="Choose a username"
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.username ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`form-control ${errors.username ? "border-red-500" : ""}`}
           />
           {errors.username && (
-            <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+            <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.username}</p>
           )}
-        </div>
-
-        {/* First Name Field */}
+        </div>        {/* First Name Field */}
         <div className="mb-4">
           <label
             htmlFor="first_name"
-            className="block text-gray-700 font-medium mb-1"
+            className="filter-label"
           >
             First Name
           </label>
@@ -212,12 +202,12 @@ const Register = () => {
             value={formData.first_name}
             onChange={handleChange}
             placeholder="Enter your first name"
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.first_name ? "border-red-500" : "border-gray-300"
+            className={`form-control ${
+              errors.first_name ? "border-red-500" : ""
             }`}
           />
           {errors.first_name && (
-            <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>
+            <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.first_name}</p>
           )}
         </div>
 
@@ -225,7 +215,7 @@ const Register = () => {
         <div className="mb-4">
           <label
             htmlFor="last_name"
-            className="block text-gray-700 font-medium mb-1"
+            className="filter-label"
           >
             Last Name
           </label>
@@ -236,12 +226,12 @@ const Register = () => {
             value={formData.last_name}
             onChange={handleChange}
             placeholder="Enter your last name"
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.last_name ? "border-red-500" : "border-gray-300"
+            className={`form-control ${
+              errors.last_name ? "border-red-500" : ""
             }`}
           />
           {errors.last_name && (
-            <p className="text-red-500 text-sm mt-1">{errors.last_name}</p>
+            <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.last_name}</p>
           )}
         </div>
 
@@ -249,7 +239,7 @@ const Register = () => {
         <div className="mb-4">
           <label
             htmlFor="email"
-            className="block text-gray-700 font-medium mb-1"
+            className="filter-label"
           >
             Email Address
           </label>
@@ -260,20 +250,18 @@ const Register = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="Enter your email address"
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.email ? "border-red-500" : "border-gray-300"
+            className={`form-control ${
+              errors.email ? "border-red-500" : ""
             }`}
           />
           {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.email}</p>
           )}
-        </div>
-
-        {/* Password Field */}
+        </div>        {/* Password Field */}
         <div className="mb-4">
           <label
             htmlFor="password"
-            className="block text-gray-700 font-medium mb-1"
+            className="filter-label"
           >
             Enter Your Password
           </label>
@@ -284,22 +272,17 @@ const Register = () => {
             value={formData.password}
             onChange={handleChange}
             placeholder="Create a password"
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.password ? "border-red-500" : "border-gray-300"
+            className={`form-control ${
+              errors.password ? "border-red-500" : ""
             }`}
-          />
-          {errors.password ? (
-            <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-          ) : (
-            <br />
+          />          {errors.password && (
+            <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.password}</p>
           )}
-        </div>
-
-        {/* Confirm Password Field */}
+        </div>        {/* Confirm Password Field */}
         <div className="mb-4">
           <label
             htmlFor="confirmPassword"
-            className="block text-gray-700 font-medium mb-1"
+            className="filter-label"
           >
             Confirm Password
           </label>
@@ -310,24 +293,20 @@ const Register = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
             placeholder="Confirm your password"
-            className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.confirmPassword ? "border-red-500" : "border-gray-300"
+            className={`form-control ${
+              errors.confirmPassword ? "border-red-500" : ""
             }`}
-          />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm mt-1">
+          />          {errors.confirmPassword && (
+            <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>
               {errors.confirmPassword}
             </p>
           )}
-        </div>
-
-        {/* Submit Button */}
+        </div>        {/* Submit Button */}
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full bg-blue-500 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ${
-            isLoading ? "opacity-70 cursor-not-allowed" : "hover:bg-blue-600"
-          }`}
+          className="btn btn-primary"
+          style={{ opacity: isLoading ? 0.7 : 1 }}
         >
           {isLoading ? "Creating Account..." : "Create Account"}
         </button>
