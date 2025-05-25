@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import PuzzleForm from "./PuzzleForm";
 import fetchWithAuth from "../../utils/fetchWithAuth";
 import { UserContext } from "../../App";
 
@@ -13,9 +12,8 @@ function GameBoardsList({ admin }) {
   const [filteredGames, setFilteredGames] = useState([]); // Store filtered games
   const [difficultyFilter, setDifficultyFilter] = useState("all"); // Filter by difficulty
   const [loading, setLoading] = useState(true); // Track loading state
-  const [formLoading, setFormLoading] = useState(false); // Track form submission state
-  const [showForm, setShowForm] = useState(false); // Track if the form is visible
   const navigate = useNavigate(); // Navigation helper
+  
   // Fetch all games when the component mounts
   useEffect(() => {
     fetchGames();
@@ -27,6 +25,7 @@ function GameBoardsList({ admin }) {
       filterGamesByDifficulty(games, difficultyFilter);
     }
   }, [difficultyFilter, games]);
+  
   // Fetch all games from the API
   const fetchGames = () => {
     fetch(`${API_URL}/games`)
@@ -70,73 +69,38 @@ function GameBoardsList({ admin }) {
     }
   };
 
-  // Submit the form to create a new game
-  const handleFormSubmit = async (formData) => {
-    setFormLoading(true); // Indicate form submission is in progress
-    try {
-      const response = await fetchWithAuth(`${API_URL}/games`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        setShowForm(false); // Hide form after success
-        fetchGames(); // Refresh list
-        alert("Game board created successfully!");
-      } else {
-        const error = await response.json();
-        alert(error.message || "Failed to create game board");
-      }
-    } catch (error) {
-      console.error("Error creating game:", error);
-      alert("An error occurred while trying to create the game board");
-    } finally {
-      setFormLoading(false); // Reset form submission state
-    }
-  };
-
   if (loading) return <div>Loading...</div>; // Show loading indicator while fetching data
+  
   return (
     <div className="list-page-container">
-      {/* Show create form */}
+      {/* Create button navigates to create page */}
       {token && (
         <button
           className="btn btn-success mb-4"
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => navigate("/create")}
         >
-          {showForm ? "Cancel" : "Create New Game Board"}
+          Create New Game Board
         </button>
       )}
-      {showForm && (
-        <>
-          <h3 className="list-page-title mb-4 text-center">
-            Create New Game Board
-          </h3>
-          <PuzzleForm
-            onSubmit={handleFormSubmit}
-            submitButtonText="Create Game Board"
-            loading={formLoading}
-          />
-        </>      )}
 
       {/* Difficulty Filter */}
-      <div className="filter-wrapper mb-4">
-        <label htmlFor="difficultyFilter" className="me-2">Filter by Difficulty:</label>
-        <select 
-          id="difficultyFilter"
-          value={difficultyFilter}
-          onChange={(e) => setDifficultyFilter(e.target.value)}
-          className="form-select"
-          style={{ width: "auto", display: "inline-block" }}
-        >
-          <option value="all">All Difficulties</option>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-          <option value="unknown">Unknown</option>
-        </select>
+      <div className="filter-container mb-4">
+        <div className="filter-group flex align-center">
+          <label htmlFor="difficultyFilter" className="filter-label">Filter by Difficulty:</label>
+          <select 
+            id="difficultyFilter"
+            value={difficultyFilter}
+            onChange={(e) => setDifficultyFilter(e.target.value)}
+            className="form-control"
+            style={{ width: "200px", marginLeft: "10px" }}
+          >
+            <option value="all">All Difficulties</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
       </div>
 
       {/* List of existing game boards */}
@@ -160,7 +124,9 @@ function GameBoardsList({ admin }) {
                     ? `Created by ${game.createdBy.username}`
                     : "Unknown creator"}
                 </td>                <td data-label="Difficulty">
-                  {game.difficulty ? game.difficulty.charAt(0).toUpperCase() + game.difficulty.slice(1) : "Unknown"}
+                  <span className={`difficulty-badge difficulty-${game.difficulty}`}>
+                    {game.difficulty ? game.difficulty.charAt(0).toUpperCase() + game.difficulty.slice(1) : "Unknown"}
+                  </span>
                 </td>
                 <td data-label="Actions">
                   <button
