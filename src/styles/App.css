@@ -36,18 +36,18 @@
 
 .game-boards-table tr {
   background: #fff;
-    /* Remove hover effects */
+  /* Remove hover effects */
   border-radius: 16px;
   box-shadow: none;
-    /* Remove shadow */
-    transition: none;
-    /* Remove transition effects */
+  /* Remove shadow */
+  transition: none;
+  /* Remove transition effects */
 }
 
 .game-boards-table tr:hover {
   background: #fff;
-    /* Ensure no hover effect */
-    box-shadow: none;
+  /* Ensure no hover effect */
+  box-shadow: none;
 }
 
 .game-boards-table tr:nth-child(even) {
@@ -83,15 +83,15 @@
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
   cursor: pointer;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-  }
-  
-  .navbar-logo:hover {
-    background: #2563eb;
-    color: #fff;
-    padding: 0.5rem 1.2rem;
-    border-radius: 8px;
-    box-shadow: 0 0 16px 2px #2563eb;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.navbar-logo:hover {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 16px 2px #2563eb;
 }
 
 .navbar-links {
@@ -113,10 +113,10 @@ button {
   padding: 0.5rem 1.2rem;
   border-radius: 8px;
   border: none;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-    font-weight: 500;
-    cursor: pointer;
-    box-shadow: 0 0 0 1px #2d3748;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px #2d3748;
 }
 
 .nav-link:hover,
@@ -171,16 +171,16 @@ button[aria-current="page"] {
   .navbar {
     padding: 0.75rem 1rem;
   }
-  
+
   .mobile-menu-button {
     display: flex;
     z-index: 1001;
   }
-  
+
   .navbar-logo {
     margin-bottom: 0;
   }
-  
+
   .navbar-links {
     flex-direction: column;
     position: absolute;
@@ -198,18 +198,18 @@ button[aria-current="page"] {
     transform: translateY(-10px);
     transition: opacity 0.3s, transform 0.3s;
   }
-  
+
   .navbar-links.show-mobile-menu {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
   }
-  
+
   .navbar-links li {
     margin: 5px 0;
     width: 100%;
   }
-    .nav-link {
+  .nav-link {
     display: block;
     width: 100%;
     text-align: center;
@@ -484,4 +484,64 @@ button[aria-current="page"] {
   opacity: 0.5;
   cursor: not-allowed;
   background: #718096;
+}
+
+.word-tile.jump-up {
+  animation: jumpUp 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 2;
+  will-change: transform, box-shadow;
+}
+
+@keyframes jumpUp {
+  0% {
+    transform: scale(1) translateY(0);
+    box-shadow: 0 0 0 0 #38a16900;
+  }
+  20% {
+    transform: scale(1.03, 0.99) translateY(-8px);
+    box-shadow: 0 2px 8px 0 #38a16922;
+  }
+  40% {
+    transform: scale(1.06, 0.97) translateY(-16px);
+    box-shadow: 0 4px 16px 0 #38a16933;
+  }
+  60% {
+    transform: scale(1.04, 1.01) translateY(-10px);
+    box-shadow: 0 3px 10px 0 #38a16922;
+  }
+  80% {
+    transform: scale(1.01, 1.02) translateY(-3px);
+    box-shadow: 0 1px 4px 0 #38a16911;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    box-shadow: 0 0 0 0 #38a16900;
+  }
+}
+
+.word-tile.shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  80% {
+    transform: translateX(4px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-8px);
+  }
+  40%,
+  60% {
+    transform: translateX(8px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
