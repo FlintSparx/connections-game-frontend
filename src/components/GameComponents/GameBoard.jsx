@@ -13,6 +13,7 @@ function GameBoard({ gameId }) {
   const [gameWon, setGameWon] = useState(false); // Track if the game is won
   const [tries, setTries] = useState(0); // Track the number of tries
   const [gameLost, setGameLost] = useState(false); // Track if the game is lost
+  const [animatingCats, setAnimatingCats] = useState([]); // Track categories being animated
   const [keepPlaying, setKeepPlaying] = useState(false); // Track if the user wants to keep playing
 
   // Fetch a specific game if gameId is provided, otherwise fetch a random game
@@ -224,6 +225,7 @@ function GameBoard({ gameId }) {
                   ? item.categoryName
                   : undefined
               }
+              isSnapping={animatingCats.includes(item.catIndex)}
             />
           );
         })}
@@ -265,16 +267,17 @@ function GameBoard({ gameId }) {
           😢 Game Over, you lose! 😢
           <br />
           Would you like to keep playing?
-          <br />          <button 
-            className="game-action-btn" 
-            style={{ margin: '0.5rem' }}
+          <br />{" "}
+          <button
+            className="game-action-btn"
+            style={{ margin: "0.5rem" }}
             onClick={() => setKeepPlaying(true)}
           >
             Yes
           </button>{" "}
           <button
             className="game-action-btn"
-            style={{ margin: '0.5rem' }}
+            style={{ margin: "0.5rem" }}
             onClick={() => {
               setKeepPlaying(false);
               newGame();
@@ -286,7 +289,16 @@ function GameBoard({ gameId }) {
       )}
 
       {/* Game control buttons - Submit requires 4 selections, Shuffle and New Game always available */}
-      <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "1.5rem" }}>        <button
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "1rem",
+          marginTop: "1.5rem",
+        }}
+      >
+        {" "}
+        <button
           className="game-action-btn"
           disabled={selected.length !== 4}
           style={{
@@ -305,21 +317,27 @@ function GameBoard({ gameId }) {
                 if (isCorrectGroup) {
                   // Correct answer - add category to found categories
                   const newFoundCategories = [...foundCategories, firstCat];
-                  setFoundCategories(newFoundCategories);
 
-                  // Reorganize words with found categories first
-                  setWords(organizeWords(words, newFoundCategories));
-
-                  // Check if all four categories have been found (game win condition)
-                  if (newFoundCategories.length === 4) {
-                    setGameWon(true);
-                    updateGameStats(true);
-                  }
+                  // Animate the found category
+                  setAnimatingCats((prev) => [...prev, firstCat]);
+                  setTimeout(() => {
+                    setFoundCategories(newFoundCategories);
+                    setAnimatingCats((prev) =>
+                      prev.filter((cat) => cat !== firstCat)
+                    );
+                    // Reorganize words with found categories first
+                    setWords(organizeWords(words, newFoundCategories));
+                    // Check if all four categories have been found (game win condition)
+                    if (newFoundCategories.length === 4) {
+                      setGameWon(true);
+                      updateGameStats(true);
+                    }
+                  }, 600); // Animation duration
                 } else {
                   // Wrong answer - increment tries
                   const newTriesCount = tries + 1;
                   setTries(newTriesCount);
-                  
+
                   // Check for game loss condition (4 wrong tries)
                   if (newTriesCount >= 4 && !keepPlaying) {
                     setGameLost(true);
@@ -328,11 +346,13 @@ function GameBoard({ gameId }) {
                 }
               }
               setSelected([]); // Reset selection after submit attempt
+              return;
             }
           }}
         >
           Submit
-        </button>        <button
+        </button>{" "}
+        <button
           className="game-action-btn"
           onClick={() => {
             setWords(shuffleUnfoundWords(words, foundCategories));
@@ -340,7 +360,8 @@ function GameBoard({ gameId }) {
           }}
         >
           Shuffle
-        </button>        <button
+        </button>{" "}
+        <button
           className="game-action-btn"
           onClick={() => {
             newGame();
