@@ -8,8 +8,7 @@ function CreateGame() {
   const [loading, setLoading] = useState(false);
 
   const handleFormSubmit = async (formData) => {
-    setLoading(true);
-    try {
+    setLoading(true);    try {
       const response = await fetchWithAuth(`${API_URL}/games`, {
         method: "POST",
         headers: {
@@ -25,7 +24,12 @@ function CreateGame() {
       window.location.href = "/browse";
     } catch (err) {
       console.error("Error creating game:", err);
-      alert("There was an error creating the game board. Please try again.");
+      // Show the specific error message from the server if available
+      if (err.message && err.message.includes("inappropriate language")) {
+        alert("Your game board contains inappropriate language and cannot be saved. Please remove any offensive words.");
+      } else {
+        alert("There was an error creating the game board. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

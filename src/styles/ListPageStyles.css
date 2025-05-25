@@ -9,9 +9,14 @@
   margin-right: 0.5em;
   transition: background 0.2s;
   font-size: 1rem;
-    min-width: 80px;
+  min-width: 80px;
 }
 
+/* Add not-allowed cursor to disabled buttons */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 .btn:last-child { margin-right: 0; }
 
 /* Blue buttons - for Play and primary actions */
