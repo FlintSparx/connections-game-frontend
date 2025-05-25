@@ -20,40 +20,46 @@ function GameBoard({ gameId }) {
   // Function to animate all tiles when a game is completed and won
   // Function to animate all tiles when game is completed
   const animateGameComplete = () => {
-    const allTiles = document.querySelectorAll('.word-tile');
+    const allTiles = document.querySelectorAll(".word-tile");
 
     allTiles.forEach((tile, index) => {
       // Add a staggered delay for a wave effect
-      tile.style.setProperty('--delay', index);
-      tile.classList.add('game-complete');
+      tile.style.setProperty("--delay", index);
+      tile.classList.add("game-complete");
     });
+
+    // Calculate total duration: animation + max delay
+    const totalDuration = 900 + (allTiles.length - 1) * 100;
 
     // Clean up classes after animation completes
     setTimeout(() => {
-      allTiles.forEach(tile => {
-        tile.classList.remove('game-complete');
-        tile.style.removeProperty('--delay');
+      allTiles.forEach((tile) => {
+        tile.classList.remove("game-complete");
+        tile.style.removeProperty("--delay");
       });
-    }, 1500);
+    }, totalDuration);
   };
 
   // Function to animate all tiles when game is failed
   const animateGameFailed = () => {
-    const allTiles = document.querySelectorAll('.word-tile');
+    const allTiles = document.querySelectorAll(".word-tile");
 
     allTiles.forEach((tile, index) => {
       // Add a slight staggered delay
-      tile.style.setProperty('--delay', index);
-      tile.classList.add('game-failed');
+      tile.style.setProperty("--delay", index);
+      tile.classList.add("game-failed");
     });
+
+    // Calculate total duration: animation + max delay
+    const totalDuration = 400 + (allTiles.length - 1) * 50;
 
     // Clean up classes after animation completes
     setTimeout(() => {
-      allTiles.forEach(tile => {
-        tile.classList.remove('game-failed');
-        tile.style.removeProperty('--delay');
+      allTiles.forEach((tile) => {
+        tile.classList.remove("game-failed");
+        tile.style.removeProperty("--delay");
       });
-    }, 800);
+    }, totalDuration);
   };
 
   // Fetch a specific game if gameId is provided, otherwise fetch a random game
@@ -250,8 +256,8 @@ function GameBoard({ gameId }) {
                     prev.includes(idx)
                       ? prev.filter((i) => i !== idx) // Deselect if already selected
                       : prev.length < 4
-                        ? [...prev, idx]
-                        : prev // Select if less than 4 selected
+                      ? [...prev, idx]
+                      : prev // Select if less than 4 selected
                 );
               }}
               catIndex={item.catIndex}
@@ -375,9 +381,9 @@ function GameBoard({ gameId }) {
                       // Animate all tiles jumping up for game completion
                       setTimeout(() => {
                         animateGameComplete();
-                      }, 600); // Small delay to let the last category animation finish
+                      }, 400); // Small delay to let the last category animation finish
                     }
-                  }, 400); // Animation duration
+                  }, 600); // Animation duration
                 } else {
                   // Wrong answer - increment tries
                   const newTriesCount = tries + 1;
