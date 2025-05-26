@@ -20,6 +20,13 @@
   text-align: left;
 }
 
+.game-boards-table td {
+  color: #000;
+  /* Ensure text is visible */
+  font-weight: bold;
+  background: transparent;
+  /* Remove any overlay */
+}
 .game-boards-table th {
   background: #f7f7f7;
   font-weight: bold;
@@ -29,14 +36,18 @@
 
 .game-boards-table tr {
   background: #fff;
+  /* Remove hover effects */
   border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  transition: box-shadow 0.2s, background 0.2s;
+  box-shadow: none;
+  /* Remove shadow */
+  transition: none;
+  /* Remove transition effects */
 }
 
 .game-boards-table tr:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  background: #e6f7ff;
+  background: #fff;
+  /* Ensure no hover effect */
+  box-shadow: none;
 }
 
 .game-boards-table tr:nth-child(even) {
@@ -71,6 +82,16 @@
   font-weight: bold;
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.navbar-logo:hover {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 16px 2px #2563eb;
 }
 
 .navbar-links {
@@ -82,24 +103,40 @@
   padding: 0;
 }
 
-.nav-link {
+.nav-link,
+.btn,
+button {
   color: #e2e8f0;
+  background: #4a5568;
   text-decoration: none;
   font-size: 1.1rem;
   padding: 0.5rem 1.2rem;
   border-radius: 8px;
-  transition: background 0.2s, color 0.2s;
+  border: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px #2d3748;
 }
 
-.nav-link:hover {
-  background: #4fd1c5;
-  color: #222;
-}
-
-.nav-link.active {
-  background: #63b3ed;
-  color: #222;
+.nav-link:hover,
+.btn:hover,
+button:hover,
+.nav-link.active,
+.btn.active,
+button.active,
+.nav-link[aria-current="page"],
+.btn[aria-current="page"],
+button[aria-current="page"] {
+  background: #2563eb;
+  color: #fff;
   font-weight: bold;
+  box-shadow: 0 0 16px 2px #2563eb;
+}
+
+/* Make nav-link buttons readable on white backgrounds */
+.nav-link:not(.active) {
+  box-shadow: 0 0 0 1px #cbd5e1;
 }
 
 /* Navigation styles */
@@ -134,16 +171,16 @@
   .navbar {
     padding: 0.75rem 1rem;
   }
-  
+
   .mobile-menu-button {
     display: flex;
     z-index: 1001;
   }
-  
+
   .navbar-logo {
     margin-bottom: 0;
   }
-  
+
   .navbar-links {
     flex-direction: column;
     position: absolute;
@@ -161,18 +198,18 @@
     transform: translateY(-10px);
     transition: opacity 0.3s, transform 0.3s;
   }
-  
+
   .navbar-links.show-mobile-menu {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
   }
-  
+
   .navbar-links li {
     margin: 5px 0;
     width: 100%;
   }
-    .nav-link {
+  .nav-link {
     display: block;
     width: 100%;
     text-align: center;
@@ -424,4 +461,87 @@
 
 .profile-cancel-btn:hover {
   background: linear-gradient(135deg, #4a5568, #718096);
+}
+
+/* Game action button styles */
+.game-action-btn {
+  background: #4a5568;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.game-action-btn:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.game-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #718096;
+}
+
+.word-tile.jump-up {
+  animation: jumpUp 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 2;
+  will-change: transform, box-shadow;
+}
+
+@keyframes jumpUp {
+  0% {
+    transform: scale(1) translateY(0);
+    box-shadow: 0 0 0 0 #38a16900;
+  }
+  20% {
+    transform: scale(1.03, 0.99) translateY(-8px);
+    box-shadow: 0 2px 8px 0 #38a16922;
+  }
+  40% {
+    transform: scale(1.06, 0.97) translateY(-16px);
+    box-shadow: 0 4px 16px 0 #38a16933;
+  }
+  60% {
+    transform: scale(1.04, 1.01) translateY(-10px);
+    box-shadow: 0 3px 10px 0 #38a16922;
+  }
+  80% {
+    transform: scale(1.01, 1.02) translateY(-3px);
+    box-shadow: 0 1px 4px 0 #38a16911;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    box-shadow: 0 0 0 0 #38a16900;
+  }
+}
+
+.word-tile.shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  80% {
+    transform: translateX(4px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-8px);
+  }
+  40%,
+  60% {
+    transform: translateX(8px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

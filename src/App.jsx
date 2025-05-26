@@ -4,13 +4,13 @@ import { jwtDecode } from "jwt-decode";
 import GameBoard from "./components/GameComponents/GameBoard";
 import Navigation from "./components/Navigation/Navigation";
 import BrowseBoards from "./pages/BrowseBoards";
-import CreateGamePage from "./pages/CreateGame";
+import CreateGamePage from "./pages/CreateGamePage";
 import Authenticate from "./pages/Authenticate";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
 
 import { useParams } from "react-router-dom";
-import "./App.css";
+import "./styles/App.css";
 
 export const UserContext = createContext(null);
 

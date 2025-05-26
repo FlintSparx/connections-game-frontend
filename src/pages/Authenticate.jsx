@@ -5,26 +5,38 @@ import Register from "../components/Register";
 function Authenticate() {
   const [isRegistering, setIsRegistering] = useState(false);
   return (
-    <div>
+    <div className="auth-container" style={{ maxWidth: "900px", margin: "2rem auto", padding: "0 1rem" }}>
       {!isRegistering ? (
         <>
           <Login />
-          <div>
-            <h3>
+          <div style={{ textAlign: "center", marginTop: "1rem" }}>
+            <p>
               Don't have an account?{" "}
-              <button onClick={() => setIsRegistering(true)}>
+              <button 
+                onClick={() => setIsRegistering(true)}
+                className="btn btn-secondary"
+                style={{ marginLeft: "0.5rem" }}
+              >
                 Register Here
               </button>
-            </h3>
+            </p>
           </div>
         </>
       ) : (
         <>
           <Register />
-          <h3>
-            Already have an account?{" "}
-            <button onClick={() => setIsRegistering(false)}>Login Here</button>
-          </h3>
+          <div style={{ textAlign: "center", marginTop: "1rem" }}>
+            <p>
+              Already have an account?{" "}
+              <button 
+                onClick={() => setIsRegistering(false)}
+                className="btn btn-secondary"
+                style={{ marginLeft: "0.5rem" }}
+              >
+                Login Here
+              </button>
+            </p>
+          </div>
         </>
       )}
     </div>
