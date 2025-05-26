@@ -88,76 +88,98 @@ function UsersAdmin() {
       }
     }
   };
-
   return (
     <div className="list-page-container">
-      <h1 className="list-page-title mb-4">Users Admin</h1>
-      <div className="table-wrapper">
-        <table className="list-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Username</th>
-              <th>Name</th>
-              <th>Admin</th>
-              <th>Email</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+      <h1 className="list-page-title mb-4">Users Administration</h1>
+      {loading ? (
+        <p>Loading users...</p>
+      ) : (
+        <div className="table-wrapper">
+          <table className="list-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Admin</th>
+                <th>Email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>          <tbody>
             {users.map((user) => (
-              userEdit === user._id ? (
-                <tr key={user._id}>
-                  <td>{user._id}</td>
-                  <td>
-                    <input
-                      name="username"
-                      value={editFields.username}
-                      onChange={handleFieldChange}
-                      className="form-control"
-                    />
-                  </td>
-                  <td className="flex gap-3 align-center">
-                    <input
-                      name="first_name"
-                      value={editFields.first_name}
-                      onChange={handleFieldChange}
-                      placeholder="First Name"
-                      className="form-control"
-                    />
-                    <input
-                      name="last_name"
-                      value={editFields.last_name}
-                      onChange={handleFieldChange}
-                      placeholder="Last Name"
-                      className="form-control"
-                    />
-                  </td>
-                  <td>
-                    <label style={{ display: "flex", alignItems: "center", gap: "0.25em" }}>
-                      <input
-                        type="checkbox"
-                        name="isAdmin"
-                        checked={!!editFields.isAdmin}
-                        onChange={handleFieldChange}
-                        style={{ marginRight: 4 }}
-                      />
-                      Admin
-                    </label>
-                  </td>
-                  <td>
-                    <input
-                      name="email"
-                      value={editFields.email}
-                      onChange={handleFieldChange}
-                      placeholder="Email"
-                      className="form-control"
-                    />
-                  </td>
-                  <td>
-                    <button className="btn btn-primary" onClick={() => handleUpdate(user)}>Save</button>
-                    <button className="btn btn-secondary" onClick={() => setUserEdit(null)}>Cancel</button>
-                    <button className="btn btn-danger" onClick={() => handleDelete(user._id)}>Delete</button>
+              userEdit === user._id ? (                <tr key={user._id} className="edit-mode-row">
+                  <td colSpan="6" style={{ padding: "15px" }}>
+                    <div className="edit-form-container" style={{ backgroundColor: "#f8fafc", padding: "15px", borderRadius: "8px", maxWidth: "100%", overflowX: "hidden" }}>
+                      <h3 style={{ fontSize: "1.1rem", fontWeight: "600", marginBottom: "12px" }}>Edit User</h3>
+                      
+                      <div className="mb-4">
+                        <label htmlFor="username" className="filter-label">Username</label>
+                        <input
+                          id="username"
+                          name="username"
+                          value={editFields.username}
+                          onChange={handleFieldChange}
+                          className="form-control"
+                          placeholder="Username"
+                        />
+                      </div>
+                      
+                      <div className="mb-4" style={{ display: "flex", gap: "10px" }}>
+                        <div style={{ flex: 1 }}>
+                          <label htmlFor="first_name" className="filter-label">First Name</label>
+                          <input
+                            id="first_name"
+                            name="first_name"
+                            value={editFields.first_name}
+                            onChange={handleFieldChange}
+                            placeholder="First Name"
+                            className="form-control"
+                          />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <label htmlFor="last_name" className="filter-label">Last Name</label>
+                          <input
+                            id="last_name"
+                            name="last_name"
+                            value={editFields.last_name}
+                            onChange={handleFieldChange}
+                            placeholder="Last Name"
+                            className="form-control"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="mb-4">
+                        <label htmlFor="email" className="filter-label">Email</label>
+                        <input
+                          id="email"
+                          name="email"
+                          value={editFields.email}
+                          onChange={handleFieldChange}
+                          placeholder="Email"
+                          className="form-control"
+                        />
+                      </div>
+                      
+                      <div className="mb-4">
+                        <label className="filter-label" style={{ display: "flex", alignItems: "center" }}>
+                          <input
+                            type="checkbox"
+                            name="isAdmin"
+                            checked={!!editFields.isAdmin}
+                            onChange={handleFieldChange}
+                            style={{ marginRight: "8px" }}
+                          />
+                          Administrator Privileges
+                        </label>
+                      </div>
+                      
+                      <div className="flex gap-3">
+                        <button className="btn btn-success" onClick={() => handleUpdate(user)}>Save Changes</button>
+                        <button className="btn btn-secondary" onClick={() => setUserEdit(null)}>Cancel</button>
+                        <button className="btn btn-danger" style={{ marginLeft: "auto" }} onClick={() => handleDelete(user._id)}>Delete User</button>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               ) : (
@@ -165,7 +187,11 @@ function UsersAdmin() {
                   <td>{user._id}</td>
                   <td>{user.username}</td>
                   <td>{user.first_name} {user.last_name}</td>
-                  <td>{user.isAdmin.toString()}</td>
+                  <td>
+                    <span className={user.isAdmin ? "difficulty-badge difficulty-easy" : "difficulty-badge difficulty-unknown"}>
+                      {user.isAdmin ? "Admin" : "User"}
+                    </span>
+                  </td>
                   <td>{user.email}</td>
                   <td>
                     <button className="btn btn-primary" onClick={() => handleEditClick(user)}>Edit</button>
@@ -173,10 +199,10 @@ function UsersAdmin() {
                   </td>
                 </tr>
               )
-            ))}
-          </tbody>
+            ))}          </tbody>
         </table>
       </div>
+      )}
     </div>
   );
 }
