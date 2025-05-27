@@ -126,12 +126,33 @@
 
 /* Container and header styles */
 .list-page-container {
-  max-width: 900px;
+  width: 90%;
+  max-width: none;
   margin: 2rem auto;
   padding: 2rem 1rem;
   background: #f7fafc;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Responsive width adjustments for list container */
+@media (min-width: 768px) {
+  .list-page-container {
+    width: 85%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .list-page-container {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .list-page-container {
+    width: 75%;
+    max-width: 1200px;
+  }
 }
 
 .list-page-title {
@@ -533,3 +554,99 @@ input[type="checkbox"][name="isAdmin"] {
         background-color: #e2e8f0;
         color: #475569;
       }
+
+/* Edit form overlay modal styles */
+.edit-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.edit-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+.edit-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.edit-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.edit-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #6b7280;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.edit-modal-close:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.edit-modal-body {
+  margin-bottom: 1.5rem;
+}
+
+.edit-modal-footer {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.edit-modal-footer .btn-danger {
+  margin-right: auto;
+}
+
+@media (max-width: 640px) {
+  .edit-modal {
+    margin: 1rem;
+    padding: 1.5rem;
+    max-height: 95vh;
+  }
+  
+  .edit-modal-footer {
+    flex-direction: column;
+  }
+  
+  .edit-modal-footer .btn-danger {
+    margin-right: 0;
+    order: 3;
+  }
+}

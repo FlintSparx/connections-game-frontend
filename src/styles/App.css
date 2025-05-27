@@ -1,8 +1,28 @@
 #root {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+/* Responsive width adjustments for larger screens */
+@media (min-width: 768px) {
+  #root {
+    width: 95%;
+  }
+}
+
+@media (min-width: 1024px) {
+  #root {
+    width: 92%;
+  }
+}
+
+@media (min-width: 1280px) {
+  #root {
+    width: 90%;
+    max-width: 1400px;
+  }
 }
 
 .game-boards-table {
@@ -234,12 +254,33 @@ button[aria-current="page"] {
 }
 
 .container {
-  max-width: 800px;
+  width: 90%;
+  max-width: none;
   margin: 0 auto;
   padding: 2rem 1rem;
   background: #f7fafc;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Responsive width adjustments for container */
+@media (min-width: 768px) {
+  .container {
+    width: 85%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    width: 75%;
+    max-width: 1200px;
+  }
 }
 
 .subtitle {
@@ -251,9 +292,30 @@ button[aria-current="page"] {
 /* Profile Styles */
 
 .profile-container {
-  max-width: 600px;
+  width: 90%;
+  max-width: none;
   margin: 0 auto;
   padding: 2rem;
+}
+
+/* Responsive width adjustments for profile container */
+@media (min-width: 768px) {
+  .profile-container {
+    width: 85%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-container {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .profile-container {
+    width: 75%;
+    max-width: 800px;
+  }
 }
 
 .profile-loading {
