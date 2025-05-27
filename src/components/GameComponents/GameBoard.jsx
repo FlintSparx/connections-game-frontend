@@ -17,6 +17,51 @@ function GameBoard({ gameId }) {
   const [shakingIndices, setShakingIndices] = useState([]); // Track indices of shaking tiles
   const [keepPlaying, setKeepPlaying] = useState(false); // Track if the user wants to keep playing
 
+  // Function to animate all tiles when a game is completed and won
+  // Function to animate all tiles when game is completed
+  const animateGameComplete = () => {
+    const allTiles = document.querySelectorAll(".word-tile");
+
+    allTiles.forEach((tile, index) => {
+      // Add a staggered delay for a wave effect
+      tile.style.setProperty("--delay", index);
+      tile.classList.add("game-complete");
+    });
+
+    // Calculate total duration: animation + max delay
+    const totalDuration = 900 + (allTiles.length - 1) * 100;
+
+    // Clean up classes after animation completes
+    setTimeout(() => {
+      allTiles.forEach((tile) => {
+        tile.classList.remove("game-complete");
+        tile.style.removeProperty("--delay");
+      });
+    }, totalDuration);
+  };
+
+  // Function to animate all tiles when game is failed
+  const animateGameFailed = () => {
+    const allTiles = document.querySelectorAll(".word-tile");
+
+    allTiles.forEach((tile, index) => {
+      // Add a slight staggered delay
+      tile.style.setProperty("--delay", index);
+      tile.classList.add("game-failed");
+    });
+
+    // Calculate total duration: animation + max delay
+    const totalDuration = 400 + (allTiles.length - 1) * 50;
+
+    // Clean up classes after animation completes
+    setTimeout(() => {
+      allTiles.forEach((tile) => {
+        tile.classList.remove("game-failed");
+        tile.style.removeProperty("--delay");
+      });
+    }, totalDuration);
+  };
+
   // Fetch a specific game if gameId is provided, otherwise fetch a random game
   const fetchGame = async () => {
     try {
@@ -333,8 +378,12 @@ function GameBoard({ gameId }) {
                     if (newFoundCategories.length === 4) {
                       setGameWon(true);
                       updateGameStats(true);
+                      // Animate all tiles jumping up for game completion
+                      setTimeout(() => {
+                        animateGameComplete();
+                      }, 400); // Small delay to let the last category animation finish
                     }
-                  }, 400); // Animation duration
+                  }, 600); // Animation duration
                 } else {
                   // Wrong answer - increment tries
                   const newTriesCount = tries + 1;
@@ -348,6 +397,10 @@ function GameBoard({ gameId }) {
                   if (newTriesCount >= 4 && !keepPlaying) {
                     setGameLost(true);
                     updateGameStats(false);
+                    // Animate all tiles shaking for game failure
+                    setTimeout(() => {
+                      animateGameFailed();
+                    }, 600); // Small delay to let the wrong selection shake finish
                   }
                 }
               }
