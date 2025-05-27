@@ -116,9 +116,8 @@ function GameBoardsList({ admin }) {
             </tr>
           </thead>{" "}
           <tbody>
-            {filteredGames.map((game) => (
-              <tr key={game._id}>
-                <td data-label="Name">{game.name}</td>
+            {filteredGames.map((game) => (              <tr key={game._id}>
+                <td data-label="Name"><span style={{ fontWeight: "bold" }}>{game.name}</span></td>
                 <td data-label="Creator">
                   {game.createdBy
                     ? `Created by ${game.createdBy.username}`

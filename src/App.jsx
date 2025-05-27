@@ -92,16 +92,17 @@ function App() {
                 </div>
               )
             }
-          />          <Route path="/play/:id" element={<PlayGameBoard />} />
+          />{" "}
+          <Route path="/play/:id" element={<PlayGameBoard />} />
           <Route path="/login" element={<Authenticate />} />
           <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />{" "}
           <Route
             path="/"
             element={
               <div className="container">
-                <h1>Connections Game</h1>
+                <h1 style={{ fontWeight: "bold" }}>Connections Game</h1>
                 <p className="subtitle">Find groups of four related words</p>
                 <GameBoard />
               </div>

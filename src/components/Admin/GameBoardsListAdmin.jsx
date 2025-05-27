@@ -117,10 +117,9 @@ function GameBoardsListAdmin() {
             </tr>
           </thead>
           <tbody>
-            {games.map((game) => (
-              <tr key={game._id}>
+            {games.map((game) => (              <tr key={game._id}>
                 <td data-label="ID">{game._id}</td>
-                <td data-label="Name">{game.name}</td>
+                <td data-label="Name"><span style={{ fontWeight: "bold" }}>{game.name}</span></td>
                 <td data-label="Categories">
                   <div className="categories-cell">
                     {game.category1?.name}, {game.category2?.name},{" "}

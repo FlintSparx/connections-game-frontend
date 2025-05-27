@@ -16,6 +16,8 @@ function GameBoard({ gameId }) {
   const [animatingCats, setAnimatingCats] = useState([]); // Track categories being animated
   const [shakingIndices, setShakingIndices] = useState([]); // Track indices of shaking tiles
   const [keepPlaying, setKeepPlaying] = useState(false); // Track if the user wants to keep playing
+  const [gameName, setGameName] = useState(""); // Store the name of the current game
+  const [creatorUsername, setCreatorUsername] = useState(""); // Store the username of the game creator
 
   // Function to animate all tiles when a game is completed and won
   // Function to animate all tiles when game is completed
@@ -67,12 +69,17 @@ function GameBoard({ gameId }) {
     try {
       setLoading(true);
       let res, data;
-      if (gameId) {
-        res = await fetch(`${API_URL}/games/${gameId}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        data = await res.json();
+      if (gameId) {        res = await fetch(`${API_URL}/games/${gameId}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);        data = await res.json();
         if (!data) throw new Error("Game not found");
         const game = data;
+        setGameName(game.name); // Set the game name
+        // Set creator username if available
+        if (game.createdBy && game.createdBy.username) {
+          setCreatorUsername(game.createdBy.username);
+        } else {
+          setCreatorUsername("Unknown");
+        }
         const all = [
           ...game.category1.words.map((w) => ({
             word: w,
@@ -99,9 +106,15 @@ function GameBoard({ gameId }) {
       } else {
         res = await fetch(`${API_URL}/games`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        data = await res.json();
-        if (data.length > 0) {
+        data = await res.json();        if (data.length > 0) {
           const game = data[Math.floor(Math.random() * data.length)];
+          setGameName(game.name); // Set the game name for random game
+          // Set creator username if available for random game
+          if (game.createdBy && game.createdBy.username) {
+            setCreatorUsername(game.createdBy.username);
+          } else {
+            setCreatorUsername("Unknown");
+          }
           const all = [
             ...game.category1.words.map((w) => ({
               word: w,
@@ -222,13 +235,18 @@ function GameBoard({ gameId }) {
   if (error) return <div style={{ color: "red" }}>{error}</div>;
 
   // Organize words with found categories at the top
-  const organizedWords = organizeWords(words, foundCategories);
-
-  // Render 4x4 grid of word tiles
+  const organizedWords = organizeWords(words, foundCategories);  // Render 4x4 grid of word tiles
   return (
-    <div>
-      <h2>Connections Game</h2>
-      <p>Create four groups of four!</p>
+    <div>      {gameId && (
+        // Only show title and instructions when displaying a specific game (not on home page)
+        <>
+          <h2 style={{ fontWeight: "bold" }}>{gameName}</h2>
+          <p style={{ fontSize: "0.9rem", margin: "-0.5rem 0 1rem", color: "#666", fontStyle: "italic" }}>
+            by {creatorUsername}
+          </p>
+          <p>Find groups of four related words</p>
+        </>
+      )}
       <div
         style={{
           display: "grid",
