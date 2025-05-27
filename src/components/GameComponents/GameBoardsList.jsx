@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import fetchWithAuth from "../../utils/fetchWithAuth";
 import { UserContext } from "../../App";
-
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Component for displaying and managing all available game boards
@@ -11,6 +10,7 @@ function GameBoardsList({ admin }) {
   const [games, setGames] = useState([]); // Store the list of game boards
   const [filteredGames, setFilteredGames] = useState([]); // Store filtered games
   const [difficultyFilter, setDifficultyFilter] = useState("all"); // Filter by difficulty
+  const [showNSFW, setShowNSFW] = useState(false); // Filter for NSFW content
   const [loading, setLoading] = useState(true); // Track loading state
   const navigate = useNavigate(); // Navigation helper
   
@@ -19,20 +19,20 @@ function GameBoardsList({ admin }) {
     fetchGames();
   }, []);
 
-  // Filter games when difficulty filter changes
+  // Filter games when filters change
   useEffect(() => {
     if (games.length > 0) {
-      filterGamesByDifficulty(games, difficultyFilter);
+      filterGames(games, difficultyFilter, showNSFW);
     }
-  }, [difficultyFilter, games]);
-  
+  }, [difficultyFilter, showNSFW, games]);
+
   // Fetch all games from the API
   const fetchGames = () => {
     fetch(`${API_URL}/games`)
       .then((res) => res.json())
       .then((data) => {
         setGames(data);
-        filterGamesByDifficulty(data, difficultyFilter);
+        filterGames(data, difficultyFilter, showNSFW);
         setLoading(false);
       })
       .catch((err) => {
@@ -41,13 +41,21 @@ function GameBoardsList({ admin }) {
       });
   };
 
-  // Filter games by difficulty
-  const filterGamesByDifficulty = (gamesData, difficulty) => {
-    if (difficulty === "all") {
-      setFilteredGames(gamesData);
-    } else {
-      setFilteredGames(gamesData.filter(game => game.difficulty === difficulty));
+  // Filter games by difficulty and NSFW content
+  const filterGames = (gamesData, difficulty, includeNSFW) => {
+    let filtered = gamesData;
+    
+    // Filter by difficulty
+    if (difficulty !== "all") {
+      filtered = filtered.filter(game => game.difficulty === difficulty);
     }
+    
+    // Filter by NSFW content
+    if (!includeNSFW) {
+      filtered = filtered.filter(game => !game.tags?.includes('NSFW'));
+    }
+    
+    setFilteredGames(filtered);
   };
 
   // Remove a game from the database with confirmation
@@ -82,9 +90,10 @@ function GameBoardsList({ admin }) {
           Create New Game Board
         </button>
       )}
-
-      {/* Difficulty Filter */}
+      
+      {/* Filters */}
       <div className="filter-container mb-4">
+        {/* Difficulty Filter */}
         <div className="filter-group flex align-center">
           <label htmlFor="difficultyFilter" className="filter-label">Filter by Difficulty:</label>
           <select 
@@ -101,20 +110,34 @@ function GameBoardsList({ admin }) {
             <option value="unknown">Unknown</option>
           </select>
         </div>
+        
+        {/* NSFW Filter */}
+        <div className="filter-group flex align-center" style={{ marginTop: "10px" }}>
+          <label htmlFor="nsfwFilter" className="filter-label">
+            <input 
+              type="checkbox"
+              id="nsfwFilter"
+              checked={showNSFW}
+              onChange={(e) => setShowNSFW(e.target.checked)}
+              style={{ marginRight: "8px" }}
+            />
+            Show NSFW Content
+          </label>
+        </div>
       </div>
 
-      {/* List of existing game boards */}
+      {/* List of existing game boards */} 
       <div className="table-wrapper">
         <table className="list-table">
           <thead>
-            {" "}
             <tr>
               <th>Name</th>
               <th>Creator</th>
               <th>Difficulty</th>
+              <th>Tags</th>
               <th>Actions</th>
             </tr>
-          </thead>{" "}
+          </thead>
           <tbody>
             {filteredGames.map((game) => (
               <tr key={game._id}>
@@ -123,10 +146,27 @@ function GameBoardsList({ admin }) {
                   {game.createdBy
                     ? `Created by ${game.createdBy.username}`
                     : "Unknown creator"}
-                </td>                <td data-label="Difficulty">
+                </td>
+                <td data-label="Difficulty">
                   <span className={`difficulty-badge difficulty-${game.difficulty}`}>
                     {game.difficulty ? game.difficulty.charAt(0).toUpperCase() + game.difficulty.slice(1) : "Unknown"}
                   </span>
+                </td>
+                <td data-label="Tags">
+                  {game.tags && game.tags.length > 0 ? (
+                    <div className="tags-container">
+                      {game.tags.map((tag, index) => (
+                        <span 
+                          key={index} 
+                          className={`tag-badge ${tag === 'NSFW' ? 'tag-nsfw' : 'tag-general'}`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-muted">None</span>
+                  )}
                 </td>
                 <td data-label="Actions">
                   <button
