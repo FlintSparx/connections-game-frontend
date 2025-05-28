@@ -28,11 +28,9 @@ function Navigation() {
         <div className="admin-header">
           <span className="admin-full-title">Administration</span>
           <span className="admin-short-title">Admin</span>
-        </div>
-
-        {/* Mobile menu button */}
+        </div>        {/* Mobile menu button */}
         <button 
-          className="mobile-menu-button"
+          className={`mobile-menu-button ${menuOpen ? "open" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >

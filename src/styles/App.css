@@ -95,6 +95,7 @@
   margin-bottom: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: relative;
+  transition: padding 0.3s ease;
 }
 
 .navbar-logo {
@@ -104,7 +105,7 @@
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, flex-basis 0.3s ease, margin 0.3s ease, text-align 0.3s ease;
 }
 
 .navbar-logo:hover {
@@ -123,6 +124,7 @@
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
   cursor: default;
+  transition: flex-basis 0.3s ease, margin 0.3s ease, text-align 0.3s ease;
 }
 
 /* By default show the full title and hide the short title */
@@ -134,19 +136,8 @@
   display: none;
 }
 
-/* For medium screens, show the shorter title */
-@media (min-width: 867px) and (max-width: 1044px) {
-  .admin-full-title {
-    display: none;
-  }
-  
-  .admin-short-title {
-    display: inline;
-  }
-}
-
-/* For mobile screens, keep showing the shorter title */
-@media (max-width: 866px) {
+/* For all non-desktop screens, show the shorter title */
+@media (max-width: 1048px) {
   .admin-full-title {
     display: none;
   }
@@ -163,6 +154,7 @@
   gap: 1rem;
   margin: 0;
   padding: 0;
+  transition: margin 0.3s ease, justify-content 0.3s ease, width 0.3s ease;
 }
 
 .nav-link,
@@ -217,6 +209,7 @@ button[aria-current="page"] {
   justify-content: space-between;
   height: 24px;
   width: 30px;
+  transition: transform 0.3s ease;
 }
 
 .mobile-menu-button span {
@@ -225,13 +218,71 @@ button[aria-current="page"] {
   width: 100%;
   background-color: #e2e8f0;
   border-radius: 3px;
-  transition: transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Add animation for hamburger menu when open */
+.mobile-menu-button.open span:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.mobile-menu-button.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-button.open span:nth-child(3) {
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+/* Large viewport - normal desktop layout */
+@media (min-width: 1049px) {
+  .navbar {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-logo, .admin-header {
+    flex-basis: auto;
+    margin-bottom: 0;
+  }
+  
+  .navbar-links {
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    margin-left: auto;
+  }
+}
+
+/* Medium viewport - Title centered above links */
+@media (min-width: 871px) and (max-width: 1048px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .navbar-logo, .admin-header {
+    flex-basis: 100%;
+    text-align: center;
+    margin: 0 auto 0.75rem;
+  }
+  
+  .navbar-links {
+    justify-content: center;
+    margin: 0.5rem auto 0;
+    width: 100%;
+  }
 }
 
 /* Mobile styles for navbar */
-@media (max-width: 866px) {
+@media (max-width: 870px) {
   .navbar {
     padding: 0.75rem 1rem;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .mobile-menu-button {
@@ -239,10 +290,11 @@ button[aria-current="page"] {
     z-index: 1001;
   }
 
-  .navbar-logo {
+  .navbar-logo, .admin-header {
     margin-bottom: 0;
+    flex-basis: auto;
   }
-  .navbar-links {
+    .navbar-links {
     flex-direction: column;
     position: absolute;
     top: 0;
@@ -257,20 +309,23 @@ button[aria-current="page"] {
     opacity: 0;
     pointer-events: none;
     transform: translateY(-10px);
-    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
     margin: 0;
+    visibility: hidden;
   }
 
   .navbar-links.show-mobile-menu {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
+    visibility: visible;
   }
 
   .navbar-links li {
     margin: 5px 0;
     width: 100%;
   }
+  
   .nav-link {
     display: block;
     width: 100%;
@@ -278,45 +333,14 @@ button[aria-current="page"] {
     padding: 0.7rem 0;
   }
 }
-
-/* Ensure nav items display inline on larger screens */
-@media (min-width: 867px) {
-  .nav-item-main {
-    display: inline-block;
-  }
+  
+    /* This is handled in the media query above */
 }
 
-/* Medium viewport - When Connections header wraps but before mobile menu */
-@media (min-width: 867px) and (max-width: 1044px) {
-  .navbar {
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .navbar-logo {
-    flex-basis: 100%;
-    text-align: center;
-    margin: 0 auto 0.75rem;
-  }
-  
-  .admin-header {
-    flex-basis: 100%;
-    text-align: center;
-    margin: 0 auto 0.75rem;
-  }
-  
-  .navbar-links {
-    justify-content: center;
-    margin: 0.5rem auto 0;
-  }
-}
-
+/* Extra small screens - adjust padding */
 @media (max-width: 640px) {
   .navbar {
-    padding: 0.5rem 1rem;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    padding: 0.5rem 0.75rem;
   }
 }
 
