@@ -8,9 +8,11 @@ import CreateGamePage from "./pages/CreateGamePage";
 import Authenticate from "./pages/Authenticate";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
-
 import { useParams } from "react-router-dom";
 import "./styles/App.css";
+import "./styles/ListPageStyles.css";
+// MobileAdjustments needs to be last to override other styles
+import "./styles/MobileAdjustments.css"; // Has card view toggle at 1000px width
 
 export const UserContext = createContext(null);
 
@@ -92,16 +94,17 @@ function App() {
                 </div>
               )
             }
-          />          <Route path="/play/:id" element={<PlayGameBoard />} />
+          />{" "}
+          <Route path="/play/:id" element={<PlayGameBoard />} />
           <Route path="/login" element={<Authenticate />} />
           <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />{" "}
           <Route
             path="/"
             element={
               <div className="container">
-                <h1>Connections Game</h1>
+                <h1 style={{ fontWeight: "bold" }}>Connections Game</h1>
                 <p className="subtitle">Find groups of four related words</p>
                 <GameBoard />
               </div>

@@ -13,7 +13,7 @@ function GameBoardsList({ admin }) {
   const [showNSFW, setShowNSFW] = useState(false); // Filter for NSFW content
   const [loading, setLoading] = useState(true); // Track loading state
   const navigate = useNavigate(); // Navigation helper
-  
+
   // Fetch all games when the component mounts
   useEffect(() => {
     fetchGames();
@@ -24,7 +24,10 @@ function GameBoardsList({ admin }) {
     if (games.length > 0) {
       filterGames(games, difficultyFilter, showNSFW);
     }
+ swearify
   }, [difficultyFilter, showNSFW, games]);
+
+ main
 
   // Fetch all games from the API
   const fetchGames = () => {
@@ -41,6 +44,7 @@ function GameBoardsList({ admin }) {
       });
   };
 
+ swearify
   // Filter games by difficulty and NSFW content
   const filterGames = (gamesData, difficulty, includeNSFW) => {
     let filtered = gamesData;
@@ -53,6 +57,7 @@ function GameBoardsList({ admin }) {
     // Filter by NSFW content
     if (!includeNSFW) {
       filtered = filtered.filter(game => !game.tags?.includes('NSFW'));
+ main
     }
     
     setFilteredGames(filtered);
@@ -78,7 +83,7 @@ function GameBoardsList({ admin }) {
   };
 
   if (loading) return <div>Loading...</div>; // Show loading indicator while fetching data
-  
+
   return (
     <div className="list-page-container">
       {/* Create button navigates to create page */}
@@ -95,8 +100,10 @@ function GameBoardsList({ admin }) {
       <div className="filter-container mb-4">
         {/* Difficulty Filter */}
         <div className="filter-group flex align-center">
-          <label htmlFor="difficultyFilter" className="filter-label">Filter by Difficulty:</label>
-          <select 
+          <label htmlFor="difficultyFilter" className="filter-label">
+            Filter by Difficulty:
+          </label>
+          <select
             id="difficultyFilter"
             value={difficultyFilter}
             onChange={(e) => setDifficultyFilter(e.target.value)}
@@ -129,23 +136,35 @@ function GameBoardsList({ admin }) {
       {/* List of existing game boards */} 
       <div className="table-wrapper">
         <table className="list-table">
+          {" "}
           <thead>
             <tr>
+ swearify
               <th>Name</th>
               <th>Creator</th>
               <th>Difficulty</th>
               <th>Tags</th>
               <th>Actions</th>
+
+              <th className="name-column">Name</th>
+              <th className="creator-column">Creator</th>
+              <th className="difficulty-column">Difficulty</th>
+              <th className="actions-column">Actions</th>
+ main
             </tr>
           </thead>
           <tbody>
             {filteredGames.map((game) => (
               <tr key={game._id}>
-                <td data-label="Name">{game.name}</td>
-                <td data-label="Creator">
+                {" "}
+                <td className="name-column" data-label="Name">
+                  <span style={{ fontWeight: "bold" }}>{game.name}</span>
+                </td>
+                <td className="creator-column" data-label="Creator">
                   {game.createdBy
                     ? `Created by ${game.createdBy.username}`
                     : "Unknown creator"}
+
                 </td>
                 <td data-label="Difficulty">
                   <span className={`difficulty-badge difficulty-${game.difficulty}`}>
@@ -169,6 +188,20 @@ function GameBoardsList({ admin }) {
                   )}
                 </td>
                 <td data-label="Actions">
+
+                </td>{" "}
+                <td className="difficulty-column" data-label="Difficulty">
+                  <span
+                    className={`difficulty-badge difficulty-${game.difficulty}`}
+                  >
+                    {game.difficulty
+                      ? game.difficulty.charAt(0).toUpperCase() +
+                        game.difficulty.slice(1)
+                      : "Unknown"}
+                  </span>
+                </td>
+                <td className="actions-column" data-label="Actions">
+ main
                   <button
                     className="btn btn-primary"
                     onClick={() => navigate(`/play/${game._id}`)}

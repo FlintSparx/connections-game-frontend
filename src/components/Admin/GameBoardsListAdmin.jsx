@@ -107,34 +107,40 @@ function GameBoardsListAdmin() {
       )}
       <div className="table-wrapper">
         <table className="list-table">
+          {" "}
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Categories</th>
-              <th>Words</th>
-              <th>Actions</th>
+              <th className="id-column">ID</th>
+              <th className="name-column">Name</th>
+              <th className="categories-column">Categories</th>
+              <th className="words-column">Words</th>
+              <th className="actions-column">Actions</th>
             </tr>
           </thead>
           <tbody>
             {games.map((game) => (
               <tr key={game._id}>
-                <td data-label="ID">{game._id}</td>
-                <td data-label="Name">{game.name}</td>
-                <td data-label="Categories">
+                {" "}
+                <td className="id-column" data-label="ID">
+                  {game._id}
+                </td>
+                <td className="name-column" data-label="Name">
+                  <span style={{ fontWeight: "bold" }}>{game.name}</span>
+                </td>
+                <td className="categories-column" data-label="Categories">
                   <div className="categories-cell">
                     {game.category1?.name}, {game.category2?.name},{" "}
                     {game.category3?.name}, {game.category4?.name}
                   </div>
                 </td>
-                <td data-label="Words">
+                <td className="words-column" data-label="Words">
                   {(game.category1?.words.length || 0) +
                     (game.category2?.words.length || 0) +
                     (game.category3?.words.length || 0) +
                     (game.category4?.words.length || 0)}{" "}
                   words total
                 </td>
-                <td data-label="Actions">
+                <td className="actions-column" data-label="Actions">
                   <button
                     className="nav-link btn btn-primary"
                     style={{ marginRight: 8 }}

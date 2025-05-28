@@ -1,25 +1,37 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.game-boards-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 12px;
-  background: transparent;
-  font-size: 1rem;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  overflow-x: hidden;
+  /* Prevent horizontal scrolling */
+  box-sizing: border-box; /* Include padding in width calculation */
+  min-width: 0;
+  /* Allow shrinking below content width */
 }
 
-.game-boards-table th,
-.game-boards-table td {
-  border: none;
-  padding: 0.75rem 1.25rem;
-  text-align: left;
+/* Responsive width adjustments for larger screens */
+@media (min-width: 768px) {
+  #root {
+    width: 95%;
+    padding: 1.5rem;
+  }
 }
 
+@media (min-width: 1024px) {
+  #root {
+    width: 92%;
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  #root {
+    width: 90%;
+    padding: 2rem;
+    max-width: 1400px;
+  }
+}
 .game-boards-table td {
   color: #000;
   /* Ensure text is visible */
@@ -72,8 +84,11 @@
   background: #2d3748;
   padding: 0.75rem 2rem;
   border-radius: 16px;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  max-width: 100%;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .navbar-logo {
@@ -92,6 +107,12 @@
   padding: 0.5rem 1.2rem;
   border-radius: 8px;
   box-shadow: 0 0 16px 2px #2563eb;
+}
+
+/* Admin Dashboard styles */
+
+.admin-short-title {
+  display: inline;
 }
 
 .navbar-links {
@@ -167,9 +188,10 @@ button[aria-current="page"] {
 }
 
 /* Mobile styles for navbar */
-@media (max-width: 768px) {
+@media (max-width: 870px) {
   .navbar {
     padding: 0.75rem 1rem;
+    position: relative; /* Ensure position context for absolute children */
   }
 
   .mobile-menu-button {
@@ -180,35 +202,39 @@ button[aria-current="page"] {
   .navbar-logo {
     margin-bottom: 0;
   }
-
   .navbar-links {
     flex-direction: column;
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 100%; /* Position below the navbar */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%) translateY(-10px); /* Center and initial offset for animation */
     background: #2d3748;
-    padding: 60px 20px 20px;
-    width: 100%;
+    padding: 20px;
+    width: calc(100% - 40px);
+    max-width: 300px; /* Limit width to prevent overflow */
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-10px);
     transition: opacity 0.3s, transform 0.3s;
+    margin: 0.5rem 0 0 0;
+    gap: 1rem;
+    /* Ensure consistent button spacing */
+    box-sizing: border-box;
   }
 
   .navbar-links.show-mobile-menu {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0); /* Center and remove offset when shown */
   }
 
   .navbar-links li {
     margin: 5px 0;
     width: 100%;
   }
+
   .nav-link {
     display: block;
     width: 100%;
@@ -218,28 +244,160 @@ button[aria-current="page"] {
 }
 
 /* Ensure nav items display inline on larger screens */
-@media (min-width: 769px) {
+@media (min-width: 871px) {
   .nav-item-main {
     display: inline-block;
   }
 }
 
+/* Medium viewport - When Connections header wraps but before mobile menu */
+@media (min-width: 871px) and (max-width: 1048px) {
+  .navbar {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .navbar-logo {
+    flex-basis: 100%;
+    text-align: center;
+    margin: 0 auto 0.75rem;
+  }
+
+  .navbar-links {
+    justify-content: center;
+    margin: 0.5rem auto 0;
+    gap: 1rem;
+  }
+}
+
 @media (max-width: 640px) {
   .navbar {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.75rem;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 98%;
+    margin: 0 auto 1rem;
+  }
+
+  #root {
+    padding: 0.5rem;
+    width: 100%;
+  }
+
+  .container,
+  .admin-dashboard {
+    width: 98%;
+    padding: 0.75rem 0.5rem;
+    margin: 0.5rem auto;
   }
 }
 
 .container {
-  max-width: 800px;
+  width: 90%;
+  max-width: none;
   margin: 0 auto;
   padding: 2rem 1rem;
   background: #f7fafc;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Admin dashboard styles */
+.admin-dashboard {
+  width: 90%;
+  max-width: none;
+  margin: 0 auto;
+  background: #f7fafc;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 1rem;
+}
+
+.admin-header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.admin-header-container h2 {
+  margin-bottom: 1rem;
+  color: #2d3748;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-tab {
+  color: #e2e8f0;
+  background: #4a5568;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0.25rem;
+}
+
+.admin-tab:hover,
+.admin-tab.active {
+  background: #2563eb;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 0 16px 2px #2563eb;
+}
+
+.admin-content {
+  width: 100%;
+}
+
+/* Responsive width adjustments for container */
+@media (min-width: 768px) {
+  .container {
+    width: 85%;
+  }
+  .admin-dashboard {
+    width: 90%;
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 80%;
+  }
+  .admin-dashboard {
+    width: 95%;
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    width: 75%;
+    max-width: 1200px;
+  }
+  .admin-dashboard {
+    width: 95%;
+    max-width: none;
+    padding: 2.5rem;
+  }
+}
+
+/* Mobile responsive styles for admin dashboard */
+@media (max-width: 640px) {
+  .admin-dashboard {
+    width: 95%;
+    margin: 0 auto;
+    padding: 1rem 0.75rem;
+  }
 }
 
 .subtitle {
@@ -251,9 +409,30 @@ button[aria-current="page"] {
 /* Profile Styles */
 
 .profile-container {
-  max-width: 600px;
+  width: 90%;
+  max-width: none;
   margin: 0 auto;
   padding: 2rem;
+}
+
+/* Responsive width adjustments for profile container */
+@media (min-width: 768px) {
+  .profile-container {
+    width: 85%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-container {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .profile-container {
+    width: 75%;
+    max-width: 800px;
+  }
 }
 
 .profile-loading {
@@ -546,6 +725,7 @@ button[aria-current="page"] {
   }
 }
 
+ swearify
 /* Tag styling - ADDED FOR NSFW TAGS */
 .tags-container {
   display: flex;
@@ -606,3 +786,18 @@ button[aria-current="page"] {
     padding: 1px 6px;
   }
 }
+=======
+/* Game completion animations */
+
+.word-tile.game-complete {
+  animation: jumpUp 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  animation-delay: calc(var(--delay) * 0.1s);
+  z-index: 2;
+  will-change: transform, box-shadow;
+}
+
+.word-tile.game-failed {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  animation-delay: calc(var(--delay) * 0.05s);
+}
+main
