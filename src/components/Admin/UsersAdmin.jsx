@@ -3,15 +3,17 @@ import fetchWithAuth from "../../utils/fetchWithAuth";
 import "../../styles/ListPageStyles.css";
 
 function UsersAdmin() {
+  // State for storing users data and UI state
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [userEdit, setUserEdit] = useState(null);
-  const [editFields, setEditFields] = useState({});
-
+  const [userEdit, setUserEdit] = useState(null); // Tracks which user is being edited
+  const [editFields, setEditFields] = useState({}); // Stores form data for editing
+  // Fetch users when component mounts
   useEffect(() => {
     fetchUsers();
   }, []);
 
+  // Get all users from the API using authenticated request
   const fetchUsers = () => {
     fetchWithAuth(`${import.meta.env.VITE_API_URL}/admin/users`)
       .then((res) => res.json())
@@ -23,7 +25,7 @@ function UsersAdmin() {
         console.error("Error fetching users:", err);
       });
   };
-
+  // Set up the edit modal when user clicks Edit button
   const handleEditClick = (user) => {
     setUserEdit(user._id);
     setEditFields({
@@ -35,10 +37,12 @@ function UsersAdmin() {
     });
   };
 
+  // Handle form field changes in the edit modal
   const handleFieldChange = (e) => {
     const { name, value, type, checked } = e.target;
     setEditFields((prev) => ({
       ...prev,
+      // Handle checkbox inputs differently than text inputs
       [name]: type === "checkbox" ? checked : value,
     }));
   };
@@ -51,12 +55,12 @@ function UsersAdmin() {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(editFields),
-        }
+        },
       );
       if (response.ok) {
         // Update the user in the local state
         setUsers((prev) =>
-          prev.map((u) => (u._id === user._id ? { ...u, ...editFields } : u))
+          prev.map((u) => (u._id === user._id ? { ...u, ...editFields } : u)),
         );
         setUserEdit(null);
       } else {
@@ -75,7 +79,7 @@ function UsersAdmin() {
           `${import.meta.env.VITE_API_URL}/admin/users/${id}`,
           {
             method: "DELETE",
-          }
+          },
         );
         if (response.ok) {
           setUsers(users.filter((user) => user._id !== id));
@@ -96,112 +100,185 @@ function UsersAdmin() {
       ) : (
         <div className="table-wrapper">
           <table className="list-table">
+            {" "}
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Admin</th>
-                <th>Email</th>
-                <th>Actions</th>
+                <th className="id-column">ID</th>
+                <th className="username-column">Username</th>
+                <th className="name-column">Name</th>
+                <th className="admin-column">Admin</th>
+                <th className="email-column">Email</th>
+                <th className="actions-column">Actions</th>
               </tr>
-            </thead>          <tbody>
-            {users.map((user) => (
-              userEdit === user._id ? (                <tr key={user._id} className="edit-mode-row">
-                  <td colSpan="6" style={{ padding: "15px" }}>
-                    <div className="edit-form-container" style={{ backgroundColor: "#f8fafc", padding: "15px", borderRadius: "8px", maxWidth: "100%", overflowX: "hidden" }}>
-                      <h3 style={{ fontSize: "1.1rem", fontWeight: "600", marginBottom: "12px" }}>Edit User</h3>
-                      
-                      <div className="mb-4">
-                        <label htmlFor="username" className="filter-label">Username</label>
-                        <input
-                          id="username"
-                          name="username"
-                          value={editFields.username}
-                          onChange={handleFieldChange}
-                          className="form-control"
-                          placeholder="Username"
-                        />
-                      </div>
-                      
-                      <div className="mb-4" style={{ display: "flex", gap: "10px" }}>
-                        <div style={{ flex: 1 }}>
-                          <label htmlFor="first_name" className="filter-label">First Name</label>
-                          <input
-                            id="first_name"
-                            name="first_name"
-                            value={editFields.first_name}
-                            onChange={handleFieldChange}
-                            placeholder="First Name"
-                            className="form-control"
-                          />
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <label htmlFor="last_name" className="filter-label">Last Name</label>
-                          <input
-                            id="last_name"
-                            name="last_name"
-                            value={editFields.last_name}
-                            onChange={handleFieldChange}
-                            placeholder="Last Name"
-                            className="form-control"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="mb-4">
-                        <label htmlFor="email" className="filter-label">Email</label>
-                        <input
-                          id="email"
-                          name="email"
-                          value={editFields.email}
-                          onChange={handleFieldChange}
-                          placeholder="Email"
-                          className="form-control"
-                        />
-                      </div>
-                      
-                      <div className="mb-4">
-                        <label className="filter-label" style={{ display: "flex", alignItems: "center" }}>
-                          <input
-                            type="checkbox"
-                            name="isAdmin"
-                            checked={!!editFields.isAdmin}
-                            onChange={handleFieldChange}
-                            style={{ marginRight: "8px" }}
-                          />
-                          Administrator Privileges
-                        </label>
-                      </div>
-                      
-                      <div className="flex gap-3">
-                        <button className="btn btn-success" onClick={() => handleUpdate(user)}>Save Changes</button>
-                        <button className="btn btn-secondary" onClick={() => setUserEdit(null)}>Cancel</button>
-                        <button className="btn btn-danger" style={{ marginLeft: "auto" }} onClick={() => handleDelete(user._id)}>Delete User</button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              ) : (
+            </thead>{" "}
+            <tbody>
+              {users.map((user) => (
                 <tr key={user._id}>
-                  <td>{user._id}</td>
-                  <td>{user.username}</td>
-                  <td>{user.first_name} {user.last_name}</td>
-                  <td>
-                    <span className={user.isAdmin ? "difficulty-badge difficulty-easy" : "difficulty-badge difficulty-unknown"}>
+                  <td className="id-column" data-label="ID">
+                    {user._id}
+                  </td>
+                  <td className="username-column" data-label="Username">
+                    {user.username}
+                  </td>
+                  <td className="name-column" data-label="Name">
+                    {user.first_name} {user.last_name}
+                  </td>
+                  <td className="admin-column" data-label="Role">
+                    {/* Using difficulty badge styles for visual role indication */}
+                    <span
+                      className={
+                        user.isAdmin
+                          ? "difficulty-badge difficulty-easy"
+                          : "difficulty-badge difficulty-unknown"
+                      }
+                    >
                       {user.isAdmin ? "Admin" : "User"}
                     </span>
                   </td>
-                  <td>{user.email}</td>
-                  <td>
-                    <button className="btn btn-primary" onClick={() => handleEditClick(user)}>Edit</button>
-                    <button className="btn btn-danger" onClick={() => handleDelete(user._id)}>Delete</button>
+                  <td className="email-column" data-label="Email">
+                    {user.email}
+                  </td>
+                  <td className="actions-column" data-label="Actions">
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleEditClick(user)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(user._id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
-              )
-            ))}          </tbody>
-        </table>
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}{" "}
+      {/* Edit  Overlay - shown only when editing a user */}
+      {/* Clicking outside the overlay closes it */}
+      {userEdit && (
+        <div
+          className="edit-overlay"
+          onClick={(e) => e.target === e.currentTarget && setUserEdit(null)}
+        >
+          <div className="edit-modal">
+            <div className="edit-modal-header">
+              <h3 className="edit-modal-title">Edit User</h3>
+              <button
+                className="edit-modal-close"
+                onClick={() => setUserEdit(null)}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="edit-modal-body">
+              <div className="mb-4">
+                <label htmlFor="username" className="filter-label">
+                  Username
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  value={editFields.username}
+                  onChange={handleFieldChange}
+                  className="form-control"
+                  placeholder="Username"
+                />
+              </div>
+              <div className="mb-4" style={{ display: "flex", gap: "10px" }}>
+                <div style={{ flex: 1 }}>
+                  <label htmlFor="first_name" className="filter-label">
+                    First Name
+                  </label>
+                  <input
+                    id="first_name"
+                    name="first_name"
+                    value={editFields.first_name}
+                    onChange={handleFieldChange}
+                    placeholder="First Name"
+                    className="form-control"
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label htmlFor="last_name" className="filter-label">
+                    Last Name
+                  </label>
+                  <input
+                    id="last_name"
+                    name="last_name"
+                    value={editFields.last_name}
+                    onChange={handleFieldChange}
+                    placeholder="Last Name"
+                    className="form-control"
+                  />
+                </div>
+              </div>
+              <div className="mb-4">
+                <label htmlFor="email" className="filter-label">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  value={editFields.email}
+                  onChange={handleFieldChange}
+                  placeholder="Email"
+                  className="form-control"
+                />
+              </div>{" "}
+              {/* Admin privileges checkbox with inline styling */}
+              <div className="mb-4">
+                <label
+                  className="filter-label"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <input
+                    type="checkbox"
+                    name="isAdmin"
+                    checked={!!editFields.isAdmin}
+                    onChange={handleFieldChange}
+                    style={{ marginRight: "8px" }}
+                  />
+                  Administrator Privileges
+                </label>
+              </div>
+            </div>
+
+            <div className="edit-modal-footer">
+              {" "}
+              {/* Delete button positioned on left */}
+              <button
+                className="btn btn-danger"
+                onClick={() =>
+                  handleDelete(users.find((u) => u._id === userEdit))
+                }
+              >
+                Delete User
+              </button>
+              {/* Cancel button closes modal without saving */}
+              <button
+                className="btn btn-secondary"
+                onClick={() => setUserEdit(null)}
+              >
+                Cancel
+              </button>
+              {/* Save button updates user with form data */}
+              <button
+                className="btn btn-success"
+                onClick={() =>
+                  handleUpdate(users.find((u) => u._id === userEdit))
+                }
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
