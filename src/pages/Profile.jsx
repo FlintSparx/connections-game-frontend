@@ -15,19 +15,22 @@ function Profile() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [wins, setWins] = useState(0);
   const navigate = useNavigate();
 
-  useEffect(() => {    
+  useEffect(() => {
     if (!user) {
       navigate("/login");
       return;
     }
-    
+
     // Fetch user profile data
     fetch(`${import.meta.env.VITE_API_URL}/users/profile/${user.userID}`, {
       headers: {
-        'Authorization': `Bearer ${document.cookie.split("auth_token=")[1].split(";")[0]}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${
+          document.cookie.split("auth_token=")[1].split(";")[0]
+        }`,
+        "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
@@ -45,6 +48,23 @@ function Profile() {
         setError("Failed to load profile data");
         console.error(err);
       });
+
+    // Fetch user wins
+    fetch(`${import.meta.env.VITE_API_URL}/games/wins/${user.userID}`, {
+      headers: {
+        Authorization: `Bearer ${
+          document.cookie.split("auth_token=")[1]?.split(";")[0]
+        }`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setWins(data.wins || 0);
+      })
+      .catch((err) => {
+        console.error("Failed to load win count", err);
+      });
   }, [user, navigate]);
 
   const handleInputChange = (e) => {
@@ -58,8 +78,10 @@ function Profile() {
   const handleCancelEdit = () => {
     fetch(`${import.meta.env.VITE_API_URL}/users/profile/${user.userID}`, {
       headers: {
-        'Authorization': `Bearer ${document.cookie.split("auth_token=")[1].split(";")[0]}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${
+          document.cookie.split("auth_token=")[1].split(";")[0]
+        }`,
+        "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
@@ -92,14 +114,19 @@ function Profile() {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile/${user.userID}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${document.cookie.split("auth_token=")[1].split(";")[0]}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/profile/${user.userID}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              document.cookie.split("auth_token=")[1].split(";")[0]
+            }`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
@@ -120,21 +147,28 @@ function Profile() {
 
   // Add an account deletion function
   const handleDelete = async () => {
-    const password = window.prompt("Enter your password to confirm account deletion:");
-    
+    const password = window.prompt(
+      "Enter your password to confirm account deletion:"
+    );
+
     if (!password) {
       return; // User canceled the prompt
     }
-    
+
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile/${user.userID}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${document.cookie.split("auth_token=")[1].split(";")[0]}`,
-        },
-        body: JSON.stringify({ password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/profile/${user.userID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              document.cookie.split("auth_token=")[1].split(";")[0]
+            }`,
+          },
+          body: JSON.stringify({ password }),
+        }
+      );
 
       const data = await response.json();
 
@@ -143,7 +177,8 @@ function Profile() {
       }
 
       // Clear auth token
-      document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       setToken(null);
       alert("Your account has been deleted successfully.");
       navigate("/");
@@ -177,6 +212,10 @@ function Profile() {
             <label className="profile-label">Last Name:</label>
             <p className="profile-value">{formData.last_name}</p>
           </div>
+          <div className="profile-field">
+            <label className="profile-label">Games Won:</label>
+            <p className="profile-value">{wins}</p>
+          </div>
           <div className="profile-actions">
             <button
               onClick={() => setIsEditing(true)}
@@ -184,10 +223,7 @@ function Profile() {
             >
               Edit Profile
             </button>
-            <button
-              onClick={handleDelete}
-              className="profile-delete-btn"
-            >
+            <button onClick={handleDelete} className="profile-delete-btn">
               Delete Account
             </button>
           </div>
@@ -196,7 +232,7 @@ function Profile() {
         <form onSubmit={handleSubmit} className="profile-edit-form">
           {error && <div className="profile-error">{error}</div>}
           {success && <div className="profile-success">{success}</div>}
-          
+
           <div className="profile-input-group">
             <label className="profile-input-label">Username:</label>
             <input
@@ -207,7 +243,7 @@ function Profile() {
               className="profile-input"
             />
           </div>
-          
+
           <div className="profile-input-group">
             <label className="profile-input-label">Email:</label>
             <input
@@ -218,7 +254,7 @@ function Profile() {
               className="profile-input"
             />
           </div>
-          
+
           <div className="profile-input-group">
             <label className="profile-input-label">First Name:</label>
             <input
@@ -229,7 +265,7 @@ function Profile() {
               className="profile-input"
             />
           </div>
-          
+
           <div className="profile-input-group">
             <label className="profile-input-label">Last Name:</label>
             <input
@@ -240,9 +276,11 @@ function Profile() {
               className="profile-input"
             />
           </div>
-          
+
           <div className="profile-input-group">
-            <label className="profile-input-label">New Password (optional):</label>
+            <label className="profile-input-label">
+              New Password (optional):
+            </label>
             <input
               type="password"
               name="newPassword"
@@ -251,9 +289,11 @@ function Profile() {
               className="profile-input"
             />
           </div>
-          
+
           <div className="profile-input-group">
-            <label className="profile-input-label profile-required-label">Current Password (required):</label>
+            <label className="profile-input-label profile-required-label">
+              Current Password (required):
+            </label>
             <input
               type="password"
               name="currentPassword"
@@ -263,12 +303,9 @@ function Profile() {
               required
             />
           </div>
-          
+
           <div className="profile-form-actions">
-            <button
-              type="submit"
-              className="profile-save-btn"
-            >
+            <button type="submit" className="profile-save-btn">
               Save Changes
             </button>
             <button
