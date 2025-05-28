@@ -138,35 +138,21 @@ function GameBoard({ gameId }) {
     }
   };
 
-  // Update game stats when the game is won or lost
+  // Update game stats when the game is won or lost and track user wins
   const updateGameStats = async (won) => {
-    if (!gameId) return; // Only update for specific games
+    if (!gameId) return;
+    const token = document.cookie.split("auth_token=")[1]?.split(";")[0];
     try {
       await fetch(`${API_URL}/games/${gameId}/play`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
         body: JSON.stringify({ won }),
       });
     } catch (err) {
       console.error("Failed to update game stats", err);
-    }
-  };
-
-  const recordUserWin = async () => {
-    // Only record if user is logged in
-    const token = document.cookie.split("auth_token=")[1]?.split(";")[0];
-    if (!token || !gameId) return;
-    try {
-      await fetch(`${API_URL}/users/win`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ gameId }),
-      });
-    } catch (err) {
-      console.error("Failed to record user win", err);
     }
   };
 
@@ -397,7 +383,6 @@ function GameBoard({ gameId }) {
                     if (newFoundCategories.length === 4) {
                       setGameWon(true);
                       updateGameStats(true);
-                      recordUserWin();
                       // Animate all tiles jumping up for game completion
                       setTimeout(() => {
                         animateGameComplete();
