@@ -22,11 +22,13 @@ function Navigation() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
-  return (
+  }, []);  return (
     <>
       <nav className="navbar">
-        <div className="admin-header">Administration</div>
+        <div className="admin-header">
+          <span className="admin-full-title">Administration</span>
+          <span className="admin-short-title">Admin</span>
+        </div>
 
         {/* Mobile menu button */}
         <button 

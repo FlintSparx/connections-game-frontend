@@ -94,6 +94,7 @@
   border-radius: 16px;
   margin-bottom: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 .navbar-logo {
@@ -122,6 +123,37 @@
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
   cursor: default;
+}
+
+/* By default show the full title and hide the short title */
+.admin-full-title {
+  display: inline;
+}
+
+.admin-short-title {
+  display: none;
+}
+
+/* For medium screens, show the shorter title */
+@media (min-width: 867px) and (max-width: 1044px) {
+  .admin-full-title {
+    display: none;
+  }
+  
+  .admin-short-title {
+    display: inline;
+  }
+}
+
+/* For mobile screens, keep showing the shorter title */
+@media (max-width: 866px) {
+  .admin-full-title {
+    display: none;
+  }
+  
+  .admin-short-title {
+    display: inline;
+  }
 }
 
 .navbar-links {
@@ -197,7 +229,7 @@ button[aria-current="page"] {
 }
 
 /* Mobile styles for navbar */
-@media (max-width: 768px) {
+@media (max-width: 866px) {
   .navbar {
     padding: 0.75rem 1rem;
   }
@@ -210,7 +242,6 @@ button[aria-current="page"] {
   .navbar-logo {
     margin-bottom: 0;
   }
-
   .navbar-links {
     flex-direction: column;
     position: absolute;
@@ -227,6 +258,7 @@ button[aria-current="page"] {
     pointer-events: none;
     transform: translateY(-10px);
     transition: opacity 0.3s, transform 0.3s;
+    margin: 0;
   }
 
   .navbar-links.show-mobile-menu {
@@ -248,9 +280,34 @@ button[aria-current="page"] {
 }
 
 /* Ensure nav items display inline on larger screens */
-@media (min-width: 769px) {
+@media (min-width: 867px) {
   .nav-item-main {
     display: inline-block;
+  }
+}
+
+/* Medium viewport - When Connections header wraps but before mobile menu */
+@media (min-width: 867px) and (max-width: 1044px) {
+  .navbar {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .navbar-logo {
+    flex-basis: 100%;
+    text-align: center;
+    margin: 0 auto 0.75rem;
+  }
+  
+  .admin-header {
+    flex-basis: 100%;
+    text-align: center;
+    margin: 0 auto 0.75rem;
+  }
+  
+  .navbar-links {
+    justify-content: center;
+    margin: 0.5rem auto 0;
   }
 }
 
