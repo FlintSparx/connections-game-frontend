@@ -23,11 +23,10 @@ function Navigation() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
   return (
     <>
       <nav className="navbar">
-        <div className="navbar-logo">Administration</div>
+        <div className="admin-header">Administration</div>
 
         {/* Mobile menu button */}
         <button 
