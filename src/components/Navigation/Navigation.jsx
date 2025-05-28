@@ -24,14 +24,17 @@ function Navigation() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  
+  // Function to toggle main menu
+  const toggleMainMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   // Helper for navigation
   const handleNav = (path) => {
     navigate(path);
     setMenuOpen(false);
-  };
-
-  return (
+  };  return (
     <nav className="navbar">
       <div
         className={`navbar-logo ${location.pathname === "/" ? "active" : ""}`}
@@ -43,7 +46,7 @@ function Navigation() {
       {/* Mobile menu button */}
       <button 
         className="mobile-menu-button"
-        onClick={() => setMenuOpen(!menuOpen)}
+        onClick={toggleMainMenu}
         aria-label={menuOpen ? "Close menu" : "Open menu"}
       >
         <span></span>
@@ -108,8 +111,7 @@ function Navigation() {
             >
               Logout
             </button>
-          )}
-        </li>
+          )}        </li>
       </ul>
     </nav>
   );
