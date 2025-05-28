@@ -13,7 +13,7 @@ function GameBoardsList({ admin }) {
   const [difficultyFilter, setDifficultyFilter] = useState("all"); // Filter by difficulty
   const [loading, setLoading] = useState(true); // Track loading state
   const navigate = useNavigate(); // Navigation helper
-  
+
   // Fetch all games when the component mounts
   useEffect(() => {
     fetchGames();
@@ -25,7 +25,7 @@ function GameBoardsList({ admin }) {
       filterGamesByDifficulty(games, difficultyFilter);
     }
   }, [difficultyFilter, games]);
-  
+
   // Fetch all games from the API
   const fetchGames = () => {
     fetch(`${API_URL}/games`)
@@ -46,7 +46,9 @@ function GameBoardsList({ admin }) {
     if (difficulty === "all") {
       setFilteredGames(gamesData);
     } else {
-      setFilteredGames(gamesData.filter(game => game.difficulty === difficulty));
+      setFilteredGames(
+        gamesData.filter((game) => game.difficulty === difficulty),
+      );
     }
   };
 
@@ -70,7 +72,7 @@ function GameBoardsList({ admin }) {
   };
 
   if (loading) return <div>Loading...</div>; // Show loading indicator while fetching data
-  
+
   return (
     <div className="list-page-container">
       {/* Create button navigates to create page */}
@@ -86,8 +88,10 @@ function GameBoardsList({ admin }) {
       {/* Difficulty Filter */}
       <div className="filter-container mb-4">
         <div className="filter-group flex align-center">
-          <label htmlFor="difficultyFilter" className="filter-label">Filter by Difficulty:</label>
-          <select 
+          <label htmlFor="difficultyFilter" className="filter-label">
+            Filter by Difficulty:
+          </label>
+          <select
             id="difficultyFilter"
             value={difficultyFilter}
             onChange={(e) => setDifficultyFilter(e.target.value)}
@@ -106,28 +110,38 @@ function GameBoardsList({ admin }) {
       {/* List of existing game boards */}
       <div className="table-wrapper">
         <table className="list-table">
+          {" "}
           <thead>
-            {" "}
             <tr>
-              <th>Name</th>
-              <th>Creator</th>
-              <th>Difficulty</th>
-              <th>Actions</th>
+              <th className="name-column">Name</th>
+              <th className="creator-column">Creator</th>
+              <th className="difficulty-column">Difficulty</th>
+              <th className="actions-column">Actions</th>
             </tr>
-          </thead>{" "}
+          </thead>
           <tbody>
-            {filteredGames.map((game) => (              <tr key={game._id}>
-                <td data-label="Name"><span style={{ fontWeight: "bold" }}>{game.name}</span></td>
-                <td data-label="Creator">
+            {filteredGames.map((game) => (
+              <tr key={game._id}>
+                {" "}
+                <td className="name-column" data-label="Name">
+                  <span style={{ fontWeight: "bold" }}>{game.name}</span>
+                </td>
+                <td className="creator-column" data-label="Creator">
                   {game.createdBy
                     ? `Created by ${game.createdBy.username}`
                     : "Unknown creator"}
-                </td>                <td data-label="Difficulty">
-                  <span className={`difficulty-badge difficulty-${game.difficulty}`}>
-                    {game.difficulty ? game.difficulty.charAt(0).toUpperCase() + game.difficulty.slice(1) : "Unknown"}
+                </td>{" "}
+                <td className="difficulty-column" data-label="Difficulty">
+                  <span
+                    className={`difficulty-badge difficulty-${game.difficulty}`}
+                  >
+                    {game.difficulty
+                      ? game.difficulty.charAt(0).toUpperCase() +
+                        game.difficulty.slice(1)
+                      : "Unknown"}
                   </span>
                 </td>
-                <td data-label="Actions">
+                <td className="actions-column" data-label="Actions">
                   <button
                     className="btn btn-primary"
                     onClick={() => navigate(`/play/${game._id}`)}
