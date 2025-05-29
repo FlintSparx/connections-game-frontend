@@ -24,10 +24,7 @@ function GameBoardsList({ admin }) {
     if (games.length > 0) {
       filterGames(games, difficultyFilter, showNSFW);
     }
- swearify
   }, [difficultyFilter, showNSFW, games]);
-
- main
 
   // Fetch all games from the API
   const fetchGames = () => {
@@ -44,22 +41,20 @@ function GameBoardsList({ admin }) {
       });
   };
 
- swearify
   // Filter games by difficulty and NSFW content
   const filterGames = (gamesData, difficulty, includeNSFW) => {
     let filtered = gamesData;
-    
+
     // Filter by difficulty
     if (difficulty !== "all") {
-      filtered = filtered.filter(game => game.difficulty === difficulty);
+      filtered = filtered.filter((game) => game.difficulty === difficulty);
     }
-    
+
     // Filter by NSFW content
     if (!includeNSFW) {
-      filtered = filtered.filter(game => !game.tags?.includes('NSFW'));
- main
+      filtered = filtered.filter((game) => !game.tags?.includes("NSFW"));
     }
-    
+
     setFilteredGames(filtered);
   };
 
@@ -95,7 +90,7 @@ function GameBoardsList({ admin }) {
           Create New Game Board
         </button>
       )}
-      
+
       {/* Filters */}
       <div className="filter-container mb-4">
         {/* Difficulty Filter */}
@@ -117,11 +112,14 @@ function GameBoardsList({ admin }) {
             <option value="unknown">Unknown</option>
           </select>
         </div>
-        
+
         {/* NSFW Filter */}
-        <div className="filter-group flex align-center" style={{ marginTop: "10px" }}>
+        <div
+          className="filter-group flex align-center"
+          style={{ marginTop: "10px" }}
+        >
           <label htmlFor="nsfwFilter" className="filter-label">
-            <input 
+            <input
               type="checkbox"
               id="nsfwFilter"
               checked={showNSFW}
@@ -133,24 +131,22 @@ function GameBoardsList({ admin }) {
         </div>
       </div>
 
-      {/* List of existing game boards */} 
+      {/* List of existing game boards */}
       <div className="table-wrapper">
         <table className="list-table">
           {" "}
           <thead>
             <tr>
- swearify
+              swearify
               <th>Name</th>
               <th>Creator</th>
               <th>Difficulty</th>
               <th>Tags</th>
               <th>Actions</th>
-
               <th className="name-column">Name</th>
               <th className="creator-column">Creator</th>
               <th className="difficulty-column">Difficulty</th>
               <th className="actions-column">Actions</th>
- main
             </tr>
           </thead>
           <tbody>
@@ -164,20 +160,26 @@ function GameBoardsList({ admin }) {
                   {game.createdBy
                     ? `Created by ${game.createdBy.username}`
                     : "Unknown creator"}
-
                 </td>
                 <td data-label="Difficulty">
-                  <span className={`difficulty-badge difficulty-${game.difficulty}`}>
-                    {game.difficulty ? game.difficulty.charAt(0).toUpperCase() + game.difficulty.slice(1) : "Unknown"}
+                  <span
+                    className={`difficulty-badge difficulty-${game.difficulty}`}
+                  >
+                    {game.difficulty
+                      ? game.difficulty.charAt(0).toUpperCase() +
+                        game.difficulty.slice(1)
+                      : "Unknown"}
                   </span>
                 </td>
                 <td data-label="Tags">
                   {game.tags && game.tags.length > 0 ? (
                     <div className="tags-container">
                       {game.tags.map((tag, index) => (
-                        <span 
-                          key={index} 
-                          className={`tag-badge ${tag === 'NSFW' ? 'tag-nsfw' : 'tag-general'}`}
+                        <span
+                          key={index}
+                          className={`tag-badge ${
+                            tag === "NSFW" ? "tag-nsfw" : "tag-general"
+                          }`}
                         >
                           {tag}
                         </span>
@@ -187,9 +189,7 @@ function GameBoardsList({ admin }) {
                     <span className="text-muted">None</span>
                   )}
                 </td>
-                <td data-label="Actions">
-
-                </td>{" "}
+                <td data-label="Actions"></td>{" "}
                 <td className="difficulty-column" data-label="Difficulty">
                   <span
                     className={`difficulty-badge difficulty-${game.difficulty}`}
@@ -201,7 +201,6 @@ function GameBoardsList({ admin }) {
                   </span>
                 </td>
                 <td className="actions-column" data-label="Actions">
- main
                   <button
                     className="btn btn-primary"
                     onClick={() => navigate(`/play/${game._id}`)}
