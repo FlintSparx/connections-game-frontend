@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 import WordTile from "./WordTile";
 import fetchWithAuth from "../../utils/fetchWithAuth";
+import { UserContext } from "../../App";
 
 // Game board component for displaying and interacting with a game
 function GameBoard({ gameId }) {
+  const { user } = useContext(UserContext);
   // State variables
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Track errors
@@ -143,22 +145,21 @@ function GameBoard({ gameId }) {
   const updateGameStats = async (won) => {
     if (!gameId) return;
     const token = document.cookie.split("auth_token=")[1]?.split(";")[0];
-    if (!token) {
+    try {
+      await fetch(`${API_URL}/games/${gameId}/play`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ won }),
+      });
+    } catch (err) {
+      console.error("Failed to update game stats", err);
+    }
+    if (token) {
       try {
-        await fetch(`${API_URL}/games/${gameId}/play`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token && { Authorization: `Bearer ${token}` }),
-          },
-          body: JSON.stringify({ won }),
-        });
-      } catch (err) {
-        console.error("Failed to update game stats", err);
-      }
-    } else if (token) {
-      try {
-        await fetchWithAuth(`${API_URL}/games/${gameId}/play`, {
+        await fetchWithAuth(`${API_URL}/users/${user.userID}/${gameId}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
