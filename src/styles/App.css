@@ -484,6 +484,7 @@ button[aria-current="page"] {
   color: #2d3748;
   font-weight: 500;
   margin: 0;
+  overflow: auto;
 }
 
 .profile-actions {

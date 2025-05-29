@@ -332,8 +332,7 @@ html, body {
     margin-right: 0.5rem;
     font-size: 0.85rem;
   }
-  
-  /* ID column handling in card view */
+    /* ID column handling in card view */
   .id-column {
     width: 100% !important; /* Override the default width in card view */
     max-width: 100% !important;
@@ -342,6 +341,17 @@ html, body {
     word-break: break-all;
   }
   
+  /* Name column specific styling for card view */
+  .name-column {
+    width: 100% !important;
+
+  }
+  
+  /* Special fix for game boards name column in card view */
+  .game-boards-table tbody td.name-column span,
+  .list-table tbody td.name-column span {
+    display: block;
+  }
   /* Button layout in card view */
   .list-table tbody td button,
   .game-boards-table tbody td button {
