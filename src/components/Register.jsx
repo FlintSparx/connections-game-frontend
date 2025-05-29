@@ -9,6 +9,7 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    dateOfBirth: "",
   });
 
   // Error State
@@ -51,11 +52,26 @@ const Register = () => {
     return regex.test(email);
   };
 
+  // Calculate age from date of birth
+  const calculateAge = (dateOfBirth) => {
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    // Adjust age if birthday hasn't occurred this year
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age;
+  };
+
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form - Make sure email, password, etc are entered and are entered properly
+    // Validate form - Make sure email, password, date of birth, etc are entered and are entered properly
     const newErrors = {};
 
     if (!formData.username || formData.username.length < 3) {
@@ -87,6 +103,19 @@ const Register = () => {
       newErrors.confirmPassword = "Passwords do not match";
     }
 
+    // Validate date of birth
+    if (!formData.dateOfBirth) {
+      newErrors.dateOfBirth = "Date of birth is required";
+    } else {
+      const birthDate = new Date(formData.dateOfBirth);
+      const today = new Date();
+
+      // Check if date is in the future
+      if (birthDate > today) {
+        newErrors.dateOfBirth = "Date of birth cannot be in the future";
+      }
+    }
+
     // If there are errors, update error state and prevent the form from being submitted
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -105,6 +134,7 @@ const Register = () => {
         last_name: formData.last_name,
         email: formData.email.toLowerCase(),
         password: formData.password,
+        dateOfBirth: formData.dateOfBirth,
       };
 
       // Make the API call
@@ -128,11 +158,11 @@ const Register = () => {
         if (response.status === 400 && data.message.includes("inappropriate language")) {
           alert("Username contains inappropriate language.  Please choose a different username.");
         } else {
-        // Handle other API errors
-        throw new Error(data.message || "Registration failed");
+          // Handle other API errors
+          throw new Error(data.message || "Registration failed");
+        }
+        return;
       }
-      return;
-    }
 
       // If successful
       console.log("Registration successful:", data);
@@ -141,7 +171,7 @@ const Register = () => {
       console.error("Registration error:", error);
       setServerError(
         error.message ||
-          "An error occurred during registration. Please try again."
+        "An error occurred during registration. Please try again."
       );
     } finally {
       setIsLoading(false);
@@ -208,9 +238,8 @@ const Register = () => {
             value={formData.first_name}
             onChange={handleChange}
             placeholder="Enter your first name"
-            className={`form-control ${
-              errors.first_name ? "border-red-500" : ""
-            }`}
+            className={`form-control ${errors.first_name ? "border-red-500" : ""
+              }`}
           />
           {errors.first_name && (
             <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.first_name}</p>
@@ -232,9 +261,8 @@ const Register = () => {
             value={formData.last_name}
             onChange={handleChange}
             placeholder="Enter your last name"
-            className={`form-control ${
-              errors.last_name ? "border-red-500" : ""
-            }`}
+            className={`form-control ${errors.last_name ? "border-red-500" : ""
+              }`}
           />
           {errors.last_name && (
             <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.last_name}</p>
@@ -256,19 +284,39 @@ const Register = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="Enter your email address"
-            className={`form-control ${
-              errors.email ? "border-red-500" : ""
-            }`}
+            className={`form-control ${errors.email ? "border-red-500" : ""
+              }`}
           />
           {errors.email && (
             <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.email}</p>
           )}
-        </div>        {/* Password Field */}
+        </div>
+
+        {/* Date of Birth Field */}
         <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="filter-label"
-          >
+          <label htmlFor="dateOfBirth" className="filter-label">
+            Date of Birth
+          </label>
+          <input
+            type="date"
+            id="dateOfBirth"
+            name="dateOfBirth"
+            value={formData.dateOfBirth}
+            onChange={handleChange}
+            className={`form-control ${errors.dateOfBirth ? "border-red-500" : ""}`}
+            max={new Date().toISOString().split('T')[0]}
+          />
+          {errors.dateOfBirth && (
+            <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.dateOfBirth}</p>
+          )}
+          <p style={{ color: "#6b7280", fontSize: "0.875rem", marginTop: "0.25rem" }}>
+            We use your date of birth to ensure age-appropriate content access
+          </p>
+        </div>
+
+        {/* Password Field */}
+        <div className="mb-4">
+          <label htmlFor="password" className="filter-label">
             Enter Your Password
           </label>
           <input
@@ -278,9 +326,8 @@ const Register = () => {
             value={formData.password}
             onChange={handleChange}
             placeholder="Create a password"
-            className={`form-control ${
-              errors.password ? "border-red-500" : ""
-            }`}
+            className={`form-control ${errors.password ? "border-red-500" : ""
+              }`}
           />          {errors.password && (
             <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.password}</p>
           )}
@@ -299,9 +346,8 @@ const Register = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
             placeholder="Confirm your password"
-            className={`form-control ${
-              errors.confirmPassword ? "border-red-500" : ""
-            }`}
+            className={`form-control ${errors.confirmPassword ? "border-red-500" : ""
+              }`}
           />          {errors.confirmPassword && (
             <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>
               {errors.confirmPassword}
