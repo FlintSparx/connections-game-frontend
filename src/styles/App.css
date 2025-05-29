@@ -725,6 +725,66 @@ button[aria-current="page"] {
   }
 }
 
+/* Tag styling - ADDED FOR NSFW TAGS */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tag-nsfw {
+  background-color: #dc3545;
+  color: white;
+  border: 1px solid #dc3545;
+}
+
+.tag-general {
+  background-color: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+}
+
+/* Filter styling - ADDED FOR NSFW FILTER */
+.filter-container {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+}
+
+.filter-label {
+  font-weight: 500;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive adjustments - ADDED FOR MOBILE NSFW TAGS */
+@media (max-width: 768px) {
+  .tags-container {
+    margin-top: 4px;
+  }
+
+  .tag-badge {
+    font-size: 0.7rem;
+    padding: 1px 6px;
+  }
+}
 /* Game completion animations */
 
 .word-tile.game-complete {

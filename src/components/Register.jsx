@@ -124,9 +124,15 @@ const Register = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        // Handle API error
+        // Check for username profanity error and show an alert
+        if (response.status === 400 && data.message.includes("inappropriate language")) {
+          alert("Username contains inappropriate language.  Please choose a different username.");
+        } else {
+        // Handle other API errors
         throw new Error(data.message || "Registration failed");
       }
+      return;
+    }
 
       // If successful
       console.log("Registration successful:", data);
