@@ -137,16 +137,10 @@ function GameBoardsList({ admin }) {
           {" "}
           <thead>
             <tr>
-              swearify
-              <th>Name</th>
-              <th>Creator</th>
-              <th>Difficulty</th>
-              <th>Tags</th>
-              <th>Actions</th>
               <th className="name-column">Name</th>
               <th className="creator-column">Creator</th>
-              <th className="difficulty-column">Difficulty</th>
               <th className="actions-column">Actions</th>
+              <th className="difficulty-column">Difficulty</th>
             </tr>
           </thead>
           <tbody>
@@ -160,16 +154,6 @@ function GameBoardsList({ admin }) {
                   {game.createdBy
                     ? `Created by ${game.createdBy.username}`
                     : "Unknown creator"}
-                </td>
-                <td data-label="Difficulty">
-                  <span
-                    className={`difficulty-badge difficulty-${game.difficulty}`}
-                  >
-                    {game.difficulty
-                      ? game.difficulty.charAt(0).toUpperCase() +
-                        game.difficulty.slice(1)
-                      : "Unknown"}
-                  </span>
                 </td>
                 <td data-label="Tags">
                   {game.tags && game.tags.length > 0 ? (
@@ -189,7 +173,6 @@ function GameBoardsList({ admin }) {
                     <span className="text-muted">None</span>
                   )}
                 </td>
-                <td data-label="Actions"></td>{" "}
                 <td className="difficulty-column" data-label="Difficulty">
                   <span
                     className={`difficulty-badge difficulty-${game.difficulty}`}

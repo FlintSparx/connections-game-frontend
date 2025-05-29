@@ -725,7 +725,6 @@ button[aria-current="page"] {
   }
 }
 
- swearify
 /* Tag styling - ADDED FOR NSFW TAGS */
 .tags-container {
   display: flex;
@@ -780,13 +779,12 @@ button[aria-current="page"] {
   .tags-container {
     margin-top: 4px;
   }
-  
+
   .tag-badge {
     font-size: 0.7rem;
     padding: 1px 6px;
   }
 }
-=======
 /* Game completion animations */
 
 .word-tile.game-complete {
@@ -800,4 +798,3 @@ button[aria-current="page"] {
   animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   animation-delay: calc(var(--delay) * 0.05s);
 }
-main
