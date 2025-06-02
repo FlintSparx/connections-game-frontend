@@ -5,7 +5,7 @@ import { UserContext } from "../../App";
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Component for displaying and managing all available game boards
-function GameBoardsList({ admin }) {
+function GameBoardsList({ admin, setShowCreateGameOverlay }) { // Modified: Added setShowCreateGameOverlay prop
   const { token } = useContext(UserContext); // Access the user token from context
   const [games, setGames] = useState([]); // Store the list of game boards
   const [filteredGames, setFilteredGames] = useState([]); // Store filtered games
@@ -140,7 +140,7 @@ function GameBoardsList({ admin }) {
       {token && (
         <button
           className="btn btn-success mb-4"
-          onClick={() => navigate("/create")}
+          onClick={() => setShowCreateGameOverlay(true)} // Modified: Call setShowCreateGameOverlay
         >
           Create New Game Board
         </button>

@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import GameBoardsList from "../components/GameComponents/GameBoardsList";
 import "../styles/ListPageStyles.css";
+import { UserContext } from "../App";
 
 // Page for browsing all game boards, with admin switch
-function BrowseBoards() {
+function BrowseBoards({ setShowCreateGameOverlay }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [input, setInput] = useState("");
+  const { token } = useContext(UserContext);
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    console.log("Password submitted:", input);
+    setShowPrompt(false);
+    setInput("");
+  };
 
   return (
     <div className="list-page-container">
@@ -40,7 +49,7 @@ function BrowseBoards() {
           </button>
         </form>
       )}
-      <GameBoardsList />
+      <GameBoardsList setShowCreateGameOverlay={setShowCreateGameOverlay} />
     </div>
   );
 }
