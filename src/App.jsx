@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import GameBoard from "./components/GameComponents/GameBoard";
 import Navigation from "./components/Navigation/Navigation";
 import BrowseBoards from "./pages/BrowseBoards";
-import CreateGamePage from "./pages/CreateGamePage";
+import CreateGame from "./components/GameComponents/CreateGame"; // replaced createGamePage import
 import Authenticate from "./pages/Authenticate";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
@@ -63,6 +63,7 @@ function App() {
   // user and token state
   const [user, setUser] = useState(getUserFromToken());
   const [token, setToken] = useState(getCookieValue("auth_token"));
+  const [showCreateGameOverlay, setShowCreateGameOverlay] = useState(false); 
 
   // update user state if token changes (e.g. after login)
   useEffect(() => {
@@ -80,21 +81,14 @@ function App() {
   return (
     <UserContext.Provider value={{ user, token, setToken }}>
       <BrowserRouter>
-        <Navigation />
+        <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} /> {showCreateGameOverlay && (
+          <CreateGame
+            showOverlay={showCreateGameOverlay}
+            onClose={() => setShowCreateGameOverlay(false)}
+          />
+        )}
         <Routes>
-          <Route path="/browse" element={<BrowseBoards />} />
-          <Route
-            path="/create"
-            element={
-              token ? (
-                <CreateGamePage />
-              ) : (
-                <div style={{ padding: "2rem", textAlign: "center" }}>
-                  <h2>You need to login to make a game</h2>
-                </div>
-              )
-            }
-          />{" "}
+          <Route path="/browse" element={<BrowseBoards setShowCreateGameOverlay={setShowCreateGameOverlay} />} /> {}
           <Route path="/play/:id" element={<PlayGameBoard />} />
           <Route path="/login" element={<Authenticate />} />
           <Route path="/logout" element={<Logout onLogout={handleLogout} />} />

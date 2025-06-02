@@ -4,7 +4,7 @@ import { UserContext } from "../../App";
 import "../../styles/App.css";
 
 // Navigation component that handles responsive menu display and routing between pages
-function Navigation() {
+function Navigation({ setShowCreateGameOverlay }) { // Modified: Added setShowCreateGameOverlay prop
   const { user, token } = useContext(UserContext);
   const [menuOpen, setMenuOpen] = useState(false); // State to track mobile menu open/closed status
   const location = useLocation();
@@ -35,6 +35,18 @@ function Navigation() {
     navigate(path);
     setMenuOpen(false); // Close mobile menu after navigation
   };
+
+  // Function to handle Create Game button click
+  const handleCreateGameClick = () => {
+    if (token) {
+      setShowCreateGameOverlay(true);
+      setMenuOpen(false); // Close mobile menu if open
+    } else {
+      navigate("/login"); // Redirect to login if not authenticated
+      setMenuOpen(false);
+    }
+  };
+
   return (
     <nav className="navbar">
       {/* App logo/title that links to home */}
@@ -72,10 +84,8 @@ function Navigation() {
         {/* Navigation item for creating a game */}
         <li className="nav-item-main">
           <button
-            className={`nav-link ${
-              location.pathname === "/create" ? "active" : ""
-            }`}
-            onClick={() => handleNav("/create")}
+            className="nav-link" // Removed active class logic tied to /create
+            onClick={handleCreateGameClick}
             type="button"
           >
             Create Game

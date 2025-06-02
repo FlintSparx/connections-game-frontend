@@ -256,8 +256,9 @@ function GameBoard({ gameId }) {
           </p>
           <p>Find groups of four related words</p>
         </>
-      )}
+      )}{" "}
       <div
+        className="game-board"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
