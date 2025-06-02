@@ -54,7 +54,7 @@ function GameBoardsListAdmin() {
   };
 
   // This function will be passed to CreateGame
-  const handleGameCreated = () => {
+  const handleCreateGameSuccess = () => {
     fetchGames(); // Refresh the list of games
     setShowCreateGameOverlay(false); // Close the overlay
   };
@@ -74,10 +74,7 @@ function GameBoardsListAdmin() {
       {/* The CreateGame component is controlled by showCreateGameOverlay */}
       <CreateGame
         showOverlay={showCreateGameOverlay}
-        onClose={() => {
-          setShowCreateGameOverlay(false);
-          fetchGames(); // Refresh games when overlay is closed
-        }}
+        onClose={handleCreateGameSuccess}
       />
       <div className="table-wrapper">
         <table className="list-table">

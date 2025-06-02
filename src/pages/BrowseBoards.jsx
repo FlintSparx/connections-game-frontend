@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import GameBoardsList from "../components/GameComponents/GameBoardsList";
 import "../styles/ListPageStyles.css";
 import { UserContext } from "../App";
@@ -7,7 +7,6 @@ import { UserContext } from "../App";
 function BrowseBoards({ setShowCreateGameOverlay }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [input, setInput] = useState("");
-  const { token } = useContext(UserContext);
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();

@@ -328,6 +328,7 @@ const Register = () => {
             placeholder="Create a password"
             className={`form-control ${errors.password ? "border-red-500" : ""
               }`}
+            autocomplete="new-password"
           />          {errors.password && (
             <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.password}</p>
           )}
@@ -348,6 +349,7 @@ const Register = () => {
             placeholder="Confirm your password"
             className={`form-control ${errors.confirmPassword ? "border-red-500" : ""
               }`}
+            autocomplete="new-password"
           />          {errors.confirmPassword && (
             <p style={{ color: "#b91c1c", fontSize: "0.875rem", marginTop: "0.25rem" }}>
               {errors.confirmPassword}
