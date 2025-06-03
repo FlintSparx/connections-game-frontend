@@ -799,3 +799,129 @@ button[aria-current="page"] {
   animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   animation-delay: calc(var(--delay) * 0.05s);
 }
+
+/* Dark Mode Compatibility */
+@media (prefers-color-scheme: dark) {
+  #root {
+    background-color: #1a202c;
+    color: #f7fafc;
+  }
+
+  /* Game Boards table */
+  .game-boards-table td {
+    color: #f7fafc;
+    background: transparrent;
+  }
+
+  .game-boards-table th {
+    background: #4a5568;
+    color: #f7fafc;
+  }
+
+  .game-boards-table tr {
+    background: #2d3748;
+  }
+
+  .game-boards-table tr:hover {
+    background: #2d3748;
+  }
+
+  .game-boards-table tr:nth-child(even) {
+    background: #374151;
+  }
+  
+  /* Navbar */
+  .navbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Containers */
+  .container {
+    background: #2d3748;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .admin-dashboard {
+    background: #2d3748;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .admin-header-container h2 {
+    color: #f7fafc;
+  }
+
+  /* Subtitle */
+  .subtitle {
+    color: #cbd5e1;
+  }
+
+  /* Profile Styles */
+  .profile-loading {
+    color: #cbd5e1;
+  }
+
+  .profile-title {
+    color: #f7fafc;
+  }
+
+  .profile-view-card {
+    background: #2d3748;
+    border: 1px solid #4a5568;
+  }
+
+  .profile-field {
+    background: #374151;
+    border: 1px solid #4a5568;
+  }
+
+  .profile-label {
+    color: #e2e8f0;
+  }
+
+  .profile-value {
+    color: #f7fafc;
+  }
+
+  .profile-edit-form {
+    background: #2d3748;
+    border: 1px solid #4a5568;
+  }
+
+  .profile-error {
+    background: #742a2a;
+    color: #fed7d7;
+    border: 1px solid #e53e3e;
+  }
+
+  .profile-success {
+    background: #22543d;
+    color: #c6f6d5;
+    border: 1px solid #38a169;
+  }
+
+  .profile-input-label {
+    color: #e2e8f0;
+  }
+
+  .profile-input:focus {
+    border-color: #4299e1;
+  }
+
+  .profile-required-input {
+    border-color: #e53e3e;
+  }
+
+  .profile-form-actioncs {
+    border-top: 2px solid #4a5568;
+  }
+
+  /* Filter Styling */
+  .filter-container {
+    background-color: #374151;
+    border: 1px solid #4a5568;
+  }
+
+  .filter-label {
+    color: #f7fafc;
+  }
+}
