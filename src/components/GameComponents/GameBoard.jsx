@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 import WordTile from "./WordTile";
+import fetchWithAuth from "../../utils/fetchWithAuth";
+import { UserContext } from "../../App";
 
 // Game board component for displaying and interacting with a game
 function GameBoard({ gameId }) {
+  const { user } = useContext(UserContext);
   // State variables
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Track errors
@@ -12,6 +15,7 @@ function GameBoard({ gameId }) {
   const [foundCategories, setFoundCategories] = useState([]); // Track found categories
   const [gameWon, setGameWon] = useState(false); // Track if the game is won
   const [tries, setTries] = useState(0); // Track the number of tries
+  const [wins, setWins] = useState(0); // Track the wins for user
   const [gameLost, setGameLost] = useState(false); // Track if the game is lost
   const [animatingCats, setAnimatingCats] = useState([]); // Track categories being animated
   const [shakingIndices, setShakingIndices] = useState([]); // Track indices of shaking tiles
@@ -150,14 +154,17 @@ function GameBoard({ gameId }) {
       setLoading(false);
     }
   };
-
-  // Update game stats when the game is won or lost
+  // Update game stats when the game is won or lost and track user wins
   const updateGameStats = async (won) => {
-    if (!gameId) return; // Only update for specific games
+    if (!gameId) return;
+    const token = document.cookie.split("auth_token=")[1]?.split(";")[0];
     try {
       await fetch(`${API_URL}/games/${gameId}/play`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
         body: JSON.stringify({ won }),
       });
     } catch (err) {
