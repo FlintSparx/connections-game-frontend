@@ -154,7 +154,6 @@ function GameBoard({ gameId }) {
       setLoading(false);
     }
   };
-
   // Update game stats when the game is won or lost and track user wins
   const updateGameStats = async (won) => {
     if (!gameId) return;
@@ -170,20 +169,6 @@ function GameBoard({ gameId }) {
       });
     } catch (err) {
       console.error("Failed to update game stats", err);
-    }
-    if (token) {
-      try {
-        await fetchWithAuth(`${API_URL}/users/${user.userID}/${gameId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token && { Authorization: `Bearer ${token}` }),
-          },
-          body: JSON.stringify({ won }),
-        });
-      } catch (err) {
-        console.error("Failed to update game stats", err);
-      }
     }
   };
 
