@@ -35,9 +35,10 @@ function WordTile({
       className={`word-tile${isJumping ? " jump-up" : ""}${
         isShaking ? " shake" : ""
       }`}
+      // Apply styles directly to the word tile button
       style={{
-        width: "7rem",
-        height: "4rem",
+        width: "100%",
+        height: "4.5rem",
         border: "1px solid black",
         borderRadius: "0.375rem",
         fontWeight: 600,

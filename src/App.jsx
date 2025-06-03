@@ -11,6 +11,7 @@ import GameBoard from "./components/GameComponents/GameBoard";
 import Navigation from "./components/Navigation/Navigation";
 import BrowseBoards from "./pages/BrowseBoards";
 import CreateGame from "./components/GameComponents/CreateGame"; // replaced createGamePage import
+import RegisterModal from "./components/RegisterModal"; // added RegisterModal
 import Authenticate from "./pages/Authenticate";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
@@ -73,6 +74,7 @@ function AppContent() {
   const [user, setUser] = useState(getUserFromToken());
   const [token, setToken] = useState(getCookieValue("auth_token"));
   const [showCreateGameOverlay, setShowCreateGameOverlay] = useState(false);
+  const [showRegisterOverlay, setShowRegisterOverlay] = useState(false);
 
   // update user state if token changes (e.g. after login)
   useEffect(() => {
@@ -89,37 +91,50 @@ function AppContent() {
   };
 
   return (
-    <UserContext.Provider value={{ user, token, setToken }}>
-      <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} />
-      {showCreateGameOverlay && (
-        <CreateGame
-          showOverlay={showCreateGameOverlay}
-          onClose={() => setShowCreateGameOverlay(false)}
-        />
-      )}
-      <Routes>
-        <Route
-          path="/browse"
-          element={
-            <BrowseBoards setShowCreateGameOverlay={setShowCreateGameOverlay} />
-          }
-        />
-        <Route path="/play/:id" element={<PlayGameBoard />} />
-        <Route path="/login" element={<Authenticate />} />
-        <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/"
-          element={
-            <div className="container">
-              <h1 style={{ fontWeight: "bold" }}>Connections Game</h1>
-              <p className="subtitle">Find groups of four related words</p>
-              <GameBoard />
-            </div>
-          }
-        />
-      </Routes>
+    <UserContext.Provider
+      value={{ user, token, setToken, setShowRegisterOverlay }}
+    >
+      <BrowserRouter>
+        <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} />
+        {showCreateGameOverlay && (
+          <CreateGame
+            showOverlay={showCreateGameOverlay}
+            onClose={() => setShowCreateGameOverlay(false)}
+          />
+        )}
+        {showRegisterOverlay && (
+          <RegisterModal
+            showOverlay={showRegisterOverlay}
+            onClose={() => setShowRegisterOverlay(false)}
+          />
+        )}
+        <Routes>
+          <Route
+            path="/browse"
+            element={
+              <BrowseBoards
+                setShowCreateGameOverlay={setShowCreateGameOverlay}
+              />
+            }
+          />{" "}
+          {}
+          <Route path="/play/:id" element={<PlayGameBoard />} />
+          <Route path="/login" element={<Authenticate />} />
+          <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/profile" element={<Profile />} />{" "}
+          <Route
+            path="/"
+            element={
+              <div className="container">
+                <h1 style={{ fontWeight: "bold" }}>Connections Game</h1>
+                <p className="subtitle">Find groups of four related words</p>
+                <GameBoard />
+              </div>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </UserContext.Provider>
   );
 }
