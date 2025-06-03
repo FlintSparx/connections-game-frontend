@@ -153,11 +153,12 @@ function GameBoard({ gameId }) {
     } finally {
       setLoading(false);
     }
-  };
-  // Update game stats when the game is won or lost and track user wins
+  };  // Update game stats when the game is won or lost
   const updateGameStats = async (won) => {
     if (!gameId) return;
+    
     const token = document.cookie.split("auth_token=")[1]?.split(";")[0];
+    
     try {
       await fetch(`${API_URL}/games/${gameId}/play`, {
         method: "POST",
@@ -176,10 +177,9 @@ function GameBoard({ gameId }) {
   const resetTries = () => {
     setTries(0);
   };
-
   // Start a new game
   const newGame = () => {
-    gameId = null;
+    // Don't modify gameId as it's a prop
     fetchGame();
     setFoundCategories([]);
     setSelected([]);
