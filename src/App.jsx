@@ -58,14 +58,14 @@ const getUserFromToken = () => {
   }
 };
 
-const navigate = useNavigate();
-
 function Logout({ onLogout }) {
   useEffect(() => {
     onLogout();
   }, [onLogout]);
   return <Navigate to="/" replace />;
 }
+
+const navigate = useNavigate();
 
 function App() {
   // user and token state
