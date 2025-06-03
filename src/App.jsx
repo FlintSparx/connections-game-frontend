@@ -5,6 +5,7 @@ import GameBoard from "./components/GameComponents/GameBoard";
 import Navigation from "./components/Navigation/Navigation";
 import BrowseBoards from "./pages/BrowseBoards";
 import CreateGame from "./components/GameComponents/CreateGame"; // replaced createGamePage import
+import RegisterModal from "./components/RegisterModal"; // added RegisterModal
 import Authenticate from "./pages/Authenticate";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
@@ -63,7 +64,8 @@ function App() {
   // user and token state
   const [user, setUser] = useState(getUserFromToken());
   const [token, setToken] = useState(getCookieValue("auth_token"));
-  const [showCreateGameOverlay, setShowCreateGameOverlay] = useState(false); 
+  const [showCreateGameOverlay, setShowCreateGameOverlay] = useState(false);
+  const [showRegisterOverlay, setShowRegisterOverlay] = useState(false);
 
   // update user state if token changes (e.g. after login)
   useEffect(() => {
@@ -79,16 +81,33 @@ function App() {
     window.location = "/login";
   };
   return (
-    <UserContext.Provider value={{ user, token, setToken }}>
+    <UserContext.Provider
+      value={{ user, token, setToken, setShowRegisterOverlay }}
+    >
       <BrowserRouter>
-        <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} /> {showCreateGameOverlay && (
+        <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} />
+        {showCreateGameOverlay && (
           <CreateGame
             showOverlay={showCreateGameOverlay}
             onClose={() => setShowCreateGameOverlay(false)}
           />
         )}
+        {showRegisterOverlay && (
+          <RegisterModal
+            showOverlay={showRegisterOverlay}
+            onClose={() => setShowRegisterOverlay(false)}
+          />
+        )}
         <Routes>
-          <Route path="/browse" element={<BrowseBoards setShowCreateGameOverlay={setShowCreateGameOverlay} />} /> {}
+          <Route
+            path="/browse"
+            element={
+              <BrowseBoards
+                setShowCreateGameOverlay={setShowCreateGameOverlay}
+              />
+            }
+          />{" "}
+          {}
           <Route path="/play/:id" element={<PlayGameBoard />} />
           <Route path="/login" element={<Authenticate />} />
           <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
