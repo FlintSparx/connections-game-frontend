@@ -65,9 +65,9 @@ function Logout({ onLogout }) {
   return <Navigate to="/" replace />;
 }
 
-const navigate = useNavigate();
-
 function App() {
+  const navigate = useNavigate();
+
   // user and token state
   const [user, setUser] = useState(getUserFromToken());
   const [token, setToken] = useState(getCookieValue("auth_token"));
