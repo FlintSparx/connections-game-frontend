@@ -33,3 +33,22 @@ body {
   margin: 0 auto;
   overflow-x: hidden;
 }
+
+/* DARK MODE COMPATIBILITY */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    background-color: #1a202c;
+    color: #f7fafc;
+  }
+
+  #root {
+    background-color: #1a202c;
+    color: #f7fafc;
+  }
+}

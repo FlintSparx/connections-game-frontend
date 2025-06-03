@@ -523,3 +523,127 @@ input[type="checkbox"][name="isAdmin"] {
     order: 3;
   }
 }
+
+/* Dark Mode Compatibility */
+@media (prefers-color-scheme: dark) {
+  /* Table header styles */
+  .list-table th,
+  .game-boards-table th {
+    background: #4a5568;
+    color: #f7fafc;
+  }
+
+  /* Row Styling */
+  .list-table tr,
+  .game-boards-table tr {
+    background: #2d3748;
+    box-shadow: 0 2px 8px rgba( 0, 0, 0, 0.3);
+  }
+
+  /* Hover effect for rows */
+  .list-table tr:hover,
+  .game-boards-table tr:hover {
+    background: #374151;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .list-table tr:nth-child(even),
+  .game-boards-table tr:nth-child(even) {
+    background: #374151;
+  }
+
+  /* Container styles */
+  .list-page-container {
+    background: #2d3748;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .list-page-title {
+    color: #f7fafc;
+  }
+
+  /* Form Control Styles */
+  .form-control {
+    border: 1px solid #4a5568;
+    background: #1a202c;
+    color: #f7fafc;
+  }
+
+  .form-control:focus {
+    border-color: #2563eb;
+    background: #2d3748;
+  }
+
+  .form-control::placeholder {
+    color: #a0aec0;
+  }
+
+  /* Edit mode row styling */
+  .edit-mode-row td .edit-form-container {
+    background-color: #374151;
+  }
+
+  /* Filter container styles */
+  .filter-container {
+    background-color: #374151;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .filter-label {
+    color: #e2e8f0;
+  }
+
+  /* Difficulty badge styling */
+   .difficulty-easy {
+    background-color: #22543d;
+    color: #9ae6b4;
+  }
+
+  .difficulty-medium {
+    background-color: #744210;
+    color: #faf089;
+  }
+
+  .difficulty-hard {
+    background-color: #742a2a;
+    color: #fed7d7;
+  }
+
+  .difficulty-unknown {
+    background-color: #4a5568;
+    color: #cbd5e1;
+  }
+
+  /* Edit overlay styles */
+  .edit-overlay {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  /* Modal/overlay window styling */
+  .edit-modal {
+    background: #2d3748;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4),
+    0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  .edit-modal header {
+    border-bottom: 1px solid #4a5568;
+  }
+
+  .edit-modal-title {
+    color: #f7fafc;
+  }
+
+  .edit-modal-close {
+    color: #a0aec0;
+  }
+
+  .edit-modal-close:hover {
+    background: #4a5568;
+    color: #e2e8f0;
+  }
+
+  .edit-modal-footer {
+    border-top: 1px solid #4a5568;
+  }
+}
