@@ -1,5 +1,11 @@
 import { createContext, useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import GameBoard from "./components/GameComponents/GameBoard";
 import Navigation from "./components/Navigation/Navigation";
@@ -60,7 +66,10 @@ function Logout({ onLogout }) {
   return <Navigate to="/" replace />;
 }
 
-function App() {
+// Create a new component that contains the app content and has access to useNavigate
+function AppContent() {
+  const navigate = useNavigate();
+
   // user and token state
   const [user, setUser] = useState(getUserFromToken());
   const [token, setToken] = useState(getCookieValue("auth_token"));
@@ -78,54 +87,59 @@ function App() {
       "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     setToken(null);
     setUser(null);
-    window.location = "/login";
+    navigate("/login");
   };
+
   return (
     <UserContext.Provider
       value={{ user, token, setToken, setShowRegisterOverlay }}
     >
-      <BrowserRouter>
-        <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} />
-        {showCreateGameOverlay && (
-          <CreateGame
-            showOverlay={showCreateGameOverlay}
-            onClose={() => setShowCreateGameOverlay(false)}
-          />
-        )}
-        {showRegisterOverlay && (
-          <RegisterModal
-            showOverlay={showRegisterOverlay}
-            onClose={() => setShowRegisterOverlay(false)}
-          />
-        )}
-        <Routes>
-          <Route
-            path="/browse"
-            element={
-              <BrowseBoards
-                setShowCreateGameOverlay={setShowCreateGameOverlay}
-              />
-            }
-          />{" "}
-          {}
-          <Route path="/play/:id" element={<PlayGameBoard />} />
-          <Route path="/login" element={<Authenticate />} />
-          <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/profile" element={<Profile />} />{" "}
-          <Route
-            path="/"
-            element={
-              <div className="container">
-                <h1 style={{ fontWeight: "bold" }}>Connections Game</h1>
-                <p className="subtitle">Find groups of four related words</p>
-                <GameBoard />
-              </div>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+      <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} />
+      {showCreateGameOverlay && (
+        <CreateGame
+          showOverlay={showCreateGameOverlay}
+          onClose={() => setShowCreateGameOverlay(false)}
+        />
+      )}
+      {showRegisterOverlay && (
+        <RegisterModal
+          showOverlay={showRegisterOverlay}
+          onClose={() => setShowRegisterOverlay(false)}
+        />
+      )}
+      <Routes>
+        <Route
+          path="/browse"
+          element={
+            <BrowseBoards setShowCreateGameOverlay={setShowCreateGameOverlay} />
+          }
+        />{" "}
+        {}
+        <Route path="/play/:id" element={<PlayGameBoard />} />
+        <Route path="/login" element={<Authenticate />} />
+        <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/profile" element={<Profile />} />{" "}
+        <Route
+          path="/"
+          element={
+            <div className="container">
+              <h1 style={{ fontWeight: "bold" }}>Connections Game</h1>
+              <p className="subtitle">Find groups of four related words</p>
+              <GameBoard />
+            </div>
+          }
+        />
+      </Routes>
     </UserContext.Provider>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
 
