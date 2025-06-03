@@ -262,10 +262,10 @@ function GameBoard({ gameId }) {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "0.5rem",
+          gap: "0.8rem",
           justifyContent: "center",
           alignItems: "center",
-          maxWidth: "400px",
+          maxWidth: "50%",
           margin: "0 auto 1.5rem auto",
         }}
       >
