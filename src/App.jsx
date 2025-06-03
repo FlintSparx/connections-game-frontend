@@ -65,7 +65,8 @@ function Logout({ onLogout }) {
   return <Navigate to="/" replace />;
 }
 
-function App() {
+// Create a new component that contains the app content and has access to useNavigate
+function AppContent() {
   const navigate = useNavigate();
 
   // user and token state
@@ -86,44 +87,48 @@ function App() {
     setUser(null);
     navigate("/login");
   };
+
   return (
     <UserContext.Provider value={{ user, token, setToken }}>
-      <BrowserRouter>
-        <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} />{" "}
-        {showCreateGameOverlay && (
-          <CreateGame
-            showOverlay={showCreateGameOverlay}
-            onClose={() => setShowCreateGameOverlay(false)}
-          />
-        )}
-        <Routes>
-          <Route
-            path="/browse"
-            element={
-              <BrowseBoards
-                setShowCreateGameOverlay={setShowCreateGameOverlay}
-              />
-            }
-          />{" "}
-          {}
-          <Route path="/play/:id" element={<PlayGameBoard />} />
-          <Route path="/login" element={<Authenticate />} />
-          <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/profile" element={<Profile />} />{" "}
-          <Route
-            path="/"
-            element={
-              <div className="container">
-                <h1 style={{ fontWeight: "bold" }}>Connections Game</h1>
-                <p className="subtitle">Find groups of four related words</p>
-                <GameBoard />
-              </div>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+      <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} />
+      {showCreateGameOverlay && (
+        <CreateGame
+          showOverlay={showCreateGameOverlay}
+          onClose={() => setShowCreateGameOverlay(false)}
+        />
+      )}
+      <Routes>
+        <Route
+          path="/browse"
+          element={
+            <BrowseBoards setShowCreateGameOverlay={setShowCreateGameOverlay} />
+          }
+        />
+        <Route path="/play/:id" element={<PlayGameBoard />} />
+        <Route path="/login" element={<Authenticate />} />
+        <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/"
+          element={
+            <div className="container">
+              <h1 style={{ fontWeight: "bold" }}>Connections Game</h1>
+              <p className="subtitle">Find groups of four related words</p>
+              <GameBoard />
+            </div>
+          }
+        />
+      </Routes>
     </UserContext.Provider>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
 
