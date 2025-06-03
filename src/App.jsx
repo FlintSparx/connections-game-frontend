@@ -1,5 +1,11 @@
 import { createContext, useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import GameBoard from "./components/GameComponents/GameBoard";
 import Navigation from "./components/Navigation/Navigation";
@@ -52,6 +58,8 @@ const getUserFromToken = () => {
   }
 };
 
+const navigate = useNavigate();
+
 function Logout({ onLogout }) {
   useEffect(() => {
     onLogout();
@@ -63,7 +71,7 @@ function App() {
   // user and token state
   const [user, setUser] = useState(getUserFromToken());
   const [token, setToken] = useState(getCookieValue("auth_token"));
-  const [showCreateGameOverlay, setShowCreateGameOverlay] = useState(false); 
+  const [showCreateGameOverlay, setShowCreateGameOverlay] = useState(false);
 
   // update user state if token changes (e.g. after login)
   useEffect(() => {
@@ -76,19 +84,28 @@ function App() {
       "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     setToken(null);
     setUser(null);
-    window.location = "/login";
+    navigate("/login");
   };
   return (
     <UserContext.Provider value={{ user, token, setToken }}>
       <BrowserRouter>
-        <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} /> {showCreateGameOverlay && (
+        <Navigation setShowCreateGameOverlay={setShowCreateGameOverlay} />{" "}
+        {showCreateGameOverlay && (
           <CreateGame
             showOverlay={showCreateGameOverlay}
             onClose={() => setShowCreateGameOverlay(false)}
           />
         )}
         <Routes>
-          <Route path="/browse" element={<BrowseBoards setShowCreateGameOverlay={setShowCreateGameOverlay} />} /> {}
+          <Route
+            path="/browse"
+            element={
+              <BrowseBoards
+                setShowCreateGameOverlay={setShowCreateGameOverlay}
+              />
+            }
+          />{" "}
+          {}
           <Route path="/play/:id" element={<PlayGameBoard />} />
           <Route path="/login" element={<Authenticate />} />
           <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
