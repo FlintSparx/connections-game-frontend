@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import PuzzleForm from "../GameComponents/PuzzleForm";
 import fetchWithAuth from "../../utils/fetchWithAuth";
 import { UserContext } from "../../App";
+import CreateGame from "../GameComponents/CreateGame";
 import "../../styles/ListPageStyles.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -12,8 +12,7 @@ function GameBoardsListAdmin() {
   const { token } = useContext(UserContext);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [formLoading, setFormLoading] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [showCreateGameOverlay, setShowCreateGameOverlay] = useState(false);
   const navigate = useNavigate();
 
   // Fetch all games when component mounts
@@ -54,31 +53,10 @@ function GameBoardsListAdmin() {
     }
   };
 
-  // Submit the form to create a new game
-  const handleFormSubmit = async (formData) => {
-    setFormLoading(true);
-    try {
-      const response = await fetchWithAuth(`${API_URL}/games`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        setShowForm(false); // Hide form after success
-        fetchGames(); // Refresh list
-        alert("Game board created successfully!");
-      } else {
-        const error = await response.json();
-        alert(error.message || "Failed to create game board");
-      }
-    } catch (error) {
-      console.error("Error creating game:", error);
-      alert("An error occurred while trying to create the game board");
-    } finally {
-      setFormLoading(false);
-    }
+  // This function will be passed to CreateGame
+  const handleCreateGameSuccess = () => {
+    fetchGames(); // Refresh the list of games
+    setShowCreateGameOverlay(false); // Close the overlay
   };
 
   if (loading) return <div>Loading...</div>;
@@ -87,54 +65,51 @@ function GameBoardsListAdmin() {
     <div className="list-page-container">
       {token && (
         <button
-          className={showForm ? "btn btn-danger mb-4" : "btn btn-success mb-4"}
-          onClick={() => setShowForm(!showForm)}
+          className="btn btn-success mb-4"
+          onClick={() => setShowCreateGameOverlay(true)}
         >
-          {showForm ? "Cancel" : "Create New Game Board"}
+          Create New Game Board
         </button>
       )}
-      {showForm && (
-        <>
-          <h3 className="list-page-title mb-4" style={{ textAlign: "center" }}>
-            Create New Game Board
-          </h3>
-          <PuzzleForm
-            onSubmit={handleFormSubmit}
-            submitButtonText="Create Game Board"
-            loading={formLoading}
-          />
-        </>
-      )}
+      {/* The CreateGame component is controlled by showCreateGameOverlay */}
+      <CreateGame
+        showOverlay={showCreateGameOverlay}
+        onClose={handleCreateGameSuccess}
+      />
       <div className="table-wrapper">
         <table className="list-table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Categories</th>
-              <th>Words</th>
-              <th>Actions</th>
+              <th className="id-column">ID</th>
+              <th className="name-column">Name</th>
+              <th className="categories-column">Categories</th>
+              <th className="words-column">Words</th>
+              <th className="actions-column">Actions</th>
             </tr>
           </thead>
           <tbody>
             {games.map((game) => (
               <tr key={game._id}>
-                <td data-label="ID">{game._id}</td>
-                <td data-label="Name">{game.name}</td>
-                <td data-label="Categories">
+                <td className="id-column" data-label="ID">
+                  {game._id}
+                </td>
+                <td className="name-column" data-label="Name">
+                  <span style={{ fontWeight: "bold" }}>{game.name}</span>
+                </td>
+                <td className="categories-column" data-label="Categories">
                   <div className="categories-cell">
                     {game.category1?.name}, {game.category2?.name},{" "}
                     {game.category3?.name}, {game.category4?.name}
                   </div>
                 </td>
-                <td data-label="Words">
+                <td className="words-column" data-label="Words">
                   {(game.category1?.words.length || 0) +
                     (game.category2?.words.length || 0) +
                     (game.category3?.words.length || 0) +
                     (game.category4?.words.length || 0)}{" "}
                   words total
                 </td>
-                <td data-label="Actions">
+                <td className="actions-column" data-label="Actions">
                   <button
                     className="nav-link btn btn-primary"
                     style={{ marginRight: 8 }}

@@ -1,0 +1,536 @@
+/* 
+* MobileAdjustments.css
+* Handles responsive design for the Connections Game app
+* Focus on table-to-card transformations at 1000px breakpoint
+* Last updated: May 28, 2025
+*/
+
+/* 
+* SECTION: Base Container Adjustments
+* Prevents horizontal scrolling and sets proper sizing
+*/
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#root,
+.container,
+.admin-dashboard,
+.list-page-container {
+  width: 100%;
+  max-width: 100% !important;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Wider screen adjustments for containers */
+@media (min-width: 768px) {
+  #root,
+  .container,
+  .admin-dashboard,
+  .list-page-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+/* 
+* SECTION: Navigation Improvements
+* Makes navigation more consistent across screen sizes
+*/
+.navbar-links {
+  gap: 1rem !important;
+}
+
+/* Add spacing between navbar buttons */
+.nav-item-main {
+  margin-right: 0.5rem;
+}
+
+/* Ensure button spacing is maintained on all screen sizes */
+.navbar-links li {
+  margin: 0.25rem;
+}
+
+/* Improve touch targets in navigation */
+.nav-link,
+.navbar-logo {
+  min-height: 44px; /* Apple's recommended minimum touch target size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 
+* SECTION: Table Layout Improvements
+* Prevents tables from causing horizontal scroll
+*/
+.list-table,
+.game-boards-table {
+  table-layout: fixed !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Better control for wrapping text in cells */
+.list-table td,
+.game-boards-table td {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Enhanced table wrapper for better scrolling control */
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  overflow-x: auto;
+}
+
+/* Sets specific widths for different column types*/
+.id-column {
+  width: 15%;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.username-column {
+  width: 15%;
+}
+
+.name-column {
+  width: 20%;
+}
+
+.admin-column {
+  width: 10%;
+}
+
+.email-column {
+  width: 20%;
+}
+
+.actions-column {
+  width: 20%;
+}
+
+/* Game board specific column widths */
+.creator-column {
+  width: 20%;
+}
+
+.categories-column {
+  width: 30%;
+}
+
+.words-column {
+  width: 15%;
+}
+
+.difficulty-column {
+  width: 15%;
+}
+
+/* Extra Small Screen Adjustments (<480px)*/
+@media (max-width: 480px) {
+  /* Smaller buttons for very small screens */
+  .btn {
+    padding: 0.3em 0.7em;
+    min-width: 60px;
+    font-size: 0.9rem;
+    margin: 0.2rem;
+  }
+
+  /* Shrink navbar items for extra small screens */
+  .navbar-links li {
+    margin: 0.15rem;
+  }
+
+  /* Tighter spacing on list containers for very small screens */
+  .list-page-container {
+    padding: 0.75rem 0.5rem !important;
+    margin: 0.5rem auto !important;
+  }
+
+  /* Remove excess padding on tables for very small screens */
+  .list-table tbody td,
+  .game-boards-table tbody td {
+    padding: 0.75rem !important;
+  }
+
+  /* Made tables smaller on tiny screens */
+  .list-table th,
+  .list-table td,
+  .game-boards-table th,
+  .game-boards-table td {
+    padding: 0.4em 0.5em;
+    font-size: 0.85rem;
+  }
+
+  /* Hide less important columns on very small screens */
+  .admin-column {
+    display: none;
+  }
+
+  /* Minimize ID column */
+  .id-column {
+    width: 8%;
+    min-width: 40px;
+    max-width: 60px;
+  }
+
+  /* Ensure action buttons wrap well */
+  .actions-column .btn {
+    display: block;
+    margin: 0.2rem 0;
+    width: 100%;
+  }
+}
+
+/* Specific adjustments for game board in small portrait screens */
+@media screen and (max-width: 480px) {
+  .game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem !important;
+    width: 100%;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+  }
+
+  .word-tile {
+    width: 70px !important;
+    height: 60px !important;
+    font-size: 0.75rem !important;
+    margin: 0 !important;
+    padding: 0.25rem !important;
+  }
+}
+/* Small Screen Adjustments (<640px) navigation and containers for mobile screens*/
+@media (max-width: 640px) {
+  /* Navbar adjustments */
+  .navbar {
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Root container padding */
+  #root {
+    padding: 1rem;
+  }
+
+  /* Content containers */
+  .container,
+  .admin-dashboard,
+  .list-page-container {
+    padding: 1rem 0.5rem;
+    width: 98%;
+    margin: 0.5rem auto;
+  }
+
+  /* Admin tabs layout */
+  .admin-tabs {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Mobile specific column adjustments */
+  .id-column {
+    width: 10%;
+    min-width: 60px;
+  }
+
+  .actions-column {
+    width: 25%;
+    min-width: 120px;
+  }
+}
+
+/* Tablet/Medium Screen Adjustments (597px to 1360px)*/
+@media (min-width: 597px) and (max-width: 1360px) {
+  /* Adjust table column widths for medium screens */
+  .list-table th,
+  .list-table td,
+  .game-boards-table th,
+  .game-boards-table td {
+    padding: 0.5em 0.75em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .btn {
+    padding: 0.4em 0.9em;
+    min-width: 70px;
+    margin: 0.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Mid-Small Screen Adjustments (<768px)*/
+@media (max-width: 768px) {
+  /* Fixed container widths for mobile */
+  .list-page-container,
+  .admin-dashboard {
+    width: 95% !important;
+    margin: 0.75rem auto !important;
+    padding: 0.75rem !important;
+  }
+
+  /* Make sure buttons have proper spacing */
+  .navbar-links {
+    gap: 0.75rem !important;
+  }
+
+  /* Remove minimum width constraint that could cause overflow */
+  .list-table,
+  .game-boards-table {
+    min-width: 0 !important;
+  }
+}
+
+/* Card View Transformation (<1000px)*/
+@media (max-width: 1000px) {
+  /* Makes edit rows fill the full width */
+  .list-table tbody tr.edit-mode-row,
+  .game-boards-table tbody tr.edit-mode-row {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+  }
+
+  /* Converts table cells to block elements for card layout */
+  .list-table tbody td,
+  .game-boards-table tbody td {
+    display: block;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0;
+  }
+
+  /* Special styling for the last cell in each row */
+  .list-table tbody td:last-child,
+  .game-boards-table tbody td:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  /* Adds data-label content to identify cell purpose in card view */
+  .list-table tbody td::before,
+  .game-boards-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #475569;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* First cell acts as header for each card */
+  .list-table tbody td:first-child,
+  .game-boards-table tbody td:first-child {
+    max-width: none;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+    margin: 0;
+    padding: 1.25rem 1rem;
+    border-radius: 12px 12px 0 0;
+    font-weight: 500;
+    font-size: 1.1rem;
+    word-break: break-all; /* Ensures long IDs wrap properly */
+  }
+
+  /* ID label in first cell shown inline */
+  .list-table tbody td:first-child::before,
+  .game-boards-table tbody td:first-child::before {
+    display: inline;
+    margin-right: 0.5rem;
+    font-size: 0.85rem;
+  }
+  /* ID column handling in card view */
+  .id-column {
+    width: 100% !important; /* Override the default width in card view */
+    max-width: 100% !important;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: break-all;
+  }
+
+  /* Name column specific styling for card view */
+  .name-column {
+    width: 100% !important;
+  }
+
+  /* Special fix for game boards name column in card view */
+  .game-boards-table tbody td.name-column span,
+  .list-table tbody td.name-column span {
+    display: block;
+  }
+  /* Button layout in card view */
+  .list-table tbody td button,
+  .game-boards-table tbody td button {
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    flex: 1 1 auto;
+    min-width: 100px;
+    max-width: calc(50% - 0.5rem);
+    padding: 0.6em 1em;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  /* Form layout within cards when editing */
+  .edit-form-container {
+    margin: 0;
+    padding: 1.25rem !important;
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .edit-form-container h3 {
+    margin-top: 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 1rem;
+  }
+
+  .edit-form-container .mb-4 {
+    margin-bottom: 1.25rem;
+  }
+
+  .edit-form-container .mb-4[style*="flex"] {
+    flex-direction: column;
+  }
+
+  .edit-form-container .mb-4[style*="flex"] > div {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  /* Form label styling */
+  .edit-form-container .filter-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  /* Filter control layout for mobile */
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-group .form-control {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-top: 8px;
+  }
+
+  /* Hide table headers in card view */
+  .list-table thead,
+  .game-boards-table thead {
+    display: none;
+  }
+
+  /* Card styling for table rows */
+  .list-table tbody tr,
+  .game-boards-table tbody tr {
+    display: block;
+    margin-bottom: 1.5rem;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Fix horizontal scrolling in card view */
+  .table-wrapper {
+    overflow-x: visible;
+  }
+
+  /* Table footer styling in card view */
+  .list-table tfoot,
+  .game-boards-table tfoot {
+    display: block;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .list-table tfoot tr,
+  .game-boards-table tfoot tr {
+    display: block;
+    box-shadow: none;
+  }
+
+  .list-table tfoot td,
+  .game-boards-table tfoot td {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
+  }
+}
+
+/* Responsive adjustments for the game board tiles */
+.word-tile {
+  display: inline-block;
+  margin: 0.5rem;
+  text-align: center;
+}
+/*Touch-Friendly Form Elements Makes form controls easier to use on touch screens*/
+@media (max-width: 768px) {
+  /* Larger touch targets for form elements */
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 1rem !important;
+    padding: 0.5rem !important;
+  }
+
+  /* More space for form controls */
+  .form-control {
+    margin-bottom: 1rem;
+    min-height: 2.5rem;
+  }
+
+  /* Better spacing in edit modals */
+  .edit-modal {
+    width: 92% !important;
+    max-width: 500px;
+  }
+
+  .edit-modal-body {
+    padding: 1rem 0.75rem !important;
+  }
+
+  /* More space between form groups */
+  .mb-4 {
+    margin-bottom: 1.25rem !important;
+  }
+}

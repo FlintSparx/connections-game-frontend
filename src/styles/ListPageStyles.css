@@ -15,9 +15,11 @@
 /* Add not-allowed cursor to disabled buttons */
 .btn:disabled {
   opacity: 0.6;
-  cursor: not-allowed;
+  cursor: none;
 }
-.btn:last-child { margin-right: 0; }
+.btn:last-child {
+  margin-right: 0;
+}
 
 /* Blue buttons - for Play and primary actions */
 .btn-primary {
@@ -46,7 +48,7 @@
   background: #15803d;
 }
 
-/* Grey buttons - for secondary actions */
+/* Grey buttons - for other actions */
 .btn-secondary {
   background: #64748b;
   color: #fff;
@@ -72,66 +74,119 @@
 /* Table wrapper for horizontal scroll on small screens */
 .table-wrapper {
   overflow-x: auto;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 /* Shared table styles for list and browse pages */
-.list-table, .game-boards-table {
+.list-table,
+.game-boards-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 12px;
+  border-spacing: 0 12px; /* Creates space between rows */
   background: transparent;
   font-size: 1rem;
+  table-layout: fixed; /* Ensures columns respect their defined widths */
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-.list-table th, .list-table td,
-.game-boards-table th, .game-boards-table td {
+/*  Table cell properties  styles for  headers/data cells */
+.list-table th,
+.list-table td,
+.game-boards-table th,
+.game-boards-table td {
   border: none;
   padding: 0.65em 1em;
   text-align: left;
   vertical-align: middle;
 }
 
-.list-table th, .game-boards-table th {
+/* Header styles w/ slight background to distinguish from data rows */
+.list-table th,
+.game-boards-table th {
   background: #f7f7f7;
   font-weight: bold;
   color: #222;
   border-radius: 12px 12px 0 0;
 }
 
-.list-table tr, .game-boards-table tr {
+/* Row styling*/
+.list-table tr,
+.game-boards-table tr {
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   transition: box-shadow 0.2s, background 0.2s;
 }
 
-.list-table tr:hover, .game-boards-table tr:hover {
+/* Hover effect for rows - highlights the current row */
+.list-table tr:hover,
+.game-boards-table tr:hover {
   background: #f1f5f9;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-.list-table tr:nth-child(even), .game-boards-table tr:nth-child(even) {
+/* Zebra striping  alternates background color for easier reading */
+.list-table tr:nth-child(even),
+.game-boards-table tr:nth-child(even) {
   background: #f9fafb;
 }
 
-.list-table td:first-child, .list-table th:first-child,
-.game-boards-table td:first-child, .game-boards-table th:first-child {
+/* 
+* Border radius for first and last cells in a row
+* This creates rounded corners on the table rows
+*/
+.list-table td:first-child,
+.list-table th:first-child,
+.game-boards-table td:first-child,
+.game-boards-table th:first-child {
   border-radius: 16px 0 0 16px;
 }
 
-.list-table td:last-child, .list-table th:last-child,
-.game-boards-table td:last-child, .game-boards-table th:last-child {
+.list-table td:last-child,
+.list-table th:last-child,
+.game-boards-table td:last-child,
+.game-boards-table th:last-child {
   border-radius: 0 16px 16px 0;
 }
 
-/* Container and header styles */
+/* Container and header styles for list pages */
 .list-page-container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem 1rem;
+  width: 95%;
+  max-width: none;
+  margin: 1rem auto;
+  padding: 1rem 0.5rem;
   background: #f7fafc;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+/* Responsive width adjustments for list container*/
+@media (min-width: 768px) {
+  .list-page-container {
+    width: 95%;
+    padding: 1.5rem 1rem;
+    margin: 1.5rem auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .list-page-container {
+    width: 95%;
+    padding: 2rem;
+    margin: 2rem auto;
+  }
+}
+
+@media (min-width: 1280px) {
+  .list-page-container {
+    width: 95%;
+    padding: 3rem;
+  }
 }
 
 .list-page-title {
@@ -145,7 +200,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* Form control styles */
+/* Form control styles for inputs */
 .form-control {
   width: 100%;
   padding: 0.4em 0.75em;
@@ -160,26 +215,21 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
 .form-control:focus {
   outline: none;
   border-color: #2563eb;
   background: #fff;
 }
-/* Fix placeholder text overflow */
+
+/* Text handling in form controls help with text overflow and display*/
 .form-control::placeholder {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
-/* Make the input values display better */
-.form-control {
-  overflow-x: auto; /* Allow horizontal scrolling within the input if needed */
-  white-space: pre; /* Preserve spaces but don't wrap */
-  display: block;   /* Make it a block element */
-}
-
-/* For flexed input groups in table cells */
+/*Ensures inputs in flex containers don't grow too wide*/
 .flex.gap-3 > .form-control {
   min-width: 0;
   flex: 1 1 0;
@@ -187,7 +237,7 @@
   overflow: hidden;
 }
 
-/* Fix for inputs with content */
+/* Special handling for inputs with content to prevent overflow */
 .form-control:not(:placeholder-shown) {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -210,14 +260,14 @@
   background-color: #ffffff;
 }
 
-/* Checkbox alignment and sizing */
+/* Checkbox styling for consistency */
 input[type="checkbox"] {
   width: 1.1em;
   height: 1.1em;
   accent-color: #2563eb;
 }
 
-/* Smaller checkbox specifically for admin privileges */
+/* Smaller checkbox for admin privileges */
 input[type="checkbox"][name="isAdmin"] {
   width: 0.9em;
   height: 0.9em;
@@ -225,10 +275,9 @@ input[type="checkbox"][name="isAdmin"] {
   margin-right: 0.35em;
 }
 
-/* Categories cell style for better display */
+/*Categories cell style for better text display*/
 .categories-cell {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
+  display: -webkit-box;  -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   box-orient: vertical;
@@ -237,299 +286,364 @@ input[type="checkbox"][name="isAdmin"] {
   max-height: 3.2em;
 }
 
-/* Responsive word grid for PuzzleForm */
+/* Responsive word grid for PuzzleForm - adjusts column count */
 @media (min-width: 481px) {
   .word-grid {
     grid-template-columns: repeat(4, 1fr) !important;
   }
 }
 
-/* Responsive: shrink padding/font-size on small screens */
-@media (max-width: 768px) {
+/* 
+* Custom media query for medium screens (597px to 1360px)
+* Adjusts sizing and spacing for this specific range
+*/
+@media (min-width: 597px) and (max-width: 1360px) {
   .list-page-container {
-      padding: 1rem 0.75rem;
-      width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
-      margin: 1rem auto;
-    }
-  
-    .list-table th,
-    .list-table td,
-    .game-boards-table th,
-    .game-boards-table td {
-    font-size: 0.9rem;
-    padding: 0.4em 0.4em;
-    }
-    
-    /* Adjust ID column width and behavior on mobile */
-    .list-table td:first-child,
-    .game-boards-table td:first-child {
-      max-width: 80px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    padding: 1rem;
+    width: 95%;
+    box-sizing: border-box;
+    margin: 1rem auto;
   }
-  
-    .btn {
-    font-size: 0.9rem;
-    padding: 0.35em 0.7em;
-      min-width: 55px;
-      margin-bottom: 0.3rem;
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
   }
-  
-  .form-control {
-    font-size: 0.9rem;
-    padding: 0.3em 0.5em;
-    min-height: 1.8em;
+
+  .list-table,
+  .game-boards-table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  /* Adjust padding and word wrapping for better display */
+  .list-table th,
+  .list-table td,
+  .game-boards-table th,
+  .game-boards-table td {
+    padding: 0.5em 0.75em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Column width handling for medium screens*/
+  .list-table td:first-child,
+  .game-boards-table td:first-child,
+  .list-table th:first-child,
+  .game-boards-table th:first-child {
+    width: 15%;
+  }
+
+  /* Adjust button size for medium screens */
+  .btn {
+    padding: 0.4em 0.9em;
+    min-width: 70px;
+    margin: 0.25rem;
+    font-size: 0.95rem;
+  }
+
+  /* Optimize text display in category cells */
+  .categories-cell {
+    white-space: normal;
+    overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
-  
-  .form-control::placeholder {
-    font-size: 0.85rem;
-    opacity: 0.7;
-  }
-    }    /* Card view for very small screens */
-    @media (max-width: 600px) {
-      .table-wrapper {
-        overflow-x: visible;
-        width: 100%;
-      }
-
-      .list-table,
-      .game-boards-table {
-        width: 100%;
-      }
-    
-      .list-table thead,
-      .game-boards-table thead {
-        display: none;
-      }
-        .list-table tbody tr,
-      .game-boards-table tbody tr {
-        display: block;
-        margin-bottom: 1.5rem;
-        padding: 0;
-        box-sizing: border-box;
-        width: 100%;
-        max-width: 100%;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-      }
-      
-      /* Make edit mode row take full width */
-      .list-table tbody tr.edit-mode-row,
-      .game-boards-table tbody tr.edit-mode-row {
-        width: 100%;
-        max-width: 100%;
-        display: block;
-      }.list-table tbody td,
-      .game-boards-table tbody td {
-        display: block;
-        padding: 1rem;
-        text-align: left;
-        border-bottom: 1px solid #e2e8f0;
-        width: 100%;
-        box-sizing: border-box;
-        margin-bottom: 0;
-      }
-    
-      .list-table tbody td:last-child,
-      .game-boards-table tbody td:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding: 1rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-      }
-      .list-table tbody td::before,
-      .game-boards-table tbody td::before {
-        content: attr(data-label);
-        font-weight: 600;
-        display: block;
-        margin-bottom: 0.5rem;
-        color: #475569;
-        font-size: 1rem;
-        letter-spacing: 0.01em;
-      }
-        /* Improved form controls in card view */
-      .list-table .form-control,
-      .game-boards-table .form-control {
-        width: 100%;
-        margin: 0.5rem 0;
-        display: block;
-        border-radius: 6px;
-        border: 1px solid #cbd5e1;
-        padding: 0.75rem;
-        font-size: 1rem;
-        min-height: 2.75rem;
-      }/* Make sure the first td shows at the top of the card */
-      .list-table tbody td:first-child,
-      .game-boards-table tbody td:first-child {
-        max-width: none;
-        border-bottom: 1px solid #e2e8f0;
-        background-color: #f8fafc;
-        margin: 0;
-        padding: 1.25rem 1rem;
-        border-radius: 12px 12px 0 0;
-        font-weight: 500;
-        font-size: 1.1rem;
-      }
-      
-      /* Format ID and name differently on mobile */
-      .list-table tbody td:first-child::before,
-      .game-boards-table tbody td:first-child::before {
-        display: inline;
-        margin-right: 0.5rem;
-        font-size: 0.85rem;
-      }
-        /* Improved button layout in cards */
-      .list-table tbody td button,
-      .game-boards-table tbody td button {
-        margin: 0.5rem 0.5rem 0.5rem 0;
-        flex: 1 1 auto;
-        min-width: 100px;
-        max-width: calc(50% - 0.5rem);
-        padding: 0.6em 1em;
-        font-size: 1rem;
-        font-weight: 500;
-      }
-        /* Ensure text doesn't look cut off */
-      .list-table tbody td input,
-      .list-table tbody td .form-control,
-      .game-boards-table tbody td input,
-      .game-boards-table tbody td .form-control {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        font-size: 1.1rem;
-        min-height: 2.8em;
-        margin: 0.5rem 0;
-      }
 }
-      
-      /* Filter styling */
-      .filter-container {
-        background-color: #f8fafc;
-        border-radius: 8px;
-        padding: 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        margin-bottom: 20px;
-      }
-      
-      .filter-group {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      
-      .filter-label {
-        font-weight: 500;
-        color: #334155;
-        margin-right: 5px;
-      }
-        /* Responsive filter container */
-      @media screen and (max-width: 640px) {
-        .filter-group {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      
-        .filter-group .form-control {
-          width: 100%;
-          margin-left: 0 !important;
-          margin-top: 8px;
-        }
-          /* Edit form improvements for mobile views */
-        .edit-form-container {
-          margin: 0;
-          padding: 1.25rem !important;
-          border-radius: 8px;
-          box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-          width: 100%;
-          box-sizing: border-box;
-        }
-        
-        .edit-form-container h3 {
-          margin-top: 0;
-          padding-bottom: 0.75rem;
-          border-bottom: 1px solid #e2e8f0;
-          margin-bottom: 1rem;
-        }
-        
-        .edit-form-container .mb-4 {
-          margin-bottom: 1.25rem;
-        }
-        
-        .edit-form-container .mb-4[style*="flex"] {
-          flex-direction: column;
-        }
-        
-        .edit-form-container .mb-4[style*="flex"] > div {
-          width: 100%;
-          margin-bottom: 1rem;
-        }
-        
-        /* Improved label styling for edit mode */
-        .edit-form-container .filter-label {
-          display: block;
-          margin-bottom: 0.4rem;
-          font-size: 0.95rem;
-        }
-        
-        /* Better button layout in edit mode on mobile */
-        .edit-form-container .flex.gap-3 {
-          flex-direction: column;
-          align-items: stretch;
-        }
-        
-        .edit-form-container .flex.gap-3 button {
-          margin: 0.35rem 0;
-          width: 100%;
-        }
-          .edit-form-container input[type="checkbox"] {
-          margin-right: 0.5rem;
-        }
-        
-        /* Specific styling for admin privilege checkbox in edit form */
-        .edit-form-container input[type="checkbox"][name="isAdmin"] {
-          width: 0.85em;
-          height: 0.85em;
-          margin-right: 0.4rem;
-          margin-top: 0.1rem;
-          position: relative;
-          top: -0.05rem;
-        }
-      }
-      
-      /* Difficulty badge styling */
-      .difficulty-badge {
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 12px;
-        font-size: 0.85rem;
-        font-weight: 500;
-        text-align: center;
-      }
-      
-      .difficulty-easy {
-        background-color: #dcfce7;
-        color: #166534;
-      }
-      
-      .difficulty-medium {
-        background-color: #fef3c7;
-        color: #99900e;
-      }
-      
-      .difficulty-hard {
-        background-color: #fee2e2;
-        color: #b91c1c;
-      }
+/* Filter container styles for list pages */
+.filter-container {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
 
-      .difficulty-unknown {
-        background-color: #e2e8f0;
-        color: #475569;
-      }
+.filter-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-label {
+  font-weight: 500;
+  color: #334155;
+  margin-right: 5px;
+}
+
+/* Responsive filter layout for small screens */
+@media screen and (max-width: 640px) {
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-group .form-control {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-top: 8px;
+  }
+}
+
+/* Difficulty badge styling */
+.difficulty-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.difficulty-easy {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.difficulty-medium {
+  background-color: #fef3c7;
+  color: #99900e;
+}
+
+.difficulty-hard {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.difficulty-unknown {
+  background-color: #e2e8f0;
+  color: #475569;
+}
+
+/* Edit form overlay styles*/
+.edit-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Modal/overlay window styling - contains the form */
+.edit-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+/* Modal/overlay header with title and close button */
+.edit-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.edit-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Close button styling for the modal */
+.edit-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #6b7280;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.edit-modal-close:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.edit-modal-body {
+  margin-bottom: 1.5rem;
+}
+
+/* Footer with action buttons */
+.edit-modal-footer {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Position delete button to the left side */
+.edit-modal-footer .btn-danger {
+  margin-right: auto;
+}
+
+/* Responsive adjustments for the modal on small screens */
+@media (max-width: 640px) {
+  .edit-modal {
+    margin: 1rem;
+    padding: 1.5rem;
+    max-height: 95vh;
+  }
+
+  .edit-modal-footer {
+    flex-direction: column;
+  }
+
+  /* Change button order on mobile - delete button at the bottom */
+  .edit-modal-footer .btn-danger {
+    margin-right: 0;
+    order: 3;
+  }
+}
+
+/* Dark Mode Compatibility */
+@media (prefers-color-scheme: dark) {
+  /* Table header styles */
+  .list-table th,
+  .game-boards-table th {
+    background: #4a5568;
+    color: #f7fafc;
+  }
+
+  /* Row Styling */
+  .list-table tr,
+  .game-boards-table tr {
+    background: #2d3748;
+    box-shadow: 0 2px 8px rgba( 0, 0, 0, 0.3);
+  }
+
+  /* Hover effect for rows */
+  .list-table tr:hover,
+  .game-boards-table tr:hover {
+    background: #374151;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .list-table tr:nth-child(even),
+  .game-boards-table tr:nth-child(even) {
+    background: #374151;
+  }
+
+  /* Container styles */
+  .list-page-container {
+    background: #2d3748;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .list-page-title {
+    color: #f7fafc;
+  }
+
+  /* Form Control Styles */
+  .form-control {
+    border: 1px solid #4a5568;
+    background: #1a202c;
+    color: #f7fafc;
+  }
+
+  .form-control:focus {
+    border-color: #2563eb;
+    background: #2d3748;
+  }
+
+  .form-control::placeholder {
+    color: #a0aec0;
+  }
+
+  /* Edit mode row styling */
+  .edit-mode-row td .edit-form-container {
+    background-color: #374151;
+  }
+
+  /* Filter container styles */
+  .filter-container {
+    background-color: #374151;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .filter-label {
+    color: #e2e8f0;
+  }
+
+  /* Difficulty badge styling */
+   .difficulty-easy {
+    background-color: #22543d;
+    color: #9ae6b4;
+  }
+
+  .difficulty-medium {
+    background-color: #744210;
+    color: #faf089;
+  }
+
+  .difficulty-hard {
+    background-color: #742a2a;
+    color: #fed7d7;
+  }
+
+  .difficulty-unknown {
+    background-color: #4a5568;
+    color: #cbd5e1;
+  }
+
+  /* Edit overlay styles */
+  .edit-overlay {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  /* Modal/overlay window styling */
+  .edit-modal {
+    background: #2d3748;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4),
+    0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  .edit-modal header {
+    border-bottom: 1px solid #4a5568;
+  }
+
+  .edit-modal-title {
+    color: #f7fafc;
+  }
+
+  .edit-modal-close {
+    color: #a0aec0;
+  }
+
+  .edit-modal-close:hover {
+    background: #4a5568;
+    color: #e2e8f0;
+  }
+
+  .edit-modal-footer {
+    border-top: 1px solid #4a5568;
+  }
+}

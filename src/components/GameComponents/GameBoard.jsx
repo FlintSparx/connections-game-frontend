@@ -20,8 +20,8 @@ function GameBoard({ gameId }) {
   const [animatingCats, setAnimatingCats] = useState([]); // Track categories being animated
   const [shakingIndices, setShakingIndices] = useState([]); // Track indices of shaking tiles
   const [keepPlaying, setKeepPlaying] = useState(false); // Track if the user wants to keep playing
-
-  // Function to animate all tiles when a game is completed and won
+  const [gameName, setGameName] = useState(""); // Store the name of the current game
+  const [creatorUsername, setCreatorUsername] = useState(""); // Store the username of the game creator
   // Function to animate all tiles when game is completed
   const animateGameComplete = () => {
     const allTiles = document.querySelectorAll(".word-tile");
@@ -77,6 +77,13 @@ function GameBoard({ gameId }) {
         data = await res.json();
         if (!data) throw new Error("Game not found");
         const game = data;
+        setGameName(game.name); // Set the game name
+        // Set creator username if available
+        if (game.createdBy && game.createdBy.username) {
+          setCreatorUsername(game.createdBy.username);
+        } else {
+          setCreatorUsername("Unknown");
+        }
         const all = [
           ...game.category1.words.map((w) => ({
             word: w,
@@ -106,6 +113,13 @@ function GameBoard({ gameId }) {
         data = await res.json();
         if (data.length > 0) {
           const game = data[Math.floor(Math.random() * data.length)];
+          setGameName(game.name); // Set the game name for random game
+          // Set creator username if available for random game
+          if (game.createdBy && game.createdBy.username) {
+            setCreatorUsername(game.createdBy.username);
+          } else {
+            setCreatorUsername("Unknown");
+          }
           const all = [
             ...game.category1.words.map((w) => ({
               word: w,
@@ -194,11 +208,11 @@ function GameBoard({ gameId }) {
   const shuffleUnfoundWords = (array, foundCats) => {
     // Extract words from found categories
     const foundWords = array.filter((item) =>
-      foundCats.includes(item.catIndex)
+      foundCats.includes(item.catIndex),
     );
     // Extract words from unfound categories
     const unfoundWords = array.filter(
-      (item) => !foundCats.includes(item.catIndex)
+      (item) => !foundCats.includes(item.catIndex),
     );
 
     // Shuffle only the unfound words
@@ -228,7 +242,7 @@ function GameBoard({ gameId }) {
 
     // Add remaining unfound words
     const unfoundWords = words.filter(
-      (item) => !foundCats.includes(item.catIndex)
+      (item) => !foundCats.includes(item.catIndex),
     );
     organizedWords.push(...unfoundWords);
 
@@ -244,21 +258,36 @@ function GameBoard({ gameId }) {
   if (error) return <div style={{ color: "red" }}>{error}</div>;
 
   // Organize words with found categories at the top
-  const organizedWords = organizeWords(words, foundCategories);
-
-  // Render 4x4 grid of word tiles
+  const organizedWords = organizeWords(words, foundCategories); // Render 4x4 grid of word tiles
   return (
     <div>
-      <h2>Connections Game</h2>
-      <p>Create four groups of four!</p>
+      {" "}
+      {gameId && (
+        // Only show title and instructions when displaying a specific game (not on home page)
+        <>
+          <h2 style={{ fontWeight: "bold" }}>{gameName}</h2>
+          <p
+            style={{
+              fontSize: "0.9rem",
+              margin: "-0.5rem 0 1rem",
+              color: "#666",
+              fontStyle: "italic",
+            }}
+          >
+            by {creatorUsername}
+          </p>
+          <p>Find groups of four related words</p>
+        </>
+      )}{" "}
       <div
+        className="game-board"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "0.5rem",
+          gap: "0.8rem",
           justifyContent: "center",
           alignItems: "center",
-          maxWidth: "400px",
+          maxWidth: "50%",
           margin: "0 auto 1.5rem auto",
         }}
       >
@@ -279,7 +308,7 @@ function GameBoard({ gameId }) {
                       ? prev.filter((i) => i !== idx) // Deselect if already selected
                       : prev.length < 4
                       ? [...prev, idx]
-                      : prev // Select if less than 4 selected
+                      : prev, // Select if less than 4 selected
                 );
               }}
               catIndex={item.catIndex}
@@ -299,7 +328,6 @@ function GameBoard({ gameId }) {
           );
         })}
       </div>
-
       {gameWon && (
         <div
           style={{
@@ -356,7 +384,6 @@ function GameBoard({ gameId }) {
           </button>
         </div>
       )}
-
       {/* Game control buttons - Submit requires 4 selections, Shuffle and New Game always available */}
       <div
         style={{
@@ -380,7 +407,7 @@ function GameBoard({ gameId }) {
               if (tries < 4 || keepPlaying) {
                 const firstCat = organizedWords[selected[0]].catIndex;
                 const isCorrectGroup = selected.every(
-                  (idx) => organizedWords[idx].catIndex === firstCat
+                  (idx) => organizedWords[idx].catIndex === firstCat,
                 );
 
                 if (isCorrectGroup) {
@@ -392,7 +419,7 @@ function GameBoard({ gameId }) {
                   setTimeout(() => {
                     setFoundCategories(newFoundCategories);
                     setAnimatingCats((prev) =>
-                      prev.filter((cat) => cat !== firstCat)
+                      prev.filter((cat) => cat !== firstCat),
                     );
                     // Reorganize words with found categories first
                     setWords(organizeWords(words, newFoundCategories));
