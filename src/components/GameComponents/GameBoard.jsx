@@ -114,8 +114,15 @@ function GameBoard({ gameId: propGameId }) {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         data = await res.json();
         if (data.length > 0) {
-          const game = data[Math.floor(Math.random() * data.length)];
+          // Block NSFW games on the home page
+          // They should only be accessible from the Browse Games List
+          const nonNSFWGames = data.filter(
+            (game) => !game.tags?.includes("NSFW")
+          );
+          const game =
+            nonNSFWGames[Math.floor(Math.random() * nonNSFWGames.length)];
           setGameId(game._id); // set the random game ID in state
+
           setGameName(game.name); // Set the game name for random game
           // Set creator username if available for random game
           if (game.createdBy && game.createdBy.username) {
