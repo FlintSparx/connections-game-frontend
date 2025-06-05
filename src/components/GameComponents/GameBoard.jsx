@@ -112,7 +112,10 @@ function GameBoard({ gameId }) {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         data = await res.json();
         if (data.length > 0) {
-          const game = data[Math.floor(Math.random() * data.length)];
+          // Block NSFW games on the home page
+          // They should only be accessible from the Browse Games List
+          const nonNSFWGames = data.filter(game => !game.tags?.includes("NSFW"));
+          const game = nonNSFWGames[Math.floor(Math.random() * nonNSFWGames.length)];
           setGameName(game.name); // Set the game name for random game
           // Set creator username if available for random game
           if (game.createdBy && game.createdBy.username) {
@@ -156,9 +159,9 @@ function GameBoard({ gameId }) {
   };  // Update game stats when the game is won or lost
   const updateGameStats = async (won) => {
     if (!gameId) return;
-    
+
     const token = document.cookie.split("auth_token=")[1]?.split(";")[0];
-    
+
     try {
       await fetch(`${API_URL}/games/${gameId}/play`, {
         method: "POST",
@@ -292,8 +295,8 @@ function GameBoard({ gameId }) {
                     prev.includes(idx)
                       ? prev.filter((i) => i !== idx) // Deselect if already selected
                       : prev.length < 4
-                      ? [...prev, idx]
-                      : prev, // Select if less than 4 selected
+                        ? [...prev, idx]
+                        : prev, // Select if less than 4 selected
                 );
               }}
               catIndex={item.catIndex}
