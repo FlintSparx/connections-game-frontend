@@ -108,18 +108,17 @@ function GameBoardsListAdmin() {
                     (game.category3?.words.length || 0) +
                     (game.category4?.words.length || 0)}{" "}
                   words total
-                </td>
+                </td>{" "}
                 <td className="actions-column" data-label="Actions">
                   <button
-                    className="nav-link btn btn-primary"
-                    style={{ marginRight: 8 }}
+                    className="btn btn-primary"
                     onClick={() => navigate(`/play/${game._id}`)}
                     type="button"
                   >
                     Play
                   </button>
                   <button
-                    className="nav-link btn btn-danger"
+                    className="btn btn-danger"
                     onClick={() => handleDelete(game._id)}
                     type="button"
                   >

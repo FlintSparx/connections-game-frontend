@@ -5,8 +5,8 @@ import { UserContext } from "../../App";
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Component for displaying and managing all available game boards
-function GameBoardsList({ admin, setShowCreateGameOverlay }) { // Modified: Added setShowCreateGameOverlay prop
-  const { token } = useContext(UserContext); // Access the user token from context
+function GameBoardsList({ admin, setShowCreateGameOverlay }) {
+  const { token, user } = useContext(UserContext); // Access the user token and user from context
   const [games, setGames] = useState([]); // Store the list of game boards
   const [filteredGames, setFilteredGames] = useState([]); // Store filtered games
   const [difficultyFilter, setDifficultyFilter] = useState("all"); // Filter by difficulty
@@ -14,6 +14,7 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) { // Modified: Adde
   const [loading, setLoading] = useState(true); // Track loading state
   const [userAge, setUserAge] = useState(null); // Store user's age
   const [isAdult, setIsAdult] = useState(false); // Track if user is 18+ (default false)
+  const [solvedGames, setSolvedGames] = useState([]); // Store user's solved games
   const navigate = useNavigate(); // Navigation helper
 
   // Calculate age from user's date of birth
@@ -23,7 +24,10 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) { // Modified: Adde
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
     // Adjust age if birthday hasn't occurred this year
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
     return age;
@@ -32,12 +36,12 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) { // Modified: Adde
   // Decode JWT token to get the user's date of birth
   const getUserAgeFromToken = () => {
     if (!token) {
-      setIsAdult(false);  // Must be logged in and 18+ to see NSFW content
+      setIsAdult(false); // Must be logged in and 18+ to see NSFW content
       return;
     }
 
     try {
-      const tokenParts = token.split('.');
+      const tokenParts = token.split(".");
       const payload = JSON.parse(atob(tokenParts[1]));
 
       if (payload.dateOfBirth) {
@@ -51,19 +55,52 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) { // Modified: Adde
           setShowNSFW(false);
         }
       } else {
-        setIsAdult(false);  // Fixed: was fasle
+        setIsAdult(false); // Fixed: was fasle
       }
     } catch (error) {
       console.error("Error decoding token", error);
       setIsAdult(false); // Default to false if the token cannot be decoded
     }
   };
-
   // Fetch all games when the component mounts
   useEffect(() => {
-    getUserAgeFromToken(); // Added: Call the function!
+    getUserAgeFromToken();
+
+    if (user && token) {
+      fetchGames();
+      fetchSolvedGames();
+    } else {
+      fetchGames();
+    }
+  }, [token, user]);
+
+  // Refresh function to refetch all data
+  const refreshData = () => {
+    setLoading(true);
     fetchGames();
-  }, [token]); // Added token as dependency
+    if (user && token) {
+      fetchSolvedGames();
+    }
+  }; // Fetch user's solved games
+  const fetchSolvedGames = async () => {
+    if (!user || !token) return;
+
+    try {
+      const response = await fetch(`${API_URL}/games/solved/${user.userID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSolvedGames(data.solvedGames || []);
+      }
+    } catch (error) {
+      console.error("Error fetching solved games:", error);
+    }
+  };
 
   // Filter games when filters change
   useEffect(() => {
@@ -148,15 +185,33 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) { // Modified: Adde
 
       {/* Age-based message for minors */}
       {!isAdult && userAge !== null && (
-        <div className="mb-4 p-3" style={{ backgroundColor: "#fef3c7", color: "#92400e", borderRadius: "4px", border: "1px solid #fbbf24" }}>
-          <strong>Content Filter Active:</strong> NSFW content is automatically hidden for users under 18.
+        <div
+          className="mb-4 p-3"
+          style={{
+            backgroundColor: "#fef3c7",
+            color: "#92400e",
+            borderRadius: "4px",
+            border: "1px solid #fbbf24",
+          }}
+        >
+          <strong>Content Filter Active:</strong> NSFW content is automatically
+          hidden for users under 18.
         </div>
       )}
 
       {/* Message for non-logged-in users */}
       {!token && (
-        <div className="mb-4 p-3" style={{ backgroundColor: "#e0f2fe", color: "#0277bd", borderRadius: "4px", border: "1px solid #4fc3f7" }}>
-          <strong>Guest Mode:</strong> NSFW content is hidden. Please log in and verify your age to access all content.
+        <div
+          className="mb-4 p-3"
+          style={{
+            backgroundColor: "#e0f2fe",
+            color: "#0277bd",
+            borderRadius: "4px",
+            border: "1px solid #4fc3f7",
+          }}
+        >
+          <strong>Guest Mode:</strong> NSFW content is hidden. Please log in and
+          verify your age to access all content.
         </div>
       )}
 
@@ -205,62 +260,74 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) { // Modified: Adde
       {/* List of existing game boards */}
       <div className="table-wrapper">
         <table className="list-table">
+          {" "}
           <thead>
             <tr>
               <th className="name-column">Name</th>
               <th className="creator-column">Creator</th>
-              <th className="actions-column">Actions</th>
+              <th className="tags-column">Tags</th>
               <th className="difficulty-column">Difficulty</th>
+              <th className="actions-column">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredGames.map((game) => (
-              <tr key={game._id}>
-                <td className="name-column" data-label="Name">
-                  <span style={{ fontWeight: "bold" }}>{game.name}</span>
-                </td>
-                <td className="creator-column" data-label="Creator">
-                  {game.createdBy
-                    ? `Created by ${game.createdBy.username}`
-                    : "Unknown creator"}
-                </td>
-                <td data-label="Tags">
-                  {game.tags && game.tags.length > 0 ? (
-                    <div className="tags-container">
-                      {game.tags.map((tag, index) => (
-                        <span
-                          key={index}
-                          className={`tag-badge ${tag === "NSFW" ? "tag-nsfw" : "tag-general"
+            {" "}
+            {filteredGames.map((game) => {
+              const isGameSolved = solvedGames.includes(game._id);
+              return (
+                <tr
+                  key={game._id}
+                  className={isGameSolved ? "solved-game" : ""}
+                >
+                  <td className="name-column" data-label="Name">
+                    <span style={{ fontWeight: "bold" }}>{game.name}</span>
+                  </td>{" "}
+                  <td className="creator-column" data-label="Creator">
+                    {game.createdBy
+                      ? `Created by ${game.createdBy.username}`
+                      : "Unknown creator"}
+                  </td>
+                  <td className="tags-column" data-label="Tags">
+                    {game.tags && game.tags.length > 0 ? (
+                      <div className="tags-container">
+                        {game.tags.map((tag, index) => (
+                          <span
+                            key={index}
+                            className={`tag-badge ${
+                              tag === "NSFW" ? "tag-nsfw" : "tag-general"
                             }`}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  ) : (
-                    <span className="text-muted">None</span>
-                  )}
-                </td>
-                <td className="difficulty-column" data-label="Difficulty">
-                  <span
-                    className={`difficulty-badge difficulty-${game.difficulty}`}
-                  >
-                    {game.difficulty
-                      ? game.difficulty.charAt(0).toUpperCase() +
-                      game.difficulty.slice(1)
-                      : "Unknown"}
-                  </span>
-                </td>
-                <td className="actions-column" data-label="Actions">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => navigate(`/play/${game._id}`)}
-                  >
-                    Play
-                  </button>
-                </td>
-              </tr>
-            ))}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <span className="text-muted">None</span>
+                    )}
+                  </td>
+                  <td className="difficulty-column" data-label="Difficulty">
+                    <span
+                      className={`difficulty-badge difficulty-${game.difficulty}`}
+                    >
+                      {game.difficulty
+                        ? game.difficulty.charAt(0).toUpperCase() +
+                          game.difficulty.slice(1)
+                        : "Unknown"}
+                    </span>
+                  </td>
+                  <td className="actions-column" data-label="Actions">
+                    <button
+                      className={`btn ${
+                        isGameSolved ? "btn-success" : "btn-primary"
+                      }`}
+                      onClick={() => navigate(`/play/${game._id}`)}
+                    >
+                      {isGameSolved ? "Play Again" : "Play"}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
