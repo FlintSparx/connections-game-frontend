@@ -227,11 +227,11 @@ function Profile() {
           </div>
           <div className="profile-field">
             <label className="profile-label">Date of Birth:</label>
-            <p className="profile-value">
-              {formData.dateOfBirth
-                ? new Date(formData.dateOfBirth).toLocaleDateString()
-                : "Not provided"}
-            </p>
+           <p className="profile-value">
+  {formData.dateOfBirth
+    ? formData.dateOfBirth.split('-').slice(1).concat(formData.dateOfBirth.split('-')[0]).join('/')
+    : "Not provided"}
+</p>
           </div>
           <div className="profile-field">
             <label className="profile-label">Games Won:</label>
