@@ -111,9 +111,10 @@ function GameBoardsListAdmin() {
                 </td>{" "}
                 <td className="actions-column" data-label="Actions">
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-primary mr-2"
                     onClick={() => navigate(`/play/${game._id}`)}
                     type="button"
+                    style={{ marginRight: "10px" }}
                   >
                     Play
                   </button>

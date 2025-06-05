@@ -83,9 +83,13 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
     }
   }; // Fetch user's solved games
   const fetchSolvedGames = async () => {
-    if (!user || !token) return;
+    if (!user || !token || !user.userID) {
+      console.log("Missing user data or token, cannot fetch solved games");
+      return;
+    }
 
     try {
+      console.log(`Fetching solved games for user ID: ${user.userID}`);
       const response = await fetch(`${API_URL}/games/solved/${user.userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -95,10 +99,24 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
 
       if (response.ok) {
         const data = await response.json();
-        setSolvedGames(data.solvedGames || []);
+        // Ensure we have a valid array even if the response is malformed
+        const validSolvedGames = Array.isArray(data.solvedGames)
+          ? data.solvedGames
+          : [];
+        console.log(`Received ${validSolvedGames.length} solved games`);
+        setSolvedGames(validSolvedGames);
+      } else {
+        // Handle non-200 responses
+        console.error(
+          `Failed to fetch solved games: ${response.status} ${response.statusText}`,
+        );
+        const errorText = await response.text();
+        console.error(`Error response: ${errorText}`);
+        setSolvedGames([]);
       }
     } catch (error) {
       console.error("Error fetching solved games:", error);
+      setSolvedGames([]);
     }
   };
 
@@ -273,7 +291,12 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
           <tbody>
             {" "}
             {filteredGames.map((game) => {
-              const isGameSolved = solvedGames.includes(game._id);
+              // Safe check for solved game - ensure all data is valid
+              const isGameSolved =
+                game &&
+                game._id &&
+                Array.isArray(solvedGames) &&
+                solvedGames.includes(game._id);
               return (
                 <tr
                   key={game._id}
@@ -314,8 +337,9 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
                           game.difficulty.slice(1)
                         : "Unknown"}
                     </span>
-                  </td>
+                  </td>{" "}
                   <td className="actions-column" data-label="Actions">
+                    {" "}
                     <button
                       className={`btn ${
                         isGameSolved ? "btn-success" : "btn-primary"
@@ -323,7 +347,18 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
                       onClick={() => navigate(`/play/${game._id}`)}
                     >
                       {isGameSolved ? "Play Again" : "Play"}
-                    </button>
+                    </button>{" "}
+                    {isGameSolved && (
+                      <span
+                        style={{
+                          marginLeft: "5px",
+                          color: "green",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ✓✓✓ Solved
+                      </span>
+                    )}
                   </td>
                 </tr>
               );
