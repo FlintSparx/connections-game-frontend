@@ -168,18 +168,19 @@ function GameBoard({ gameId: propGameId }) {
     if (!gameId) return;
 
     const token = document.cookie.split("auth_token=")[1]?.split(";")[0];
-
-    try {
-      await fetch(`${API_URL}/games/${gameId}/play`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        body: JSON.stringify({ won }),
-      });
-    } catch (err) {
-      console.error("Failed to update game stats", err);
+    if (!keepPlaying) {
+      try {
+        await fetch(`${API_URL}/games/${gameId}/play`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+          body: JSON.stringify({ won }),
+        });
+      } catch (err) {
+        console.error("Failed to update game stats", err);
+      }
     }
   };
 
