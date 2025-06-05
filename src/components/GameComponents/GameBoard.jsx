@@ -5,7 +5,7 @@ import fetchWithAuth from "../../utils/fetchWithAuth";
 import { UserContext } from "../../App";
 
 // Game board component for displaying and interacting with a game
-function GameBoard({ gameId }) {
+function GameBoard({ gameId: propGameId }) {
   const { user } = useContext(UserContext);
   // State variables
   const [loading, setLoading] = useState(true); // Track loading state
@@ -22,6 +22,7 @@ function GameBoard({ gameId }) {
   const [keepPlaying, setKeepPlaying] = useState(false); // Track if the user wants to keep playing
   const [gameName, setGameName] = useState(""); // Store the name of the current game
   const [creatorUsername, setCreatorUsername] = useState(""); // Store the username of the game creator
+  const [gameId, setGameId] = useState(propGameId || null); // Game ID from props or null for random game
   // Function to animate all tiles when game is completed
   const animateGameComplete = () => {
     const allTiles = document.querySelectorAll(".word-tile");
@@ -71,11 +72,12 @@ function GameBoard({ gameId }) {
     try {
       setLoading(true);
       let res, data;
-      if (gameId) {
-        res = await fetch(`${API_URL}/games/${gameId}`);
+      if (propGameId) {
+        res = await fetch(`${API_URL}/games/${propGameId}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         data = await res.json();
         if (!data) throw new Error("Game not found");
+        setGameId(propGameId); // Ensure gameId is set for updates
         const game = data;
         setGameName(game.name); // Set the game name
         // Set creator username if available
@@ -113,6 +115,7 @@ function GameBoard({ gameId }) {
         data = await res.json();
         if (data.length > 0) {
           const game = data[Math.floor(Math.random() * data.length)];
+          setGameId(game._id); // set the random game ID in state
           setGameName(game.name); // Set the game name for random game
           // Set creator username if available for random game
           if (game.createdBy && game.createdBy.username) {
@@ -179,7 +182,7 @@ function GameBoard({ gameId }) {
 
   // Start a new game
   const newGame = () => {
-    gameId = null;
+    setGameId(null); // Reset gameId for new game
     fetchGame();
     setFoundCategories([]);
     setSelected([]);
@@ -193,11 +196,11 @@ function GameBoard({ gameId }) {
   const shuffleUnfoundWords = (array, foundCats) => {
     // Extract words from found categories
     const foundWords = array.filter((item) =>
-      foundCats.includes(item.catIndex),
+      foundCats.includes(item.catIndex)
     );
     // Extract words from unfound categories
     const unfoundWords = array.filter(
-      (item) => !foundCats.includes(item.catIndex),
+      (item) => !foundCats.includes(item.catIndex)
     );
 
     // Shuffle only the unfound words
@@ -227,7 +230,7 @@ function GameBoard({ gameId }) {
 
     // Add remaining unfound words
     const unfoundWords = words.filter(
-      (item) => !foundCats.includes(item.catIndex),
+      (item) => !foundCats.includes(item.catIndex)
     );
     organizedWords.push(...unfoundWords);
 
@@ -237,7 +240,7 @@ function GameBoard({ gameId }) {
   // Fetch game when component mounts
   useEffect(() => {
     fetchGame();
-  }, [gameId]);
+  }, [propGameId]); // Re-fetch if gameId prop changes
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
@@ -293,7 +296,7 @@ function GameBoard({ gameId }) {
                       ? prev.filter((i) => i !== idx) // Deselect if already selected
                       : prev.length < 4
                       ? [...prev, idx]
-                      : prev, // Select if less than 4 selected
+                      : prev // Select if less than 4 selected
                 );
               }}
               catIndex={item.catIndex}
@@ -392,7 +395,7 @@ function GameBoard({ gameId }) {
               if (tries < 4 || keepPlaying) {
                 const firstCat = organizedWords[selected[0]].catIndex;
                 const isCorrectGroup = selected.every(
-                  (idx) => organizedWords[idx].catIndex === firstCat,
+                  (idx) => organizedWords[idx].catIndex === firstCat
                 );
 
                 if (isCorrectGroup) {
@@ -404,7 +407,7 @@ function GameBoard({ gameId }) {
                   setTimeout(() => {
                     setFoundCategories(newFoundCategories);
                     setAnimatingCats((prev) =>
-                      prev.filter((cat) => cat !== firstCat),
+                      prev.filter((cat) => cat !== firstCat)
                     );
                     // Reorganize words with found categories first
                     setWords(organizeWords(words, newFoundCategories));
