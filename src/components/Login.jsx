@@ -38,7 +38,14 @@ function Login({ setShowRegisterOverlay }) {
           if (data.token) {
             document.cookie = `auth_token=${data.token}; path=/;`;
             setToken(data.token);
-            nav("/");
+
+            // Check if user profile needs updating
+            if (data.needsProfileUpdate) {
+              // Redirect to profile page with a query param indicating update needed
+              nav("/profile?update=required");
+            } else {
+              nav("/");
+            }
           } else {
             setError(data.message);
           }

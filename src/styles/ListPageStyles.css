@@ -110,7 +110,35 @@
   background: #f7f7f7;
   font-weight: bold;
   color: #222;
-  border-radius: 12px 12px 0 0;
+  border-radius: 0; /* Remove default rounded corners */
+}
+
+/* Header row styling for seamless connected appearance */
+.list-table thead tr,
+.game-boards-table thead tr {
+  background: #f7f7f7;
+  border-spacing: 0;
+}
+
+/* Remove any gaps between header cells for seamless appearance */
+.list-table thead th,
+.game-boards-table thead th {
+  padding: 0.65em 1em;
+  border: none;
+  margin: 0;
+}
+
+/* Admin specific styles for header columns */
+.list-table .id-column {
+  width: 15%;
+}
+
+.list-table .categories-column {
+  width: 30%;
+}
+
+.list-table .words-column {
+  width: 15%;
 }
 
 /* Row styling*/
@@ -120,6 +148,24 @@
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   transition: box-shadow 0.2s, background 0.2s;
+}
+
+/* Solved game styling - green background for completed games */
+.list-table tr.solved-game,
+.game-boards-table tr.solved-game {
+  background: #dcfce7; /* Light green background */
+  border: 2px solid #16a34a; /* Green border */
+}
+
+.list-table tr.solved-game:hover,
+.game-boards-table tr.solved-game:hover {
+  background: #bbf7d0; /* Slightly darker green on hover */
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.25); /* Green shadow */
+}
+
+.list-table tr.solved-game:nth-child(even),
+.game-boards-table tr.solved-game:nth-child(even) {
+  background: #dcfce7; /* Override zebra striping for solved games */
 }
 
 /* Hover effect for rows - highlights the current row */
@@ -140,17 +186,73 @@
 * This creates rounded corners on the table rows
 */
 .list-table td:first-child,
-.list-table th:first-child,
-.game-boards-table td:first-child,
-.game-boards-table th:first-child {
+.game-boards-table td:first-child {
   border-radius: 16px 0 0 16px;
 }
 
 .list-table td:last-child,
+.game-boards-table td:last-child {
+  border-radius: 0 16px 16px 0;
+}
+
+/* Table header specific styling - only first and last th get rounded corners */
+.list-table th:first-child,
+.game-boards-table th:first-child {
+  border-radius: 16px 0 0 16px;
+}
+
 .list-table th:last-child,
-.game-boards-table td:last-child,
 .game-boards-table th:last-child {
   border-radius: 0 16px 16px 0;
+}
+
+/* Column-specific styling for table cells (not headers) */
+/* Only cells in data rows get these styles, not headers */
+/* For the Browse Games page, name-column should have rounded corners */
+.game-boards-table tbody .name-column {
+  border-radius: 16px 0 0 16px !important;
+}
+
+/* For the Admin pages, name-column should NOT have rounded corners since ID column is first */
+.list-table tbody .name-column {
+  border-radius: 0 !important;
+}
+
+/* Creator column has no rounded corners (middle column) */
+.list-table tbody .creator-column,
+.game-boards-table tbody .creator-column {
+  border-radius: 0 !important;
+}
+
+/* Tags column has no rounded corners (middle column) */
+.list-table tbody .tags-column,
+.game-boards-table tbody .tags-column {
+  border-radius: 0 !important;
+}
+
+/* Difficulty column has no rounded corners (middle column) */
+.list-table tbody .difficulty-column,
+.game-boards-table tbody .difficulty-column {
+  border-radius: 0 !important;
+}
+
+/* Actions column gets rounded corners on the right side only (since it's last column) */
+.list-table tbody .actions-column,
+.game-boards-table tbody .actions-column {
+  border-radius: 0 16px 16px 0 !important;
+}
+
+/* Admin-specific column styles */
+.list-table tbody .id-column,
+.game-boards-table tbody .id-column {
+  border-radius: 16px 0 0 16px !important;
+}
+
+.list-table tbody .categories-column,
+.game-boards-table tbody .categories-column,
+.list-table tbody .words-column,
+.game-boards-table tbody .words-column {
+  border-radius: 0 !important;
 }
 
 /* Container and header styles for list pages */
@@ -277,13 +379,27 @@ input[type="checkbox"][name="isAdmin"] {
 
 /*Categories cell style for better text display*/
 .categories-cell {
-  display: -webkit-box;  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   max-height: 3.2em;
+}
+
+/* Tags column styling */
+.tags-column {
+  width: 15%;
+  min-width: 120px;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
 }
 
 /* Responsive word grid for PuzzleForm - adjusts column count */
@@ -537,7 +653,7 @@ input[type="checkbox"][name="isAdmin"] {
   .list-table tr,
   .game-boards-table tr {
     background: #2d3748;
-    box-shadow: 0 2px 8px rgba( 0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   /* Hover effect for rows */
@@ -546,10 +662,27 @@ input[type="checkbox"][name="isAdmin"] {
     background: #374151;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
-
   .list-table tr:nth-child(even),
   .game-boards-table tr:nth-child(even) {
     background: #374151;
+  }
+
+  /* Solved game styling for dark mode */
+  .list-table tr.solved-game,
+  .game-boards-table tr.solved-game {
+    background: #14532d; /* Dark green background */
+    border: 2px solid #16a34a; /* Green border */
+  }
+
+  .list-table tr.solved-game:hover,
+  .game-boards-table tr.solved-game:hover {
+    background: #166534; /* Slightly lighter dark green on hover */
+    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.4); /* Green shadow */
+  }
+
+  .list-table tr.solved-game:nth-child(even),
+  .game-boards-table tr.solved-game:nth-child(even) {
+    background: #14532d; /* Override zebra striping for solved games in dark mode */
   }
 
   /* Container styles */
@@ -594,7 +727,7 @@ input[type="checkbox"][name="isAdmin"] {
   }
 
   /* Difficulty badge styling */
-   .difficulty-easy {
+  .difficulty-easy {
     background-color: #22543d;
     color: #9ae6b4;
   }
@@ -623,7 +756,7 @@ input[type="checkbox"][name="isAdmin"] {
   .edit-modal {
     background: #2d3748;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4),
-    0 10px 10px -5px rgba(0, 0, 0, 0.3);
+      0 10px 10px -5px rgba(0, 0, 0, 0.3);
   }
 
   .edit-modal header {

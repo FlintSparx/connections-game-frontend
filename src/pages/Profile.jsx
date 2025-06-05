@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../App";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Profile() {
   const { user, setToken } = useContext(UserContext);
@@ -12,16 +12,26 @@ function Profile() {
     last_name: "",
     newPassword: "",
     currentPassword: "",
+    dateOfBirth: "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [wins, setWins] = useState(0);
+  const [needsUpdate, setNeedsUpdate] = useState(false);
   const navigate = useNavigate();
-
+  const location = useLocation();
   useEffect(() => {
     if (!user) {
       navigate("/login");
       return;
+    }
+
+    // Check if user was redirected here for profile update
+    const urlParams = new URLSearchParams(location.search);
+    if (urlParams.get("update") === "required") {
+      setIsEditing(true);
+      setNeedsUpdate(true);
+      setError("Your profile needs to be updated with additional information.");
     }
 
     // Fetch user profile data
@@ -40,6 +50,9 @@ function Profile() {
           email: data.email,
           first_name: data.first_name,
           last_name: data.last_name,
+          dateOfBirth: data.dateOfBirth
+            ? new Date(data.dateOfBirth).toISOString().split("T")[0]
+            : "",
           newPassword: "",
           currentPassword: "",
         });
@@ -125,7 +138,7 @@ function Profile() {
             }`,
           },
           body: JSON.stringify(formData),
-        }
+        },
       );
 
       const data = await response.json();
@@ -148,7 +161,7 @@ function Profile() {
   // Add an account deletion function
   const handleDelete = async () => {
     const password = window.prompt(
-      "Enter your password to confirm account deletion:"
+      "Enter your password to confirm account deletion:",
     );
 
     if (!password) {
@@ -167,7 +180,7 @@ function Profile() {
             }`,
           },
           body: JSON.stringify({ password }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -207,10 +220,18 @@ function Profile() {
           <div className="profile-field">
             <label className="profile-label">First Name:</label>
             <p className="profile-value">{formData.first_name}</p>
-          </div>
+          </div>{" "}
           <div className="profile-field">
             <label className="profile-label">Last Name:</label>
             <p className="profile-value">{formData.last_name}</p>
+          </div>
+          <div className="profile-field">
+            <label className="profile-label">Date of Birth:</label>
+            <p className="profile-value">
+              {formData.dateOfBirth
+                ? new Date(formData.dateOfBirth).toLocaleDateString()
+                : "Not provided"}
+            </p>
           </div>
           <div className="profile-field">
             <label className="profile-label">Games Won:</label>
@@ -232,7 +253,6 @@ function Profile() {
         <form onSubmit={handleSubmit} className="profile-edit-form">
           {error && <div className="profile-error">{error}</div>}
           {success && <div className="profile-success">{success}</div>}
-
           <div className="profile-input-group">
             <label className="profile-input-label">Username:</label>
             <input
@@ -243,7 +263,6 @@ function Profile() {
               className="profile-input"
             />
           </div>
-
           <div className="profile-input-group">
             <label className="profile-input-label">Email:</label>
             <input
@@ -254,7 +273,6 @@ function Profile() {
               className="profile-input"
             />
           </div>
-
           <div className="profile-input-group">
             <label className="profile-input-label">First Name:</label>
             <input
@@ -264,8 +282,7 @@ function Profile() {
               onChange={handleInputChange}
               className="profile-input"
             />
-          </div>
-
+          </div>{" "}
           <div className="profile-input-group">
             <label className="profile-input-label">Last Name:</label>
             <input
@@ -276,7 +293,19 @@ function Profile() {
               className="profile-input"
             />
           </div>
-
+          <div className="profile-input-group">
+            <label className="profile-input-label">Date of Birth:</label>
+            <input
+              type="date"
+              name="dateOfBirth"
+              value={formData.dateOfBirth}
+              onChange={handleInputChange}
+              className={`profile-input ${
+                needsUpdate ? "profile-required-input" : ""
+              }`}
+              required={needsUpdate}
+            />
+          </div>
           <div className="profile-input-group">
             <label className="profile-input-label">
               New Password (optional):
@@ -289,7 +318,6 @@ function Profile() {
               className="profile-input"
             />
           </div>
-
           <div className="profile-input-group">
             <label className="profile-input-label profile-required-label">
               Current Password (required):
@@ -303,7 +331,6 @@ function Profile() {
               required
             />
           </div>
-
           <div className="profile-form-actions">
             <button type="submit" className="profile-save-btn">
               Save Changes

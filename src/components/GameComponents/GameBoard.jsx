@@ -117,7 +117,7 @@ function GameBoard({ gameId: propGameId }) {
           // Block NSFW games on the home page
           // They should only be accessible from the Browse Games List
           const nonNSFWGames = data.filter(
-            (game) => !game.tags?.includes("NSFW")
+            (game) => !game.tags?.includes("NSFW"),
           );
           const game =
             nonNSFWGames[Math.floor(Math.random() * nonNSFWGames.length)];
@@ -203,11 +203,11 @@ function GameBoard({ gameId: propGameId }) {
   const shuffleUnfoundWords = (array, foundCats) => {
     // Extract words from found categories
     const foundWords = array.filter((item) =>
-      foundCats.includes(item.catIndex)
+      foundCats.includes(item.catIndex),
     );
     // Extract words from unfound categories
     const unfoundWords = array.filter(
-      (item) => !foundCats.includes(item.catIndex)
+      (item) => !foundCats.includes(item.catIndex),
     );
 
     // Shuffle only the unfound words
@@ -237,7 +237,7 @@ function GameBoard({ gameId: propGameId }) {
 
     // Add remaining unfound words
     const unfoundWords = words.filter(
-      (item) => !foundCats.includes(item.catIndex)
+      (item) => !foundCats.includes(item.catIndex),
     );
     organizedWords.push(...unfoundWords);
 
@@ -303,7 +303,7 @@ function GameBoard({ gameId: propGameId }) {
                       ? prev.filter((i) => i !== idx) // Deselect if already selected
                       : prev.length < 4
                       ? [...prev, idx]
-                      : prev // Select if less than 4 selected
+                      : prev, // Select if less than 4 selected
                 );
               }}
               catIndex={item.catIndex}
@@ -402,7 +402,7 @@ function GameBoard({ gameId: propGameId }) {
               if (tries < 4 || keepPlaying) {
                 const firstCat = organizedWords[selected[0]].catIndex;
                 const isCorrectGroup = selected.every(
-                  (idx) => organizedWords[idx].catIndex === firstCat
+                  (idx) => organizedWords[idx].catIndex === firstCat,
                 );
 
                 if (isCorrectGroup) {
@@ -414,7 +414,7 @@ function GameBoard({ gameId: propGameId }) {
                   setTimeout(() => {
                     setFoundCategories(newFoundCategories);
                     setAnimatingCats((prev) =>
-                      prev.filter((cat) => cat !== firstCat)
+                      prev.filter((cat) => cat !== firstCat),
                     );
                     // Reorganize words with found categories first
                     setWords(organizeWords(words, newFoundCategories));

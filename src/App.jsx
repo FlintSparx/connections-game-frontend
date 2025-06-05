@@ -69,14 +69,11 @@ function Logout({ onLogout }) {
 // Create a new component that contains the app content and has access to useNavigate
 function AppContent() {
   const navigate = useNavigate();
-
   // user and token state
   const [user, setUser] = useState(getUserFromToken());
   const [token, setToken] = useState(getCookieValue("auth_token"));
   const [showCreateGameOverlay, setShowCreateGameOverlay] = useState(false);
-  const [showRegisterOverlay, setShowRegisterOverlay] = useState(false);
-
-  // update user state if token changes (e.g. after login)
+  const [showRegisterOverlay, setShowRegisterOverlay] = useState(false); // update user state if token changes (e.g. after login)
   useEffect(() => {
     setUser(getUserFromToken());
   }, [token]);
