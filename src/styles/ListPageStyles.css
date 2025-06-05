@@ -110,7 +110,35 @@
   background: #f7f7f7;
   font-weight: bold;
   color: #222;
-  border-radius: 12px 12px 0 0;
+  border-radius: 0; /* Remove default rounded corners */
+}
+
+/* Header row styling for seamless connected appearance */
+.list-table thead tr,
+.game-boards-table thead tr {
+  background: #f7f7f7;
+  border-spacing: 0;
+}
+
+/* Remove any gaps between header cells for seamless appearance */
+.list-table thead th,
+.game-boards-table thead th {
+  padding: 0.65em 1em;
+  border: none;
+  margin: 0;
+}
+
+/* Admin specific styles for header columns */
+.list-table .id-column {
+  width: 15%;
+}
+
+.list-table .categories-column {
+  width: 30%;
+}
+
+.list-table .words-column {
+  width: 15%;
 }
 
 /* Row styling*/
@@ -158,47 +186,73 @@
 * This creates rounded corners on the table rows
 */
 .list-table td:first-child,
-.list-table th:first-child,
-.game-boards-table td:first-child,
-.game-boards-table th:first-child {
+.game-boards-table td:first-child {
   border-radius: 16px 0 0 16px;
 }
 
 .list-table td:last-child,
+.game-boards-table td:last-child {
+  border-radius: 0 16px 16px 0;
+}
+
+/* Table header specific styling - only first and last th get rounded corners */
+.list-table th:first-child,
+.game-boards-table th:first-child {
+  border-radius: 16px 0 0 16px;
+}
+
 .list-table th:last-child,
-.game-boards-table td:last-child,
 .game-boards-table th:last-child {
   border-radius: 0 16px 16px 0;
 }
 
-/* Name column gets rounded corners on the left side only (since it's first column) */
-.list-table .name-column,
-.game-boards-table .name-column {
+/* Column-specific styling for table cells (not headers) */
+/* Only cells in data rows get these styles, not headers */
+/* For the Browse Games page, name-column should have rounded corners */
+.game-boards-table tbody .name-column {
   border-radius: 16px 0 0 16px !important;
 }
 
+/* For the Admin pages, name-column should NOT have rounded corners since ID column is first */
+.list-table tbody .name-column {
+  border-radius: 0 !important;
+}
+
 /* Creator column has no rounded corners (middle column) */
-.list-table .creator-column,
-.game-boards-table .creator-column {
+.list-table tbody .creator-column,
+.game-boards-table tbody .creator-column {
   border-radius: 0 !important;
 }
 
 /* Tags column has no rounded corners (middle column) */
-.list-table .tags-column,
-.game-boards-table .tags-column {
+.list-table tbody .tags-column,
+.game-boards-table tbody .tags-column {
   border-radius: 0 !important;
 }
 
 /* Difficulty column has no rounded corners (middle column) */
-.list-table .difficulty-column,
-.game-boards-table .difficulty-column {
+.list-table tbody .difficulty-column,
+.game-boards-table tbody .difficulty-column {
   border-radius: 0 !important;
 }
 
 /* Actions column gets rounded corners on the right side only (since it's last column) */
-.list-table .actions-column,
-.game-boards-table .actions-column {
+.list-table tbody .actions-column,
+.game-boards-table tbody .actions-column {
   border-radius: 0 16px 16px 0 !important;
+}
+
+/* Admin-specific column styles */
+.list-table tbody .id-column,
+.game-boards-table tbody .id-column {
+  border-radius: 16px 0 0 16px !important;
+}
+
+.list-table tbody .categories-column,
+.game-boards-table tbody .categories-column,
+.list-table tbody .words-column,
+.game-boards-table tbody .words-column {
+  border-radius: 0 !important;
 }
 
 /* Container and header styles for list pages */
