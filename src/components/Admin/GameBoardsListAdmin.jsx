@@ -80,8 +80,8 @@ function GameBoardsListAdmin() {
         <table className="list-table">
           <thead>
             <tr>
-              <th className="id-column">ID</th>
               <th className="name-column">Name</th>
+              <th className="id-column">ID</th>
               <th className="categories-column">Categories</th>
               <th className="words-column">Words</th>
               <th className="actions-column">Actions</th>
@@ -90,11 +90,11 @@ function GameBoardsListAdmin() {
           <tbody>
             {games.map((game) => (
               <tr key={game._id}>
-                <td className="id-column" data-label="ID">
-                  {game._id}
-                </td>
                 <td className="name-column" data-label="Name">
                   <span style={{ fontWeight: "bold" }}>{game.name}</span>
+                </td>
+                <td className="id-column" data-label="ID">
+                  {game._id}
                 </td>
                 <td className="categories-column" data-label="Categories">
                   <div className="categories-cell">

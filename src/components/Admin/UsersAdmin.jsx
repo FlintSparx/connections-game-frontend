@@ -103,9 +103,9 @@ function UsersAdmin() {
             {" "}
             <thead>
               <tr>
+                <th className="name-column">Name</th>
                 <th className="id-column">ID</th>
                 <th className="username-column">Username</th>
-                <th className="name-column">Name</th>
                 <th className="admin-column">Admin</th>
                 <th className="email-column">Email</th>
                 <th className="actions-column">Actions</th>
@@ -114,14 +114,14 @@ function UsersAdmin() {
             <tbody>
               {users.map((user) => (
                 <tr key={user._id}>
+                  <td className="name-column" data-label="Name">
+                    {user.first_name} {user.last_name}
+                  </td>
                   <td className="id-column" data-label="ID">
                     {user._id}
                   </td>
                   <td className="username-column" data-label="Username">
                     {user.username}
-                  </td>
-                  <td className="name-column" data-label="Name">
-                    {user.first_name} {user.last_name}
                   </td>
                   <td className="admin-column" data-label="Role">
                     {/* Using difficulty badge styles for visual role indication */}

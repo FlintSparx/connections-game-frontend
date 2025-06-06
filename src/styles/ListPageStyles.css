@@ -150,22 +150,24 @@
   transition: box-shadow 0.2s, background 0.2s;
 }
 
-/* Solved game styling - green background for completed games */
-.list-table tr.solved-game,
-.game-boards-table tr.solved-game {
-  background: #dcfce7; /* Light green background */
-  border: 2px solid #16a34a; /* Green border */
+/* Make all first cells (name column) rounded by default for all rows */
+.list-table td:first-child,
+.game-boards-table td:first-child {
+  border-radius: 16px 0 0 16px;
 }
 
-.list-table tr.solved-game:hover,
-.game-boards-table tr.solved-game:hover {
-  background: #bbf7d0; /* Slightly darker green on hover */
-  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.25); /* Green shadow */
+@media (max-width: 1000px) {
+  .list-table td:first-child,
+  .game-boards-table td:first-child {
+    border-radius: 16px 16px 0 0;
+  }
 }
 
-.list-table tr.solved-game:nth-child(even),
-.game-boards-table tr.solved-game:nth-child(even) {
-  background: #dcfce7; /* Override zebra striping for solved games */
+@media (max-width: 640px) {
+  .list-table td:first-child,
+  .game-boards-table td:first-child {
+    border-radius: 16px;
+  }
 }
 
 /* Hover effect for rows - highlights the current row */
@@ -185,11 +187,6 @@
 * Border radius for first and last cells in a row
 * This creates rounded corners on the table rows
 */
-.list-table td:first-child,
-.game-boards-table td:first-child {
-  border-radius: 16px 0 0 16px;
-}
-
 .list-table td:last-child,
 .game-boards-table td:last-child {
   border-radius: 0 16px 16px 0;
@@ -210,49 +207,49 @@
 /* Only cells in data rows get these styles, not headers */
 /* For the Browse Games page, name-column should have rounded corners */
 .game-boards-table tbody .name-column {
-  border-radius: 16px 0 0 16px !important;
+  border-radius: 16px 0 0 16px;
 }
 
 /* For the Admin pages, name-column should NOT have rounded corners since ID column is first */
 .list-table tbody .name-column {
-  border-radius: 0 !important;
+  border-radius: 16px 0 0 16px;
 }
 
 /* Creator column has no rounded corners (middle column) */
 .list-table tbody .creator-column,
 .game-boards-table tbody .creator-column {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 /* Tags column has no rounded corners (middle column) */
 .list-table tbody .tags-column,
 .game-boards-table tbody .tags-column {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 /* Difficulty column has no rounded corners (middle column) */
 .list-table tbody .difficulty-column,
 .game-boards-table tbody .difficulty-column {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 /* Actions column gets rounded corners on the right side only (since it's last column) */
 .list-table tbody .actions-column,
 .game-boards-table tbody .actions-column {
-  border-radius: 0 16px 16px 0 !important;
+  border-radius: 0 16px 16px 0;
 }
 
 /* Admin-specific column styles */
 .list-table tbody .id-column,
 .game-boards-table tbody .id-column {
-  border-radius: 16px 0 0 16px !important;
+  border-radius: 0;
 }
 
 .list-table tbody .categories-column,
 .game-boards-table tbody .categories-column,
 .list-table tbody .words-column,
 .game-boards-table tbody .words-column {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 /* Container and header styles for list pages */

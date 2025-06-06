@@ -278,7 +278,6 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
       {/* List of existing game boards */}
       <div className="table-wrapper">
         <table className="list-table">
-          {" "}
           <thead>
             <tr>
               <th className="name-column">Name</th>
@@ -289,7 +288,6 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
             </tr>
           </thead>
           <tbody>
-            {" "}
             {filteredGames.map((game) => {
               // Safe check for solved game - ensure all data is valid
               const isGameSolved =
@@ -304,7 +302,7 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
                 >
                   <td className="name-column" data-label="Name">
                     <span style={{ fontWeight: "bold" }}>{game.name}</span>
-                  </td>{" "}
+                  </td>
                   <td className="creator-column" data-label="Creator">
                     {game.createdBy
                       ? `Created by ${game.createdBy.username}`
@@ -337,9 +335,8 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
                           game.difficulty.slice(1)
                         : "Unknown"}
                     </span>
-                  </td>{" "}
+                  </td>
                   <td className="actions-column" data-label="Actions">
-                    {" "}
                     <button
                       className={`btn ${
                         isGameSolved ? "btn-success" : "btn-primary"
