@@ -215,7 +215,7 @@
 
 /* For the Admin pages, name-column should NOT have rounded corners since ID column is first */
 .list-table tbody .name-column {
-  border-radius: 16px 0 0 16px;
+  border-radius: 0;
 }
 
 /* Creator column has no rounded corners (middle column) */
