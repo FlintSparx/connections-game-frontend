@@ -128,19 +128,6 @@
   margin: 0;
 }
 
-/* Admin specific styles for header columns */
-.list-table .id-column {
-  width: 15%;
-}
-
-.list-table .categories-column {
-  width: 30%;
-}
-
-.list-table .words-column {
-  width: 15%;
-}
-
 /* Row styling*/
 .list-table tr,
 .game-boards-table tr {
