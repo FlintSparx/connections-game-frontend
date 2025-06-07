@@ -193,54 +193,7 @@
   border-radius: 0 16px 16px 0;
 }
 
-/* Column-specific styling for table cells (not headers) */
-/* Only cells in data rows get these styles, not headers */
-/* For the Browse Games page, name-column should have rounded corners */
-.game-boards-table tbody .name-column {
-  border-radius: 16px 0 0 16px;
-}
-
-/* For the Admin pages, name-column should NOT have rounded corners since ID column is first */
-.list-table tbody .name-column {
-  border-radius: 0;
-}
-
-/* Creator column has no rounded corners (middle column) */
-.list-table tbody .creator-column,
-.game-boards-table tbody .creator-column {
-  border-radius: 0;
-}
-
-/* Tags column has no rounded corners (middle column) */
-.list-table tbody .tags-column,
-.game-boards-table tbody .tags-column {
-  border-radius: 0;
-}
-
-/* Difficulty column has no rounded corners (middle column) */
-.list-table tbody .difficulty-column,
-.game-boards-table tbody .difficulty-column {
-  border-radius: 0;
-}
-
-/* Actions column gets rounded corners on the right side only (since it's last column) */
-.list-table tbody .actions-column,
-.game-boards-table tbody .actions-column {
-  border-radius: 0 16px 16px 0;
-}
-
-/* Admin-specific column styles */
-.list-table tbody .id-column,
-.game-boards-table tbody .id-column {
-  border-radius: 16px 0 0 16px;
-}
-
-.list-table tbody .categories-column,
-.game-boards-table tbody .categories-column,
-.list-table tbody .words-column,
-.game-boards-table tbody .words-column {
-  border-radius: 0;
-}
+/* The general first-child and last-child rules above handle border-radius automatically */
 
 /* Container and header styles for list pages */
 .list-page-container {
@@ -257,7 +210,6 @@
 /* Responsive width adjustments for list container*/
 @media (min-width: 768px) {
   .list-page-container {
-    width: 95%;
     padding: 1.5rem 1rem;
     margin: 1.5rem auto;
   }
@@ -265,7 +217,6 @@
 
 @media (min-width: 1024px) {
   .list-page-container {
-    width: 95%;
     padding: 2rem;
     margin: 2rem auto;
   }
@@ -273,7 +224,6 @@
 
 @media (min-width: 1280px) {
   .list-page-container {
-    width: 95%;
     padding: 3rem;
   }
 }
@@ -376,11 +326,6 @@ input[type="checkbox"][name="isAdmin"] {
   max-height: 3.2em;
 }
 
-/* Tags column styling */
-.tags-column {
-  width: 15%;
-  min-width: 120px;
-}
 
 .tags-container {
   display: flex;
@@ -392,7 +337,7 @@ input[type="checkbox"][name="isAdmin"] {
 /* Responsive word grid for PuzzleForm - adjusts column count */
 @media (min-width: 481px) {
   .word-grid {
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -403,7 +348,6 @@ input[type="checkbox"][name="isAdmin"] {
 @media (min-width: 597px) and (max-width: 1360px) {
   .list-page-container {
     padding: 1rem;
-    width: 95%;
     box-sizing: border-box;
     margin: 1rem auto;
   }
