@@ -34,15 +34,14 @@ function WordTile({
       onClick={onClick}
       className={`word-tile${isJumping ? " jump-up" : ""}${
         isShaking ? " shake" : ""
-      }`}
-      // Apply styles directly to the word tile button
+      }`}      // Apply styles directly to the word tile button
       style={{
         width: "100%",
         height: "4.5rem",
         border: "1px solid black",
         borderRadius: "0.375rem",
         fontWeight: 600,
-        fontSize: "1rem",
+        fontSize: "clamp(0.7rem, 2.5vw, 1rem)",
         background: tileBackground,
         color: "#000", // Ensure text is always black
         display: "flex",
@@ -50,8 +49,11 @@ function WordTile({
         alignItems: "center",
         justifyContent: "center",
         margin: 0,
-        padding: "0.25rem",
-      }}
+        padding: "0.15rem",
+        boxSizing: "border-box",
+        minWidth: 0,
+        wordBreak: "break-word",
+        hyphens: "auto",      }}
     >
       {word}
       {categoryName && (

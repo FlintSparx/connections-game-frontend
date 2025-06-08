@@ -475,20 +475,19 @@ input[type="checkbox"][name="isAdmin"] {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  z-index: 1050;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: clamp(0.5rem, 2vw, 1.5rem);
 }
 
 /* Modal/overlay window styling - contains the form */
 .edit-modal {
   background: white;
   border-radius: 12px;
-  padding: 2rem;
-  max-width: 600px;
-  width: 100%;
+  padding: 1.5rem;
+  width: min(90vw, 650px);
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -555,8 +554,8 @@ input[type="checkbox"][name="isAdmin"] {
 /* Responsive adjustments for the modal on small screens */
 @media (max-width: 640px) {
   .edit-modal {
-    margin: 1rem;
-    padding: 1.5rem;
+    width: min(95vw, 500px);
+    padding: 1rem;
     max-height: 95vh;
   }
 
@@ -568,6 +567,14 @@ input[type="checkbox"][name="isAdmin"] {
   .edit-modal-footer .btn-danger {
     margin-right: 0;
     order: 3;
+  }
+}
+
+/* Larger screen optimizations */
+@media (min-width: 1200px) {
+  .edit-modal {
+    width: min(85vw, 750px);
+    padding: 2rem;
   }
 }
 

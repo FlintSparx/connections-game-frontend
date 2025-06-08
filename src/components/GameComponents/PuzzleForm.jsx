@@ -153,8 +153,7 @@ function PuzzleForm({
       ...categoriesObj,
     });
   };
-  return (
-    <form
+  return (    <form
       onSubmit={handleSubmit}
       style={{
         marginBottom: 32,
@@ -162,14 +161,14 @@ function PuzzleForm({
         border: "1px solid #ddd",
         borderRadius: 12,
         width: "100%",
-        maxWidth: 600,
+        maxWidth: "100%",
         marginLeft: "auto",
         marginRight: "auto",
         background: "#fff",
         boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
         boxSizing: "border-box",
       }}
-    >      <div style={{ marginBottom: 16 }}>
+    ><div style={{ marginBottom: 16 }}>
         <label
           htmlFor="gameName"
           style={{ display: "block", marginBottom: 4, fontWeight: 600 }}
@@ -258,7 +257,7 @@ function PuzzleForm({
             </div>            <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
+                gridTemplateColumns: "repeat(auto-fit, minmax(90px, 1fr))",
                 gap: 8,
                 background: "#fff",
                 borderRadius: "0 0 6px 6px",
@@ -276,10 +275,10 @@ function PuzzleForm({
                   value={word}
                   onChange={(e) =>
                     handleWordChange(catIdx, wordIdx, e.target.value)
-                  }
-                  style={{
+                  }                  style={{
                     width: "100%",
-                    maxWidth: 100,
+                    minWidth: "80px",
+                    maxWidth: "120px",
                     height: 34,
                     textAlign: "center",
                     border: "1px solid #bbb",
@@ -291,7 +290,7 @@ function PuzzleForm({
                     padding: "0 2px",
                     boxSizing: "border-box",
                   }}
-                  maxLength={24}
+                  maxLength={18}
                 />
               ))}
             </div>
