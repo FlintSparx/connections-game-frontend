@@ -442,6 +442,37 @@ body {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
+  /* Solved game styling for dark mode - override general dark mode styles */
+  .data-table tbody tr.solved-game {
+    background-color: #14532d !important; /* Dark green background */
+    border: 2px solid #16a34a !important; /* Green border */
+  }
+
+  .data-table tbody tr.solved-game td {
+    background-color: #14532d !important; /* Dark green background for all cells */
+    border-bottom: 1px solid #16a34a !important;
+    color: #f7fafc !important;
+  }
+
+  .data-table tbody tr.solved-game td:first-child {
+    background-color: #14532d !important; /* Dark green background for first cell */
+    border-bottom: 2px solid #16a34a !important;
+    color: #f7fafc !important;
+  }
+
+  .data-table tbody tr.solved-game:hover {
+    background-color: #166534 !important; /* Slightly lighter dark green on hover */
+    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.4) !important;
+  }
+  .data-table tbody tr.solved-game:hover td {
+    background-color: #166534 !important;
+  }
+
+  /* Make solved game checkmarks and text visible in dark mode */
+  .data-table tbody tr.solved-game span[style*="color: green"] {
+    color: #ffffff !important; /* White text for checkmarks and "Solved" text */
+  }
+
   /* Data labels */
   .data-table tbody td::before {
     color: #cbd5e1;

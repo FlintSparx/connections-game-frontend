@@ -607,21 +607,6 @@ input[type="checkbox"][name="isAdmin"] {
     background: #374151;
   }
 
-  /* Solved game styling for dark mode */
-  .data-table tr.solved-game {
-    background: #14532d; /* Dark green background */
-    border: 2px solid #16a34a; /* Green border */
-  }
-
-  .data-table tr.solved-game:hover {
-    background: #166534; /* Slightly lighter dark green on hover */
-    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.4); /* Green shadow */
-  }
-
-  .data-table tr.solved-game:nth-child(even) {
-    background: #14532d; /* Override zebra striping for solved games in dark mode */
-  }
-
   /* Container styles */
   .list-page-container {
     background: #2d3748;
