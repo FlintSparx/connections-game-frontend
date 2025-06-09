@@ -54,8 +54,6 @@ body {
    DARK MODE COMPATIBILITY
    ============================================================================= */
 
-/* DARK MODE COMPATIBILITY */
-
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;

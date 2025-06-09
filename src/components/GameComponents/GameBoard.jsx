@@ -67,11 +67,12 @@ function GameBoard({ gameId: propGameId }) {
     }, totalDuration);
   };
 
-  // Fetch a specific game if gameId is provided, otherwise fetch a random game
+  // Fetch a specific game if gameId is provided, otherwise fetch a new random game
   const fetchGame = async () => {
     try {
       setLoading(true);
       let res, data;
+      const token = document.cookie.split("auth_token=")[1]?.split(";")[0];
       if (propGameId) {
         res = await fetch(`${API_URL}/games/${propGameId}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -110,52 +111,45 @@ function GameBoard({ gameId: propGameId }) {
         ];
         setWords(shuffleUnfoundWords(all, []));
       } else {
-        res = await fetch(`${API_URL}/games`);
+        // Fetch a new random game, deprioritizing already played games
+        res = await fetch(`${API_URL}/games/new`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         data = await res.json();
-        if (data.length > 0) {
-          // Block NSFW games on the home page
-          // They should only be accessible from the Browse Games List
-          const nonNSFWGames = data.filter(
-            (game) => !game.tags?.includes("NSFW"),
-          );
-          const game =
-            nonNSFWGames[Math.floor(Math.random() * nonNSFWGames.length)];
-          setGameId(game._id); // set the random game ID in state
+        if (!data) throw new Error("No games available");
+        setGameId(data._id); // set the random game ID in state
 
-          setGameName(game.name); // Set the game name for random game
-          // Set creator username if available for random game
-          if (game.createdBy && game.createdBy.username) {
-            setCreatorUsername(game.createdBy.username);
-          } else {
-            setCreatorUsername("Unknown");
-          }
-          const all = [
-            ...game.category1.words.map((w) => ({
-              word: w,
-              catIndex: 0,
-              categoryName: game.category1.name,
-            })),
-            ...game.category2.words.map((w) => ({
-              word: w,
-              catIndex: 1,
-              categoryName: game.category2.name,
-            })),
-            ...game.category3.words.map((w) => ({
-              word: w,
-              catIndex: 2,
-              categoryName: game.category3.name,
-            })),
-            ...game.category4.words.map((w) => ({
-              word: w,
-              catIndex: 3,
-              categoryName: game.category4.name,
-            })),
-          ];
-          setWords(shuffleUnfoundWords(all, []));
+        setGameName(data.name); // Set the game name for random game
+        // Set creator username if available for random game
+        if (data.createdBy && data.createdBy.username) {
+          setCreatorUsername(data.createdBy.username);
         } else {
-          setError("No games available");
+          setCreatorUsername("Unknown");
         }
+        const all = [
+          ...data.category1.words.map((w) => ({
+            word: w,
+            catIndex: 0,
+            categoryName: data.category1.name,
+          })),
+          ...data.category2.words.map((w) => ({
+            word: w,
+            catIndex: 1,
+            categoryName: data.category2.name,
+          })),
+          ...data.category3.words.map((w) => ({
+            word: w,
+            catIndex: 2,
+            categoryName: data.category3.name,
+          })),
+          ...data.category4.words.map((w) => ({
+            word: w,
+            catIndex: 3,
+            categoryName: data.category4.name,
+          })),
+        ];
+        setWords(shuffleUnfoundWords(all, []));
       }
     } catch (err) {
       console.error(err);
@@ -188,16 +182,58 @@ function GameBoard({ gameId: propGameId }) {
   const resetTries = () => {
     setTries(0);
   };
-  // Start a new game
-  const newGame = () => {
-    setGameId(null); // Reset gameId for new game
-    fetchGame();
-    setFoundCategories([]);
-    setSelected([]);
-    setGameWon(false);
-    resetTries();
-    setKeepPlaying(false);
-    setGameLost(false);
+  // Fetch a new random game and reset all state
+  const newGame = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const token = document.cookie.split("auth_token=")[1]?.split(";")[0];
+      const res = await fetch(`${API_URL}/games/new`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (!data) throw new Error("No games available");
+      setGameId(data._id);
+      setGameName(data.name);
+      setCreatorUsername(data.createdBy?.username || "Unknown");
+      const all = [
+        ...data.category1.words.map((w) => ({
+          word: w,
+          catIndex: 0,
+          categoryName: data.category1.name,
+        })),
+        ...data.category2.words.map((w) => ({
+          word: w,
+          catIndex: 1,
+          categoryName: data.category2.name,
+        })),
+        ...data.category3.words.map((w) => ({
+          word: w,
+          catIndex: 2,
+          categoryName: data.category3.name,
+        })),
+        ...data.category4.words.map((w) => ({
+          word: w,
+          catIndex: 3,
+          categoryName: data.category4.name,
+        })),
+      ];
+      setWords(shuffleUnfoundWords(all, []));
+      setFoundCategories([]);
+      setSelected([]);
+      setGameWon(false);
+      setTries(0);
+      setKeepPlaying(false);
+      setGameLost(false);
+      setAnimatingCats([]);
+      setShakingIndices([]);
+    } catch (err) {
+      setError("Error loading new game");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Shuffle array using Fisher-Yates algorithm, but keep found categories intact
@@ -261,7 +297,9 @@ function GameBoard({ gameId: propGameId }) {
       {gameId && (
         // Only show title and instructions when displaying a specific game (not on home page)
         <>
-          <h2 style={{ fontWeight: "bold", textDecoration: "underline" }}>{gameName}</h2>
+          <h2 style={{ fontWeight: "bold", textDecoration: "underline" }}>
+            {gameName}
+          </h2>
           <p
             style={{
               fontSize: "0.9rem",
@@ -349,6 +387,7 @@ function GameBoard({ gameId: propGameId }) {
       )}
       {gameLost && !keepPlaying && (
         <div
+          className="game-loss-message"
           style={{
             marginTop: "1rem",
             padding: "0.5rem",
