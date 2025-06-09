@@ -39,7 +39,11 @@ export const getCookieValue = (keyName) => {
 // Wrapper to pass gameId param to GameBoard
 function PlayGameBoard() {
   const { id } = useParams();
-  return <GameBoard gameId={id} />;
+  return (
+    <div className="container">
+      <GameBoard gameId={id} />
+    </div>
+  );
 }
 
 // decode user info from the jwt token stored in cookie

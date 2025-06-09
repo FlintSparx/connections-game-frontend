@@ -512,6 +512,31 @@ function GameBoard({ gameId: propGameId }) {
         >
           New Game
         </button>
+        {gameId && (
+          <button
+            className="game-action-btn"
+            onClick={() => {
+              const gameUrl = `${window.location.origin}/play/${gameId}`;
+              navigator.clipboard
+                .writeText(gameUrl)
+                .then(() => {
+                  alert("Game URL has been copied to your clipboard!");
+                })
+                .catch(() => {
+                  // Fallback for older browsers
+                  const textArea = document.createElement("textarea");
+                  textArea.value = gameUrl;
+                  document.body.appendChild(textArea);
+                  textArea.select();
+                  document.execCommand("copy");
+                  document.body.removeChild(textArea);
+                  alert("Game URL has been copied to your clipboard!");
+                });
+            }}
+          >
+            Share Game
+          </button>
+        )}
       </div>
     </div>
   );
