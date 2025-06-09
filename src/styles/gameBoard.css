@@ -327,7 +327,7 @@
 .word-tile-text {
   display: block;
   width: 90%;
-  font-size: clamp(0.5rem, 1.8vw, 1rem);
+  font-size: clamp(0.5rem, 1vw, 1rem);
   white-space: nowrap;
   text-align: center;
   margin: 0 auto;
