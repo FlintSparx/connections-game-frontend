@@ -240,11 +240,11 @@ function GameBoard({ gameId: propGameId }) {
   const shuffleUnfoundWords = (array, foundCats) => {
     // Extract words from found categories
     const foundWords = array.filter((item) =>
-      foundCats.includes(item.catIndex),
+      foundCats.includes(item.catIndex)
     );
     // Extract words from unfound categories
     const unfoundWords = array.filter(
-      (item) => !foundCats.includes(item.catIndex),
+      (item) => !foundCats.includes(item.catIndex)
     );
 
     // Shuffle only the unfound words
@@ -274,7 +274,7 @@ function GameBoard({ gameId: propGameId }) {
 
     // Add remaining unfound words
     const unfoundWords = words.filter(
-      (item) => !foundCats.includes(item.catIndex),
+      (item) => !foundCats.includes(item.catIndex)
     );
     organizedWords.push(...unfoundWords);
 
@@ -342,7 +342,7 @@ function GameBoard({ gameId: propGameId }) {
                       ? prev.filter((i) => i !== idx) // Deselect if already selected
                       : prev.length < 4
                       ? [...prev, idx]
-                      : prev, // Select if less than 4 selected
+                      : prev // Select if less than 4 selected
                 );
               }}
               catIndex={item.catIndex}
@@ -421,11 +421,13 @@ function GameBoard({ gameId: propGameId }) {
       )}
       {/* Game control buttons - Submit requires 4 selections, Shuffle and New Game always available */}
       <div
+        className="game-buttons"
         style={{
           display: "flex",
           justifyContent: "center",
           gap: "1rem",
           marginTop: "1.5rem",
+          flexWrap: "wrap",
         }}
       >
         {" "}
@@ -442,7 +444,7 @@ function GameBoard({ gameId: propGameId }) {
               if (tries < 4 || keepPlaying) {
                 const firstCat = organizedWords[selected[0]].catIndex;
                 const isCorrectGroup = selected.every(
-                  (idx) => organizedWords[idx].catIndex === firstCat,
+                  (idx) => organizedWords[idx].catIndex === firstCat
                 );
 
                 if (isCorrectGroup) {
@@ -454,7 +456,7 @@ function GameBoard({ gameId: propGameId }) {
                   setTimeout(() => {
                     setFoundCategories(newFoundCategories);
                     setAnimatingCats((prev) =>
-                      prev.filter((cat) => cat !== firstCat),
+                      prev.filter((cat) => cat !== firstCat)
                     );
                     // Reorganize words with found categories first
                     setWords(organizeWords(words, newFoundCategories));
@@ -512,6 +514,31 @@ function GameBoard({ gameId: propGameId }) {
         >
           New Game
         </button>
+        {gameId && (
+          <button
+            className="game-action-btn"
+            onClick={() => {
+              const gameUrl = `${window.location.origin}/play/${gameId}`;
+              navigator.clipboard
+                .writeText(gameUrl)
+                .then(() => {
+                  alert("Game URL has been copied to your clipboard!");
+                })
+                .catch(() => {
+                  // Fallback for older browsers
+                  const textArea = document.createElement("textarea");
+                  textArea.value = gameUrl;
+                  document.body.appendChild(textArea);
+                  textArea.select();
+                  document.execCommand("copy");
+                  document.body.removeChild(textArea);
+                  alert("Game URL has been copied to your clipboard!");
+                });
+            }}
+          >
+            Share Game
+          </button>
+        )}
       </div>
     </div>
   );
