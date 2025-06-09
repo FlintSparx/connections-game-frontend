@@ -317,6 +317,27 @@
   margin: 0 auto;
 }
 
+/* Large screen font scaling - ensure text fits in tiles */
+@media (min-width: 871px) {
+  .word-tile-text {
+    font-size: clamp(0.6rem, 0.8vw, 0.9rem);
+  }
+}
+
+/* Extra large screen font scaling */
+@media (min-width: 1200px) {
+  .word-tile-text {
+    font-size: clamp(0.65rem, 0.7vw, 0.85rem);
+  }
+}
+
+/* Very large screen font scaling */
+@media (min-width: 1600px) {
+  .word-tile-text {
+    font-size: clamp(0.7rem, 0.6vw, 0.8rem);
+  }
+}
+
 /* =============================================================================
    PUZZLE FORM STYLES
    ============================================================================= */
