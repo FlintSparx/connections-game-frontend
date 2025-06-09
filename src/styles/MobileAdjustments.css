@@ -1,12 +1,7 @@
+/* =============================================================================
+   BASE CONTAINER ADJUSTMENTS
+   ============================================================================= */
 /* 
-* MobileAdjustments.css
-* Handles responsive design for the Connections Game app
-* Focus on table-to-card transformations at 1000px breakpoint
-* Last updated: May 28, 2025
-*/
-
-/* 
-* SECTION: Base Container Adjustments
 * Prevents horizontal scrolling and sets proper sizing
 */
 html,
@@ -39,35 +34,10 @@ body {
   }
 }
 
+/* =============================================================================
+   TABLE LAYOUT IMPROVEMENTS
+   ============================================================================= */
 /* 
-* SECTION: Navigation Improvements
-* Makes navigation more consistent across screen sizes
-*/
-.navbar-links {
-  gap: 1rem !important;
-}
-
-/* Add spacing between navbar buttons */
-.nav-item-main {
-  margin-right: 0.5rem;
-}
-
-/* Ensure button spacing is maintained on all screen sizes */
-.navbar-links li {
-  margin: 0.25rem;
-}
-
-/* Improve touch targets in navigation */
-.nav-link,
-.navbar-logo {
-  min-height: 44px; /* Apple's recommended minimum touch target size */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 
-* SECTION: Table Layout Improvements
 * Prevents tables from causing horizontal scroll
 */
 .data-table {
@@ -141,6 +111,10 @@ body {
   width: 15%;
 }
 
+/* =============================================================================
+   RESPONSIVE BREAKPOINTS - EXTRA SMALL SCREENS
+   ============================================================================= */
+
 /* Extra Small Screen Adjustments (<480px)*/
 @media (max-width: 480px) {
   /* Smaller buttons for very small screens */
@@ -150,12 +124,6 @@ body {
     font-size: 0.9rem;
     margin: 0.2rem;
   }
-
-  /* Shrink navbar items for extra small screens */
-  .navbar-links li {
-    margin: 0.15rem;
-  }
-
   /* Tighter spacing on list containers for very small screens */
   .list-page-container {
     padding: 0.75rem 0.5rem !important;
@@ -196,11 +164,6 @@ body {
 /* Specific adjustments for game board in small portrait screens - handled above */
 /* Small Screen Adjustments (<640px) navigation and containers for mobile screens*/
 @media (max-width: 640px) {
-  /* Navbar adjustments */
-  .navbar {
-    padding: 0.5rem 0.75rem;
-  }
-
   /* Root container padding */
   #root {
     padding: 1rem;
@@ -233,72 +196,9 @@ body {
   }
 }
 
-/* Ensure minimum width for game board on larger screens */
-@media (min-width: 871px) {
-  .game-board {
-    min-width: 600px;
-  }
-}
-
-/* Small screen optimizations for game board page */
-@media (max-width: 870px) {
-  /* Reduce container padding for game pages */
-  .container {
-    padding: 1rem 0.5rem;
-    margin: 0.5rem auto;
-  }
-  
-  /* Optimize word tile sizing for mobile */
-  .word-tile {
-    height: 3.5rem;
-    font-size: 0.85rem;
-    padding: 0.15rem;
-  }
-  
-  /* Reduce gaps and margins in game board - increase width for more tile space */
-  .game-board {
-    gap: 0.4rem;
-    margin-bottom: 1rem;
-    max-width: 90% !important;
-  }
-}
-
-@media (max-width: 480px) {
-  /* Even more compact for very small screens */
-  .container {
-    padding: 0.75rem 0.25rem;
-    margin: 0.25rem auto;
-  }
-  
-  .word-tile {
-    height: 3rem;
-    font-size: 0.8rem;
-    padding: 0.1rem;
-  }
-  
-  .game-board {
-    gap: 0.25rem;
-    margin-bottom: 0.75rem;
-    max-width: 85%;
-  }
-}
-
-@media (max-width: 360px) {
-  /* Extra compact for very narrow screens */
-  .word-tile {
-    height: 2.75rem;
-    font-size: 0.75rem;
-    padding: 0.05rem;
-  }
-  
-  .game-board {
-    gap: 0.2rem;
-    max-width: 95%;
-  }
-}
-
 /* Tablet/Medium Screen Adjustments (597px to 1360px)*/
-@media (min-width: 597px) and (max-width: 1360px) {  /* Adjust table column widths for medium screens */
+@media (min-width: 597px) and (max-width: 1360px) {
+  /* Adjust table column widths for medium screens */
   .data-table th,
   .data-table td {
     padding: 0.5em 0.75em;
@@ -323,16 +223,15 @@ body {
     margin: 0.75rem auto !important;
     padding: 0.75rem !important;
   }
-
-  /* Make sure buttons have proper spacing */
-  .navbar-links {
-    gap: 0.75rem !important;
-  }
   /* Remove minimum width constraint that could cause overflow */
   .data-table {
     min-width: 0 !important;
   }
 }
+
+/* =============================================================================
+   TABLE-TO-CARD TRANSFORMATION (1000px BREAKPOINT)
+   ============================================================================= */
 
 /* Card View Transformation (<1000px)*/
 @media (max-width: 1000px) {
@@ -342,7 +241,6 @@ body {
     max-width: 100%;
     display: block;
   }
-
   /* Converts table cells to block elements for card layout */
   .data-table tbody td {
     display: block;
@@ -352,8 +250,8 @@ body {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 0;
+    border-radius: 0; /* Reset border-radius for middle cells in card view */
   }
-
   /* Special styling for the last cell in each row */
   .data-table tbody td:last-child {
     border-bottom: none;
@@ -362,6 +260,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
+    border-radius: 0 0 12px 12px; /* Round bottom corners for last cell in card view */
   }
 
   /* Adds data-label content to identify cell purpose in card view */
@@ -513,20 +412,11 @@ body {
     text-align: center;
     padding: 0.75rem;
   }
-
-  /* Only the first cell (name) gets green background in solved games, not the whole card */
-  .data-table tr.solved-game td:first-child {
-    background-color: #dcfce7;
-    border-bottom: 2px solid #16a34a;
-    box-shadow: 0 1px 3px rgba(22, 163, 74, 0.2);
-  }
-
-  /* Add a subtle indicator to solved game cards */
-  .data-table tr.solved-game {
-    border: 1px solid #16a34a;
-    box-shadow: 0 2px 10px rgba(22, 163, 74, 0.15);
-  }
 }
+
+/* =============================================================================
+   DARK MODE COMPATIBILITY
+   ============================================================================= */
 
 /* Dark mode compatibility for card view */
 @media (prefers-color-scheme: dark) {
@@ -555,19 +445,6 @@ body {
   /* Data labels */
   .data-table tbody td::before {
     color: #cbd5e1;
-  }
-
-  /* Solved game styling for dark mode */
-  .data-table tr.solved-game td:first-child {
-    background-color: #14532d;
-    border-bottom: 2px solid #16a34a;
-    color: #f7fafc;
-  }
-
-  /* Solved game card styling for dark mode */
-  .data-table tr.solved-game {
-    border: 1px solid #16a34a;
-    box-shadow: 0 2px 10px rgba(22, 163, 74, 0.25);
   }
 }
 

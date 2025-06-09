@@ -1,4 +1,7 @@
-/* Button styles */
+/* =============================================================================
+   BUTTON STYLING
+   ============================================================================= */
+
 .btn {
   display: inline-block;
   padding: 0.4em 1.1em;
@@ -71,6 +74,10 @@
   align-items: center;
 }
 
+/* =============================================================================
+   TABLE CONTAINER AND STRUCTURE
+   ============================================================================= */
+
 /* Table wrapper for horizontal scroll on small screens */
 .table-wrapper {
   overflow-x: auto;
@@ -121,6 +128,10 @@
   border: none;
   margin: 0;
 }
+
+/* =============================================================================
+   TABLE ROW AND CELL STYLING
+   ============================================================================= */
 
 /* Row styling */
 .data-table tr {
@@ -179,6 +190,10 @@
 
 /* The general first-child and last-child rules above handle border-radius automatically */
 
+/* =============================================================================
+   LIST PAGE CONTAINER AND HEADER STYLES
+   ============================================================================= */
+
 /* Container and header styles for list pages */
 .list-page-container {
   width: 95%;
@@ -222,6 +237,10 @@
 .list-page-header {
   margin-bottom: 1.5rem;
 }
+
+/* =============================================================================
+   FORM CONTROL STYLING
+   ============================================================================= */
 
 /* Form control styles for inputs */
 .form-control {
@@ -298,6 +317,10 @@ input[type="checkbox"][name="isAdmin"] {
   margin-right: 0.35em;
 }
 
+/* =============================================================================
+   TAGS AND CATEGORIES STYLING
+   ============================================================================= */
+
 /*Categories cell style for better text display*/
 .categories-cell {
   display: -webkit-box;
@@ -310,7 +333,6 @@ input[type="checkbox"][name="isAdmin"] {
   max-height: 3.2em;
 }
 
-
 .tags-container {
   display: flex;
   flex-wrap: wrap;
@@ -318,20 +340,9 @@ input[type="checkbox"][name="isAdmin"] {
   align-items: center;
 }
 
-/* Responsive word grid for PuzzleForm */
-@media (min-width: 390px) and (max-width: 492px) {
-  .word-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    max-width: 280px;
-    margin: 0 auto;
-  }
-}
-
-@media (min-width: 493px) {
-  .word-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
+/* =============================================================================
+   RESPONSIVE STYLES - MEDIUM SCREENS
+   ============================================================================= */
 
 /* 
 * Custom media query for medium screens (597px to 1360px)
@@ -374,12 +385,16 @@ input[type="checkbox"][name="isAdmin"] {
     min-width: 70px;
     margin: 0.25rem;
     font-size: 0.95rem;
-  }
-  /* Optimize text display in category cells */
+  } /* Optimize text display in category cells */
   .categories-cell {
     white-space: normal;
   }
 }
+
+/* =============================================================================
+   FILTER CONTAINER STYLES
+   ============================================================================= */
+
 /* Filter container styles for list pages */
 .filter-container {
   background-color: #f8fafc;
@@ -416,6 +431,10 @@ input[type="checkbox"][name="isAdmin"] {
   }
 }
 
+/* =============================================================================
+   DIFFICULTY BADGE STYLING
+   ============================================================================= */
+
 /* Difficulty badge styling */
 .difficulty-badge {
   display: inline-block;
@@ -445,6 +464,10 @@ input[type="checkbox"][name="isAdmin"] {
   background-color: #e2e8f0;
   color: #475569;
 }
+
+/* =============================================================================
+   EDIT MODAL AND OVERLAY STYLES
+   ============================================================================= */
 
 /* Edit form overlay styles*/
 .edit-overlay {
@@ -556,6 +579,10 @@ input[type="checkbox"][name="isAdmin"] {
     padding: 2rem;
   }
 }
+
+/* =============================================================================
+   DARK MODE COMPATIBILITY
+   ============================================================================= */
 
 /* Dark Mode Compatibility */
 @media (prefers-color-scheme: dark) {

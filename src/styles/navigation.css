@@ -1,0 +1,261 @@
+/* =============================================================================
+   MAIN NAVBAR CONTAINER
+   ============================================================================= */
+
+/* Main navbar container */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: #2d3748;
+  padding: 0.75rem 2rem;
+  border-radius: 16px;
+  margin: 0 auto 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* =============================================================================
+   NAVBAR LOGO STYLING
+   ============================================================================= */
+
+/* Navbar logo styling */
+.navbar-logo {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.navbar-logo:hover {
+  background: #2563eb;
+  color: #fff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 16px 2px #2563eb;
+}
+
+/* =============================================================================
+   NAVIGATION LINKS AND BUTTONS
+   ============================================================================= */
+
+/* Navbar links container */
+.navbar-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  gap: 1rem !important;
+}
+
+/* Navigation links and buttons */
+.nav-link,
+.btn,
+button {
+  color: #e2e8f0;
+  background: #4a5568;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px #2d3748;
+}
+
+.nav-link:hover,
+.btn:hover,
+button:hover,
+.nav-link.active,
+.btn.active,
+button.active,
+.nav-link[aria-current="page"],
+.btn[aria-current="page"],
+button[aria-current="page"] {
+  background: #2563eb;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 0 16px 2px #2563eb;
+}
+
+/* Make nav-link buttons readable on white backgrounds */
+.nav-link:not(.active) {
+  box-shadow: 0 0 0 1px #cbd5e1;
+}
+
+/* Navigation item styling */
+.nav-item-main {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+/* =============================================================================
+   MOBILE MENU (HAMBURGER)
+   ============================================================================= */
+
+/* Mobile menu button (hamburger menu) */
+.mobile-menu-button {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 24px;
+  width: 30px;
+}
+
+.mobile-menu-button span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #e2e8f0;
+  border-radius: 3px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+/* =============================================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================================= */
+
+/* Mobile styles for navbar (≤870px) */
+@media (max-width: 870px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+    position: relative;
+  }
+
+  .mobile-menu-button {
+    display: flex;
+    z-index: 1001;
+  }
+
+  .navbar-logo {
+    margin-bottom: 0;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    background: #2d3748;
+    padding: 20px;
+    width: calc(100% - 40px);
+    max-width: 300px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    margin: 0.5rem 0 0 0;
+    gap: 1rem;
+    box-sizing: border-box;
+  }
+
+  .navbar-links.show-mobile-menu {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .navbar-links li {
+    margin: 0.25rem;
+    width: 100%;
+  }
+
+  .nav-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.7rem 0;
+  }
+}
+
+/* Ensure nav items display inline on larger screens */
+@media (min-width: 871px) {
+  .nav-item-main {
+    display: inline-block;
+  }
+}
+
+/* Medium viewport - When Connections header wraps but before mobile menu (871px-1048px) */
+@media (min-width: 871px) and (max-width: 1048px) {
+  .navbar {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .navbar-logo {
+    flex-basis: 100%;
+    text-align: center;
+    margin: 0 auto 0.75rem;
+  }
+
+  .navbar-links {
+    justify-content: center;
+    margin: 0.5rem auto 0;
+    gap: 1rem;
+  }
+}
+
+/* Small screen adjustments (≤640px) */
+@media (max-width: 640px) {
+  .navbar {
+    padding: 0.5rem 0.75rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 98%;
+    margin: 0 auto 1rem;
+  }
+}
+
+/* Extra small screen navbar adjustments */
+@media (max-width: 480px) {
+  /* Shrink navbar items for extra small screens */
+  .navbar-links li {
+    margin: 0.15rem;
+  }
+}
+
+/* Mid-small screen navbar adjustments */
+@media (max-width: 768px) {
+  /* Make sure buttons have proper spacing */
+  .navbar-links {
+    gap: 0.75rem !important;
+  }
+}
+
+/* =============================================================================
+   ACCESSIBILITY AND DARK MODE
+   ============================================================================= */
+
+/* Dark Mode Compatibility */
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Improve touch targets in navigation */
+.nav-link,
+.navbar-logo {
+  min-height: 44px; /* Apple's recommended minimum touch target size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

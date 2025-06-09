@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../App";
 import { useNavigate, useLocation } from "react-router-dom";
+import "../styles/profile.css";
 
 function Profile() {
   const { user, setToken } = useContext(UserContext);
@@ -227,11 +228,15 @@ function Profile() {
           </div>
           <div className="profile-field">
             <label className="profile-label">Date of Birth:</label>
-           <p className="profile-value">
-  {formData.dateOfBirth
-    ? formData.dateOfBirth.split('-').slice(1).concat(formData.dateOfBirth.split('-')[0]).join('/')
-    : "Not provided"}
-</p>
+            <p className="profile-value">
+              {formData.dateOfBirth
+                ? formData.dateOfBirth
+                    .split("-")
+                    .slice(1)
+                    .concat(formData.dateOfBirth.split("-")[0])
+                    .join("/")
+                : "Not provided"}
+            </p>
           </div>
           <div className="profile-field">
             <label className="profile-label">Games Won:</label>

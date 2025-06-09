@@ -16,6 +16,9 @@ function PuzzleForm({
     "#93c5fd", // blue
   ];
 
+  // Set the max word length
+  const WORD_MAX_LENGTH = 15;
+
   const [gameName, setGameName] = useState(initialName);
   const [categoryErrors, setCategoryErrors] = useState(["", "", "", ""]);
   const [formError, setFormError] = useState("");
@@ -43,31 +46,6 @@ function PuzzleForm({
     });
   });
 
-  // Process comma-separated input and enforce the 4-item limit
-  const processCommaInput = (input, categoryIndex) => {
-    if (!input) return [];
-
-    const words = input
-      .split(",")
-      .map((word) => word.trim())
-      .filter((word) => word !== "");
-
-    const hasExceededLimit = words.length > 4;
-
-    // Update error state if needed
-    if (hasExceededLimit) {
-      const newErrors = [...categoryErrors];
-      newErrors[categoryIndex] = "Only 4 words allowed per category.";
-      setCategoryErrors(newErrors);
-    } else if (categoryErrors[categoryIndex]) {
-      const newErrors = [...categoryErrors];
-      newErrors[categoryIndex] = "";
-      setCategoryErrors(newErrors);
-    }
-
-    return words.slice(0, 4); // Limit to 4 items
-  };
-
   const handleCategoryNameChange = (catIdx, value) => {
     setCategories((prev) => {
       const updated = [...prev];
@@ -77,36 +55,15 @@ function PuzzleForm({
   };
 
   const handleWordChange = (catIdx, wordIdx, value) => {
-    if (value.includes(",")) {
-      // Handle comma-separated input
-      const wordList = processCommaInput(value, catIdx);
-
-      if (wordList.length > 0) {
-        setCategories((prev) => {
-          const updated = [...prev];
-          const words = [...updated[catIdx].words];
-
-          // Fill words starting from current position
-          wordList.forEach((word, i) => {
-            if (wordIdx + i < 4) {
-              words[wordIdx + i] = word;
-            }
-          });
-
-          updated[catIdx] = { ...updated[catIdx], words };
-          return updated;
-        });
-      }
-    } else {
-      // Handle single word input
-      setCategories((prev) => {
-        const updated = [...prev];
-        const words = [...updated[catIdx].words];
-        words[wordIdx] = value;
-        updated[catIdx] = { ...updated[catIdx], words };
-        return updated;
-      });
-    }
+    // Remove spaces and limit to 15 characters
+    const sanitized = value.replace(/\s+/g, "").slice(0, WORD_MAX_LENGTH);
+    setCategories((prev) => {
+      const updated = [...prev];
+      const words = [...updated[catIdx].words];
+      words[wordIdx] = sanitized;
+      updated[catIdx] = { ...updated[catIdx], words };
+      return updated;
+    });
   };
 
   // Handle form submission with validation
@@ -139,13 +96,15 @@ function PuzzleForm({
       }
     });
 
+    setCategoryErrors(newErrors);
+
+    if (hasError) return;
+
+    // Prepare categories object for submission
     const categoriesObj = {};
     categories.forEach((cat, i) => {
       categoriesObj[`category${i + 1}`] = cat;
     });
-    setCategoryErrors(newErrors);
-
-    if (hasError) return;
 
     // Submit the form data
     onSubmit({
@@ -153,7 +112,9 @@ function PuzzleForm({
       ...categoriesObj,
     });
   };
-  return (    <form
+
+  return (
+    <form
       onSubmit={handleSubmit}
       style={{
         marginBottom: 32,
@@ -168,7 +129,8 @@ function PuzzleForm({
         boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
         boxSizing: "border-box",
       }}
-    ><div style={{ marginBottom: 16 }}>
+    >
+      <div style={{ marginBottom: 16 }}>
         <label
           htmlFor="gameName"
           style={{ display: "block", marginBottom: 4, fontWeight: 600 }}
@@ -215,7 +177,8 @@ function PuzzleForm({
         }}
       >
         {categories.map((cat, catIdx) => (
-          <div key={catIdx}>            <div
+          <div key={catIdx}>
+            <div
               style={{
                 background: CATEGORY_COLORS[catIdx],
                 borderRadius: "6px 6px 0 0",
@@ -254,7 +217,8 @@ function PuzzleForm({
                 }}
                 maxLength={32}
               />
-            </div>            <div
+            </div>
+            <div
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(90px, 1fr))",
@@ -268,14 +232,16 @@ function PuzzleForm({
               }}
               className="word-grid"
             >
-              {cat.words.map((word, wordIdx) => (                <input
+              {cat.words.map((word, wordIdx) => (
+                <input
                   key={wordIdx}
                   type="text"
                   placeholder={`Word ${wordIdx + 1}`}
                   value={word}
                   onChange={(e) =>
                     handleWordChange(catIdx, wordIdx, e.target.value)
-                  }                  style={{
+                  }
+                  style={{
                     width: "100%",
                     minWidth: "80px",
                     maxWidth: "120px",
@@ -290,7 +256,7 @@ function PuzzleForm({
                     padding: "0 2px",
                     boxSizing: "border-box",
                   }}
-                  maxLength={15}
+                  maxLength={WORD_MAX_LENGTH}
                 />
               ))}
             </div>
@@ -308,7 +274,8 @@ function PuzzleForm({
             )}
           </div>
         ))}
-      </div>      <button
+      </div>
+      <button
         type="submit"
         disabled={loading}
         style={{

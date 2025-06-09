@@ -34,7 +34,7 @@ function WordTile({
       onClick={onClick}
       className={`word-tile${isJumping ? " jump-up" : ""}${
         isShaking ? " shake" : ""
-      }`}      // Apply styles directly to the word tile button
+      }`}
       style={{
         width: "100%",
         height: "4.5rem",
@@ -52,10 +52,9 @@ function WordTile({
         padding: "0.15rem",
         boxSizing: "border-box",
         minWidth: 0,
-        wordBreak: "break-word",
-        hyphens: "auto",      }}
+      }}
     >
-      {word}
+      <span className="word-tile-text">{word}</span>
       {categoryName && (
         <div
           style={{

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import Login from "../components/Login";
 import { UserContext } from "../App";
+import "../styles/profile.css";
 
 function Authenticate() {
   const { setShowRegisterOverlay } = useContext(UserContext);

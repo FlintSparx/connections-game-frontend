@@ -1,10 +1,11 @@
 import { useContext, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../App";
-import "../../styles/App.css";
+import "../../styles/navigation.css";
 
 // Navigation component that handles responsive menu display and routing between pages
-function Navigation({ setShowCreateGameOverlay }) { // Modified: Added setShowCreateGameOverlay prop
+function Navigation({ setShowCreateGameOverlay }) {
+  // Modified: Added setShowCreateGameOverlay prop
   const { user, token } = useContext(UserContext);
   const [menuOpen, setMenuOpen] = useState(false); // State to track mobile menu open/closed status
   const location = useLocation();
