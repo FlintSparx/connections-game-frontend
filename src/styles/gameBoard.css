@@ -168,12 +168,14 @@
     padding: 1rem 0.5rem;
     margin: 0.5rem auto;
   }
-
   /* Optimize word tile sizing for mobile */
   .word-tile {
     height: 3.5rem;
-    font-size: 0.85rem;
     padding: 0.15rem;
+  }
+
+  .word-tile-text {
+    font-size: 0.85rem;
   }
 
   /* Reduce gaps and margins in game board - increase width for more tile space */
@@ -190,11 +192,13 @@
     padding: 0.75rem 0.25rem;
     margin: 0.25rem auto;
   }
-
   .word-tile {
     height: 3rem;
-    font-size: 0.8rem;
     padding: 0.1rem;
+  }
+
+  .word-tile-text {
+    font-size: 0.8rem;
   }
 
   .game-board {
@@ -204,12 +208,14 @@
   }
 }
 
-@media (max-width: 360px) {
-  /* Extra compact for very narrow screens */
+@media (max-width: 360px) {  /* Extra compact for very narrow screens */
   .word-tile {
     height: 2.75rem;
-    font-size: 0.75rem;
     padding: 0.05rem;
+  }
+
+  .word-tile-text {
+    font-size: 0.75rem;
   }
 
   .game-board {
