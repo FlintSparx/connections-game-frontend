@@ -123,6 +123,12 @@
   /* Animation classes should not be overwritten */
 }
 
+/* Prevent global button hover from making text invisible */
+.word-tile:hover {
+  background: inherit !important;
+  color: #000 !important;
+}
+
 .word-tile.game-complete {
   animation: jumpUp 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   animation-delay: calc(var(--delay, 0) * 0.1s);
@@ -292,6 +298,18 @@
    ============================================================================= */
 
 @media (prefers-color-scheme: dark) {
+  /* Word tiles in dark mode - solid colors for visibility */
+  .word-tile {
+    background-color: #374151 !important;
+    color: #f3f4f6 !important;
+    border-color: #6b7280;
+  }
+
+  .word-tile:hover {
+    background-color: #374151 !important;
+    color: #f3f4f6 !important;
+  }
+
   /* Congratulations message - override inline styles */
   div[style*="background-color: rgb(209, 250, 229)"] {
     background-color: #e2e8f0 !important;
