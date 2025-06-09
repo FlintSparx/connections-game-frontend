@@ -97,9 +97,8 @@ function UsersAdmin() {
       <h1 className="list-page-title mb-4">Users Administration</h1>
       {loading ? (
         <p>Loading users...</p>
-      ) : (
-        <div className="table-wrapper">
-          <table className="list-table">
+      ) : (        <div className="table-wrapper">
+          <table className="data-table">
             {" "}
             <thead>
               <tr>

@@ -75,9 +75,8 @@ function GameBoardsListAdmin() {
       <CreateGame
         showOverlay={showCreateGameOverlay}
         onClose={handleCreateGameSuccess}
-      />
-      <div className="table-wrapper">
-        <table className="list-table">
+      />      <div className="table-wrapper">
+        <table className="data-table">
           <thead>
             <tr>
               <th className="name-column">Name</th>

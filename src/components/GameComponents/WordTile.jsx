@@ -12,7 +12,6 @@ const CATEGORY_COLORS = [
 function WordTile({
   word, // The word to display
   selected, // Whether this tile is currently selected
-  correct, // Whether this tile's group has been correctly identified
   onClick, // Function to call when clicked
   catIndex, // The category index this word belongs to (0-3)
   foundGroupCatIndex, // If this word's category has been found, its index
@@ -27,7 +26,6 @@ function WordTile({
       : selected
       ? "#bfdbfe" // Light blue when selected
       : "#f8fafc"; // Very light gray for maximum readability when not selected
-
   return (
     <button
       type="button"
@@ -35,35 +33,11 @@ function WordTile({
       className={`word-tile${isJumping ? " jump-up" : ""}${
         isShaking ? " shake" : ""
       }`}
-      // Apply styles directly to the word tile button
-      style={{
-        width: "100%",
-        height: "4.5rem",
-        border: "1px solid black",
-        borderRadius: "0.375rem",
-        fontWeight: 600,
-        fontSize: "1rem",
-        background: tileBackground,
-        color: "#000", // Ensure text is always black
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: 0,
-        padding: "0.25rem",
-      }}
+      style={{ background: tileBackground }}
     >
-      {word}
+      <span className="word-tile-text">{word}</span>
       {categoryName && (
-        <div
-          style={{
-            fontSize: "0.6rem",
-            marginTop: "0.25rem",
-            opacity: 0.8,
-          }}
-        >
-          {categoryName}
-        </div>
+        <div className="word-tile-category-name">{categoryName}</div>
       )}
     </button>
   );

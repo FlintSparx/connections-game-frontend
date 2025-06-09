@@ -1,4 +1,7 @@
-/* Button styles */
+/* =============================================================================
+   BUTTON STYLING
+   ============================================================================= */
+
 .btn {
   display: inline-block;
   padding: 0.4em 1.1em;
@@ -71,6 +74,10 @@
   align-items: center;
 }
 
+/* =============================================================================
+   TABLE CONTAINER AND STRUCTURE
+   ============================================================================= */
+
 /* Table wrapper for horizontal scroll on small screens */
 .table-wrapper {
   overflow-x: auto;
@@ -80,9 +87,8 @@
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
-/* Shared table styles for list and browse pages */
-.list-table,
-.game-boards-table {
+/* Shared table styles for all data tables (consolidated from .list-table and .game-boards-table) */
+.data-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 12px; /* Creates space between rows */
@@ -93,11 +99,9 @@
   box-sizing: border-box;
 }
 
-/*  Table cell properties  styles for  headers/data cells */
-.list-table th,
-.list-table td,
-.game-boards-table th,
-.game-boards-table td {
+/* Table cell properties styles for headers/data cells */
+.data-table th,
+.data-table td {
   border: none;
   padding: 0.65em 1em;
   text-align: left;
@@ -105,8 +109,7 @@
 }
 
 /* Header styles w/ slight background to distinguish from data rows */
-.list-table th,
-.game-boards-table th {
+.data-table th {
   background: #f7f7f7;
   font-weight: bold;
   color: #222;
@@ -114,23 +117,24 @@
 }
 
 /* Header row styling for seamless connected appearance */
-.list-table thead tr,
-.game-boards-table thead tr {
+.data-table thead tr {
   background: #f7f7f7;
   border-spacing: 0;
 }
 
 /* Remove any gaps between header cells for seamless appearance */
-.list-table thead th,
-.game-boards-table thead th {
+.data-table thead th {
   padding: 0.65em 1em;
   border: none;
   margin: 0;
 }
 
-/* Row styling*/
-.list-table tr,
-.game-boards-table tr {
+/* =============================================================================
+   TABLE ROW AND CELL STYLING
+   ============================================================================= */
+
+/* Row styling */
+.data-table tr {
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
@@ -138,33 +142,28 @@
 }
 
 /* Solved game styling - green background for completed games */
-.list-table tr.solved-game,
-.game-boards-table tr.solved-game {
+.data-table tr.solved-game {
   background: #dcfce7; /* Light green background */
   border: 2px solid #16a34a; /* Green border */
 }
 
-.list-table tr.solved-game:hover,
-.game-boards-table tr.solved-game:hover {
+.data-table tr.solved-game:hover {
   background: #bbf7d0; /* Slightly darker green on hover */
   box-shadow: 0 4px 16px rgba(22, 163, 74, 0.25); /* Green shadow */
 }
 
-.list-table tr.solved-game:nth-child(even),
-.game-boards-table tr.solved-game:nth-child(even) {
+.data-table tr.solved-game:nth-child(even) {
   background: #dcfce7; /* Override zebra striping for solved games */
 }
 
 /* Hover effect for rows - highlights the current row */
-.list-table tr:hover,
-.game-boards-table tr:hover {
+.data-table tr:hover {
   background: #f1f5f9;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-/* Zebra striping  alternates background color for easier reading */
-.list-table tr:nth-child(even),
-.game-boards-table tr:nth-child(even) {
+/* Zebra striping alternates background color for easier reading */
+.data-table tr:nth-child(even) {
   background: #f9fafb;
 }
 
@@ -172,75 +171,28 @@
 * Border radius for first and last cells in a row
 * This creates rounded corners on the table rows
 */
-.list-table td:first-child,
-.game-boards-table td:first-child {
+.data-table td:first-child {
   border-radius: 16px 0 0 16px;
 }
 
-.list-table td:last-child,
-.game-boards-table td:last-child {
+.data-table td:last-child {
   border-radius: 0 16px 16px 0;
 }
 
 /* Table header specific styling - only first and last th get rounded corners */
-.list-table th:first-child,
-.game-boards-table th:first-child {
+.data-table th:first-child {
   border-radius: 16px 0 0 16px;
 }
 
-.list-table th:last-child,
-.game-boards-table th:last-child {
+.data-table th:last-child {
   border-radius: 0 16px 16px 0;
 }
 
-/* Column-specific styling for table cells (not headers) */
-/* Only cells in data rows get these styles, not headers */
-/* For the Browse Games page, name-column should have rounded corners */
-.game-boards-table tbody .name-column {
-  border-radius: 16px 0 0 16px;
-}
+/* The general first-child and last-child rules above handle border-radius automatically */
 
-/* For the Admin pages, name-column should NOT have rounded corners since ID column is first */
-.list-table tbody .name-column {
-  border-radius: 0;
-}
-
-/* Creator column has no rounded corners (middle column) */
-.list-table tbody .creator-column,
-.game-boards-table tbody .creator-column {
-  border-radius: 0;
-}
-
-/* Tags column has no rounded corners (middle column) */
-.list-table tbody .tags-column,
-.game-boards-table tbody .tags-column {
-  border-radius: 0;
-}
-
-/* Difficulty column has no rounded corners (middle column) */
-.list-table tbody .difficulty-column,
-.game-boards-table tbody .difficulty-column {
-  border-radius: 0;
-}
-
-/* Actions column gets rounded corners on the right side only (since it's last column) */
-.list-table tbody .actions-column,
-.game-boards-table tbody .actions-column {
-  border-radius: 0 16px 16px 0;
-}
-
-/* Admin-specific column styles */
-.list-table tbody .id-column,
-.game-boards-table tbody .id-column {
-  border-radius: 16px 0 0 16px;
-}
-
-.list-table tbody .categories-column,
-.game-boards-table tbody .categories-column,
-.list-table tbody .words-column,
-.game-boards-table tbody .words-column {
-  border-radius: 0;
-}
+/* =============================================================================
+   LIST PAGE CONTAINER AND HEADER STYLES
+   ============================================================================= */
 
 /* Container and header styles for list pages */
 .list-page-container {
@@ -257,7 +209,6 @@
 /* Responsive width adjustments for list container*/
 @media (min-width: 768px) {
   .list-page-container {
-    width: 95%;
     padding: 1.5rem 1rem;
     margin: 1.5rem auto;
   }
@@ -265,7 +216,6 @@
 
 @media (min-width: 1024px) {
   .list-page-container {
-    width: 95%;
     padding: 2rem;
     margin: 2rem auto;
   }
@@ -273,7 +223,6 @@
 
 @media (min-width: 1280px) {
   .list-page-container {
-    width: 95%;
     padding: 3rem;
   }
 }
@@ -288,6 +237,10 @@
 .list-page-header {
   margin-bottom: 1.5rem;
 }
+
+/* =============================================================================
+   FORM CONTROL STYLING
+   ============================================================================= */
 
 /* Form control styles for inputs */
 .form-control {
@@ -364,6 +317,10 @@ input[type="checkbox"][name="isAdmin"] {
   margin-right: 0.35em;
 }
 
+/* =============================================================================
+   TAGS AND CATEGORIES STYLING
+   ============================================================================= */
+
 /*Categories cell style for better text display*/
 .categories-cell {
   display: -webkit-box;
@@ -376,12 +333,6 @@ input[type="checkbox"][name="isAdmin"] {
   max-height: 3.2em;
 }
 
-/* Tags column styling */
-.tags-column {
-  width: 15%;
-  min-width: 120px;
-}
-
 .tags-container {
   display: flex;
   flex-wrap: wrap;
@@ -389,12 +340,9 @@ input[type="checkbox"][name="isAdmin"] {
   align-items: center;
 }
 
-/* Responsive word grid for PuzzleForm - adjusts column count */
-@media (min-width: 481px) {
-  .word-grid {
-    grid-template-columns: repeat(4, 1fr) !important;
-  }
-}
+/* =============================================================================
+   RESPONSIVE STYLES - MEDIUM SCREENS
+   ============================================================================= */
 
 /* 
 * Custom media query for medium screens (597px to 1360px)
@@ -403,7 +351,6 @@ input[type="checkbox"][name="isAdmin"] {
 @media (min-width: 597px) and (max-width: 1360px) {
   .list-page-container {
     padding: 1rem;
-    width: 95%;
     box-sizing: border-box;
     margin: 1rem auto;
   }
@@ -413,28 +360,22 @@ input[type="checkbox"][name="isAdmin"] {
     overflow-x: auto;
     box-sizing: border-box;
   }
-
-  .list-table,
-  .game-boards-table {
+  .data-table {
     width: 100%;
     table-layout: fixed;
   }
 
   /* Adjust padding and word wrapping for better display */
-  .list-table th,
-  .list-table td,
-  .game-boards-table th,
-  .game-boards-table td {
+  .data-table th,
+  .data-table td {
     padding: 0.5em 0.75em;
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
 
   /* Column width handling for medium screens*/
-  .list-table td:first-child,
-  .game-boards-table td:first-child,
-  .list-table th:first-child,
-  .game-boards-table th:first-child {
+  .data-table td:first-child,
+  .data-table th:first-child {
     width: 15%;
   }
 
@@ -444,19 +385,16 @@ input[type="checkbox"][name="isAdmin"] {
     min-width: 70px;
     margin: 0.25rem;
     font-size: 0.95rem;
-  }
-
-  /* Optimize text display in category cells */
+  } /* Optimize text display in category cells */
   .categories-cell {
     white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
   }
 }
+
+/* =============================================================================
+   FILTER CONTAINER STYLES
+   ============================================================================= */
+
 /* Filter container styles for list pages */
 .filter-container {
   background-color: #f8fafc;
@@ -493,6 +431,10 @@ input[type="checkbox"][name="isAdmin"] {
   }
 }
 
+/* =============================================================================
+   DIFFICULTY BADGE STYLING
+   ============================================================================= */
+
 /* Difficulty badge styling */
 .difficulty-badge {
   display: inline-block;
@@ -523,6 +465,10 @@ input[type="checkbox"][name="isAdmin"] {
   color: #475569;
 }
 
+/* =============================================================================
+   EDIT MODAL AND OVERLAY STYLES
+   ============================================================================= */
+
 /* Edit form overlay styles*/
 .edit-overlay {
   position: fixed;
@@ -531,20 +477,19 @@ input[type="checkbox"][name="isAdmin"] {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  z-index: 1050;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: clamp(0.5rem, 2vw, 1.5rem);
 }
 
 /* Modal/overlay window styling - contains the form */
 .edit-modal {
   background: white;
   border-radius: 12px;
-  padding: 2rem;
-  max-width: 600px;
-  width: 100%;
+  padding: 1.5rem;
+  width: min(90vw, 650px);
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -611,8 +556,8 @@ input[type="checkbox"][name="isAdmin"] {
 /* Responsive adjustments for the modal on small screens */
 @media (max-width: 640px) {
   .edit-modal {
-    margin: 1rem;
-    padding: 1.5rem;
+    width: min(95vw, 500px);
+    padding: 1rem;
     max-height: 95vh;
   }
 
@@ -627,49 +572,39 @@ input[type="checkbox"][name="isAdmin"] {
   }
 }
 
+/* Larger screen optimizations */
+@media (min-width: 1200px) {
+  .edit-modal {
+    width: min(85vw, 750px);
+    padding: 2rem;
+  }
+}
+
+/* =============================================================================
+   DARK MODE COMPATIBILITY
+   ============================================================================= */
+
 /* Dark Mode Compatibility */
 @media (prefers-color-scheme: dark) {
   /* Table header styles */
-  .list-table th,
-  .game-boards-table th {
+  .data-table th {
     background: #4a5568;
     color: #f7fafc;
   }
 
   /* Row Styling */
-  .list-table tr,
-  .game-boards-table tr {
+  .data-table tr {
     background: #2d3748;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   /* Hover effect for rows */
-  .list-table tr:hover,
-  .game-boards-table tr:hover {
+  .data-table tr:hover {
     background: #374151;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
-  .list-table tr:nth-child(even),
-  .game-boards-table tr:nth-child(even) {
+  .data-table tr:nth-child(even) {
     background: #374151;
-  }
-
-  /* Solved game styling for dark mode */
-  .list-table tr.solved-game,
-  .game-boards-table tr.solved-game {
-    background: #14532d; /* Dark green background */
-    border: 2px solid #16a34a; /* Green border */
-  }
-
-  .list-table tr.solved-game:hover,
-  .game-boards-table tr.solved-game:hover {
-    background: #166534; /* Slightly lighter dark green on hover */
-    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.4); /* Green shadow */
-  }
-
-  .list-table tr.solved-game:nth-child(even),
-  .game-boards-table tr.solved-game:nth-child(even) {
-    background: #14532d; /* Override zebra striping for solved games in dark mode */
   }
 
   /* Container styles */

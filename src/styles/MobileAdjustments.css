@@ -1,12 +1,7 @@
+/* =============================================================================
+   BASE CONTAINER ADJUSTMENTS
+   ============================================================================= */
 /* 
-* MobileAdjustments.css
-* Handles responsive design for the Connections Game app
-* Focus on table-to-card transformations at 1000px breakpoint
-* Last updated: May 28, 2025
-*/
-
-/* 
-* SECTION: Base Container Adjustments
 * Prevents horizontal scrolling and sets proper sizing
 */
 html,
@@ -39,39 +34,13 @@ body {
   }
 }
 
+/* =============================================================================
+   TABLE LAYOUT IMPROVEMENTS
+   ============================================================================= */
 /* 
-* SECTION: Navigation Improvements
-* Makes navigation more consistent across screen sizes
-*/
-.navbar-links {
-  gap: 1rem !important;
-}
-
-/* Add spacing between navbar buttons */
-.nav-item-main {
-  margin-right: 0.5rem;
-}
-
-/* Ensure button spacing is maintained on all screen sizes */
-.navbar-links li {
-  margin: 0.25rem;
-}
-
-/* Improve touch targets in navigation */
-.nav-link,
-.navbar-logo {
-  min-height: 44px; /* Apple's recommended minimum touch target size */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 
-* SECTION: Table Layout Improvements
 * Prevents tables from causing horizontal scroll
 */
-.list-table,
-.game-boards-table {
+.data-table {
   table-layout: fixed !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -79,8 +48,7 @@ body {
 }
 
 /* Better control for wrapping text in cells */
-.list-table td,
-.game-boards-table td {
+.data-table td {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
@@ -143,6 +111,10 @@ body {
   width: 15%;
 }
 
+/* =============================================================================
+   RESPONSIVE BREAKPOINTS - EXTRA SMALL SCREENS
+   ============================================================================= */
+
 /* Extra Small Screen Adjustments (<480px)*/
 @media (max-width: 480px) {
   /* Smaller buttons for very small screens */
@@ -152,29 +124,19 @@ body {
     font-size: 0.9rem;
     margin: 0.2rem;
   }
-
-  /* Shrink navbar items for extra small screens */
-  .navbar-links li {
-    margin: 0.15rem;
-  }
-
   /* Tighter spacing on list containers for very small screens */
   .list-page-container {
     padding: 0.75rem 0.5rem !important;
     margin: 0.5rem auto !important;
   }
-
   /* Remove excess padding on tables for very small screens */
-  .list-table tbody td,
-  .game-boards-table tbody td {
+  .data-table tbody td {
     padding: 0.75rem !important;
   }
 
   /* Made tables smaller on tiny screens */
-  .list-table th,
-  .list-table td,
-  .game-boards-table th,
-  .game-boards-table td {
+  .data-table th,
+  .data-table td {
     padding: 0.4em 0.5em;
     font-size: 0.85rem;
   }
@@ -199,32 +161,9 @@ body {
   }
 }
 
-/* Specific adjustments for game board in small portrait screens */
-@media screen and (max-width: 480px) {
-  .game-board {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.25rem !important;
-    width: 100%;
-    max-width: 320px !important;
-    margin: 0 auto !important;
-  }
-
-  .word-tile {
-    width: 70px !important;
-    height: 60px !important;
-    font-size: 0.75rem !important;
-    margin: 0 !important;
-    padding: 0.25rem !important;
-  }
-}
+/* Specific adjustments for game board in small portrait screens - handled above */
 /* Small Screen Adjustments (<640px) navigation and containers for mobile screens*/
 @media (max-width: 640px) {
-  /* Navbar adjustments */
-  .navbar {
-    padding: 0.5rem 0.75rem;
-  }
-
   /* Root container padding */
   #root {
     padding: 1rem;
@@ -260,10 +199,8 @@ body {
 /* Tablet/Medium Screen Adjustments (597px to 1360px)*/
 @media (min-width: 597px) and (max-width: 1360px) {
   /* Adjust table column widths for medium screens */
-  .list-table th,
-  .list-table td,
-  .game-boards-table th,
-  .game-boards-table td {
+  .data-table th,
+  .data-table td {
     padding: 0.5em 0.75em;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -286,32 +223,26 @@ body {
     margin: 0.75rem auto !important;
     padding: 0.75rem !important;
   }
-
-  /* Make sure buttons have proper spacing */
-  .navbar-links {
-    gap: 0.75rem !important;
-  }
-
   /* Remove minimum width constraint that could cause overflow */
-  .list-table,
-  .game-boards-table {
+  .data-table {
     min-width: 0 !important;
   }
 }
 
+/* =============================================================================
+   TABLE-TO-CARD TRANSFORMATION (1000px BREAKPOINT)
+   ============================================================================= */
+
 /* Card View Transformation (<1000px)*/
 @media (max-width: 1000px) {
   /* Makes edit rows fill the full width */
-  .list-table tbody tr.edit-mode-row,
-  .game-boards-table tbody tr.edit-mode-row {
+  .data-table tbody tr.edit-mode-row {
     width: 100%;
     max-width: 100%;
     display: block;
   }
-
   /* Converts table cells to block elements for card layout */
-  .list-table tbody td,
-  .game-boards-table tbody td {
+  .data-table tbody td {
     display: block;
     padding: 1rem;
     text-align: left;
@@ -319,22 +250,21 @@ body {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 0;
+    border-radius: 0; /* Reset border-radius for middle cells in card view */
   }
-
   /* Special styling for the last cell in each row */
-  .list-table tbody td:last-child,
-  .game-boards-table tbody td:last-child {
+  .data-table tbody td:last-child {
     border-bottom: none;
     margin-bottom: 0;
     padding: 1rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
+    border-radius: 0 0 12px 12px; /* Round bottom corners for last cell in card view */
   }
 
   /* Adds data-label content to identify cell purpose in card view */
-  .list-table tbody td::before,
-  .game-boards-table tbody td::before {
+  .data-table tbody td::before {
     content: attr(data-label);
     font-weight: 600;
     display: block;
@@ -344,8 +274,7 @@ body {
     letter-spacing: 0.01em;
   }
   /* First cell acts as header for each card */
-  .list-table tbody td:first-child,
-  .game-boards-table tbody td:first-child {
+  .data-table tbody td:first-child {
     max-width: none;
     border-bottom: 2px solid #cbd5e1;
     background-color: #edf2f7; /* Slightly darker to stand out better */
@@ -359,8 +288,7 @@ body {
   }
 
   /* ID label in first cell shown inline */
-  .list-table tbody td:first-child::before,
-  .game-boards-table tbody td:first-child::before {
+  .data-table tbody td:first-child::before {
     display: inline;
     margin-right: 0.5rem;
     font-size: 0.85rem;
@@ -378,15 +306,12 @@ body {
   .name-column {
     width: 100% !important;
   }
-
   /* Special fix for game boards name column in card view */
-  .game-boards-table tbody td.name-column span,
-  .list-table tbody td.name-column span {
+  .data-table tbody td.name-column span {
     display: block;
   }
   /* Button layout in card view */
-  .list-table tbody td button,
-  .game-boards-table tbody td button {
+  .data-table tbody td button {
     margin: 0.5rem 0.5rem 0.5rem 0;
     flex: 1 1 auto;
     min-width: 100px;
@@ -445,15 +370,12 @@ body {
     margin-left: 0 !important;
     margin-top: 8px;
   }
-
   /* Hide table headers in card view */
-  .list-table thead,
-  .game-boards-table thead {
+  .data-table thead {
     display: none;
   }
   /* Card styling for table rows */
-  .list-table tbody tr,
-  .game-boards-table tbody tr {
+  .data-table tbody tr {
     display: block;
     margin-bottom: 1.5rem;
     padding: 0;
@@ -469,10 +391,8 @@ body {
   .table-wrapper {
     overflow-x: visible;
   }
-
   /* Table footer styling in card view */
-  .list-table tfoot,
-  .game-boards-table tfoot {
+  .data-table tfoot {
     display: block;
     margin-top: 1rem;
     padding: 1rem;
@@ -481,91 +401,85 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   }
 
-  .list-table tfoot tr,
-  .game-boards-table tfoot tr {
+  .data-table tfoot tr {
     display: block;
     box-shadow: none;
   }
 
-  .list-table tfoot td,
-  .game-boards-table tfoot td {
+  .data-table tfoot td {
     display: block;
     width: 100%;
     text-align: center;
     padding: 0.75rem;
   }
-
-  /* Only the first cell (name) gets green background in solved games, not the whole card */
-  .list-table tr.solved-game td:first-child,
-  .game-boards-table tr.solved-game td:first-child {
-    background-color: #dcfce7;
-    border-bottom: 2px solid #16a34a;
-    box-shadow: 0 1px 3px rgba(22, 163, 74, 0.2);
-  }
-
-  /* Add a subtle indicator to solved game cards */
-  .list-table tr.solved-game,
-  .game-boards-table tr.solved-game {
-    border: 1px solid #16a34a;
-    box-shadow: 0 2px 10px rgba(22, 163, 74, 0.15);
-  }
 }
+
+/* =============================================================================
+   DARK MODE COMPATIBILITY
+   ============================================================================= */
 
 /* Dark mode compatibility for card view */
 @media (prefers-color-scheme: dark) {
   /* Background and borders for all cells */
-  .list-table tbody td,
-  .game-boards-table tbody td {
+  .data-table tbody td {
     border-bottom: 1px solid #4a5568;
     background-color: #2d3748;
     color: #f7fafc;
   }
 
   /* Card styles in dark mode */
-  .list-table tbody tr,
-  .game-boards-table tbody tr {
+  .data-table tbody tr {
     border: 1px solid #4a5568;
     background-color: #2d3748;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   }
 
   /* Header cell for all games */
-  .list-table tbody td:first-child,
-  .game-boards-table tbody td:first-child {
+  .data-table tbody td:first-child {
     background-color: #374151; /* Slightly lighter than card background */
     border-bottom: 2px solid #4a5568;
     color: #f7fafc;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
+  /* Solved game styling for dark mode - override general dark mode styles */
+  .data-table tbody tr.solved-game {
+    background-color: #14532d !important; /* Dark green background */
+    border: 2px solid #16a34a !important; /* Green border */
+  }
+
+  .data-table tbody tr.solved-game td {
+    background-color: #14532d !important; /* Dark green background for all cells */
+    border-bottom: 1px solid #16a34a !important;
+    color: #f7fafc !important;
+  }
+
+  .data-table tbody tr.solved-game td:first-child {
+    background-color: #14532d !important; /* Dark green background for first cell */
+    border-bottom: 2px solid #16a34a !important;
+    color: #f7fafc !important;
+  }
+
+  .data-table tbody tr.solved-game:hover {
+    background-color: #166534 !important; /* Slightly lighter dark green on hover */
+    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.4) !important;
+  }
+  .data-table tbody tr.solved-game:hover td {
+    background-color: #166534 !important;
+  }
+
+  /* Make solved game checkmarks and text visible in dark mode */
+  .data-table tbody tr.solved-game span[style*="color: green"] {
+    color: #ffffff !important; /* White text for checkmarks and "Solved" text */
+  }
+
   /* Data labels */
-  .list-table tbody td::before,
-  .game-boards-table tbody td::before {
+  .data-table tbody td::before {
     color: #cbd5e1;
   }
-
-  /* Solved game styling for dark mode */
-  .list-table tr.solved-game td:first-child,
-  .game-boards-table tr.solved-game td:first-child {
-    background-color: #14532d;
-    border-bottom: 2px solid #16a34a;
-    color: #f7fafc;
-  }
-
-  /* Solved game card styling for dark mode */
-  .list-table tr.solved-game,
-  .game-boards-table tr.solved-game {
-    border: 1px solid #16a34a;
-    box-shadow: 0 2px 10px rgba(22, 163, 74, 0.25);
-  }
 }
 
-/* Responsive adjustments for the game board tiles */
-.word-tile {
-  display: inline-block;
-  margin: 0.5rem;
-  text-align: center;
-}
+/* Responsive adjustments for the game board tiles - handled in mobile sections above */
 /*Touch-Friendly Form Elements Makes form controls easier to use on touch screens*/
 @media (max-width: 768px) {
   /* Larger touch targets for form elements */
@@ -582,15 +496,14 @@ body {
     margin-bottom: 1rem;
     min-height: 2.5rem;
   }
-
   /* Better spacing in edit modals */
   .edit-modal {
-    width: 92% !important;
-    max-width: 500px;
+    width: min(95vw, 500px) !important;
+    padding: 1rem !important;
   }
 
   .edit-modal-body {
-    padding: 1rem 0.75rem !important;
+    padding: 0.75rem 0.5rem !important;
   }
 
   /* More space between form groups */
