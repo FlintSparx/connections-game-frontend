@@ -273,11 +273,9 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
             </label>
           </div>
         )}
-      </div>
-
-      {/* List of existing game boards */}
+      </div>      {/* List of existing game boards */}
       <div className="table-wrapper">
-        <table className="list-table">
+        <table className="data-table">
           <thead>
             <tr>
               <th className="name-column">Name</th>

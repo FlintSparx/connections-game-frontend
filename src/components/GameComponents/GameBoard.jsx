@@ -261,7 +261,7 @@ function GameBoard({ gameId: propGameId }) {
       {gameId && (
         // Only show title and instructions when displaying a specific game (not on home page)
         <>
-          <h2 style={{ fontWeight: "bold" }}>{gameName}</h2>
+          <h2 style={{ fontWeight: "bold", textDecoration: "underline" }}>{gameName}</h2>
           <p
             style={{
               fontSize: "0.9rem",

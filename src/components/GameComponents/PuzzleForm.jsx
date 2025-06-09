@@ -290,7 +290,7 @@ function PuzzleForm({
                     padding: "0 2px",
                     boxSizing: "border-box",
                   }}
-                  maxLength={18}
+                  maxLength={15}
                 />
               ))}
             </div>

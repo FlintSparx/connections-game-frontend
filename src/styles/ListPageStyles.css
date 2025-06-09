@@ -80,9 +80,8 @@
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
-/* Shared table styles for list and browse pages */
-.list-table,
-.game-boards-table {
+/* Shared table styles for all data tables (consolidated from .list-table and .game-boards-table) */
+.data-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 12px; /* Creates space between rows */
@@ -93,11 +92,9 @@
   box-sizing: border-box;
 }
 
-/*  Table cell properties  styles for  headers/data cells */
-.list-table th,
-.list-table td,
-.game-boards-table th,
-.game-boards-table td {
+/* Table cell properties styles for headers/data cells */
+.data-table th,
+.data-table td {
   border: none;
   padding: 0.65em 1em;
   text-align: left;
@@ -105,8 +102,7 @@
 }
 
 /* Header styles w/ slight background to distinguish from data rows */
-.list-table th,
-.game-boards-table th {
+.data-table th {
   background: #f7f7f7;
   font-weight: bold;
   color: #222;
@@ -114,23 +110,20 @@
 }
 
 /* Header row styling for seamless connected appearance */
-.list-table thead tr,
-.game-boards-table thead tr {
+.data-table thead tr {
   background: #f7f7f7;
   border-spacing: 0;
 }
 
 /* Remove any gaps between header cells for seamless appearance */
-.list-table thead th,
-.game-boards-table thead th {
+.data-table thead th {
   padding: 0.65em 1em;
   border: none;
   margin: 0;
 }
 
-/* Row styling*/
-.list-table tr,
-.game-boards-table tr {
+/* Row styling */
+.data-table tr {
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
@@ -138,33 +131,28 @@
 }
 
 /* Solved game styling - green background for completed games */
-.list-table tr.solved-game,
-.game-boards-table tr.solved-game {
+.data-table tr.solved-game {
   background: #dcfce7; /* Light green background */
   border: 2px solid #16a34a; /* Green border */
 }
 
-.list-table tr.solved-game:hover,
-.game-boards-table tr.solved-game:hover {
+.data-table tr.solved-game:hover {
   background: #bbf7d0; /* Slightly darker green on hover */
   box-shadow: 0 4px 16px rgba(22, 163, 74, 0.25); /* Green shadow */
 }
 
-.list-table tr.solved-game:nth-child(even),
-.game-boards-table tr.solved-game:nth-child(even) {
+.data-table tr.solved-game:nth-child(even) {
   background: #dcfce7; /* Override zebra striping for solved games */
 }
 
 /* Hover effect for rows - highlights the current row */
-.list-table tr:hover,
-.game-boards-table tr:hover {
+.data-table tr:hover {
   background: #f1f5f9;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-/* Zebra striping  alternates background color for easier reading */
-.list-table tr:nth-child(even),
-.game-boards-table tr:nth-child(even) {
+/* Zebra striping alternates background color for easier reading */
+.data-table tr:nth-child(even) {
   background: #f9fafb;
 }
 
@@ -172,24 +160,20 @@
 * Border radius for first and last cells in a row
 * This creates rounded corners on the table rows
 */
-.list-table td:first-child,
-.game-boards-table td:first-child {
+.data-table td:first-child {
   border-radius: 16px 0 0 16px;
 }
 
-.list-table td:last-child,
-.game-boards-table td:last-child {
+.data-table td:last-child {
   border-radius: 0 16px 16px 0;
 }
 
 /* Table header specific styling - only first and last th get rounded corners */
-.list-table th:first-child,
-.game-boards-table th:first-child {
+.data-table th:first-child {
   border-radius: 16px 0 0 16px;
 }
 
-.list-table th:last-child,
-.game-boards-table th:last-child {
+.data-table th:last-child {
   border-radius: 0 16px 16px 0;
 }
 
@@ -334,8 +318,16 @@ input[type="checkbox"][name="isAdmin"] {
   align-items: center;
 }
 
-/* Responsive word grid for PuzzleForm - adjusts column count */
-@media (min-width: 481px) {
+/* Responsive word grid for PuzzleForm */
+@media (min-width: 390px) and (max-width: 492px) {
+  .word-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 493px) {
   .word-grid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -357,28 +349,22 @@ input[type="checkbox"][name="isAdmin"] {
     overflow-x: auto;
     box-sizing: border-box;
   }
-
-  .list-table,
-  .game-boards-table {
+  .data-table {
     width: 100%;
     table-layout: fixed;
   }
 
   /* Adjust padding and word wrapping for better display */
-  .list-table th,
-  .list-table td,
-  .game-boards-table th,
-  .game-boards-table td {
+  .data-table th,
+  .data-table td {
     padding: 0.5em 0.75em;
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
 
   /* Column width handling for medium screens*/
-  .list-table td:first-child,
-  .game-boards-table td:first-child,
-  .list-table th:first-child,
-  .game-boards-table th:first-child {
+  .data-table td:first-child,
+  .data-table th:first-child {
     width: 15%;
   }
 
@@ -389,16 +375,9 @@ input[type="checkbox"][name="isAdmin"] {
     margin: 0.25rem;
     font-size: 0.95rem;
   }
-
   /* Optimize text display in category cells */
   .categories-cell {
     white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
   }
 }
 /* Filter container styles for list pages */
@@ -581,45 +560,38 @@ input[type="checkbox"][name="isAdmin"] {
 /* Dark Mode Compatibility */
 @media (prefers-color-scheme: dark) {
   /* Table header styles */
-  .list-table th,
-  .game-boards-table th {
+  .data-table th {
     background: #4a5568;
     color: #f7fafc;
   }
 
   /* Row Styling */
-  .list-table tr,
-  .game-boards-table tr {
+  .data-table tr {
     background: #2d3748;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   /* Hover effect for rows */
-  .list-table tr:hover,
-  .game-boards-table tr:hover {
+  .data-table tr:hover {
     background: #374151;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
-  .list-table tr:nth-child(even),
-  .game-boards-table tr:nth-child(even) {
+  .data-table tr:nth-child(even) {
     background: #374151;
   }
 
   /* Solved game styling for dark mode */
-  .list-table tr.solved-game,
-  .game-boards-table tr.solved-game {
+  .data-table tr.solved-game {
     background: #14532d; /* Dark green background */
     border: 2px solid #16a34a; /* Green border */
   }
 
-  .list-table tr.solved-game:hover,
-  .game-boards-table tr.solved-game:hover {
+  .data-table tr.solved-game:hover {
     background: #166534; /* Slightly lighter dark green on hover */
     box-shadow: 0 4px 16px rgba(22, 163, 74, 0.4); /* Green shadow */
   }
 
-  .list-table tr.solved-game:nth-child(even),
-  .game-boards-table tr.solved-game:nth-child(even) {
+  .data-table tr.solved-game:nth-child(even) {
     background: #14532d; /* Override zebra striping for solved games in dark mode */
   }
 
