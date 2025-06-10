@@ -84,12 +84,11 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
   }; // Fetch user's solved games
   const fetchSolvedGames = async () => {
     if (!user || !token || !user.userID) {
-      console.log("Missing user data or token, cannot fetch solved games");
+      console.warn("Missing user data or token, cannot fetch solved games");
       return;
     }
 
     try {
-      console.log(`Fetching solved games for user ID: ${user.userID}`);
       const response = await fetch(`${API_URL}/games/solved/${user.userID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -103,12 +102,11 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
         const validSolvedGames = Array.isArray(data.solvedGames)
           ? data.solvedGames
           : [];
-        console.log(`Received ${validSolvedGames.length} solved games`);
         setSolvedGames(validSolvedGames);
       } else {
         // Handle non-200 responses
         console.error(
-          `Failed to fetch solved games: ${response.status} ${response.statusText}`,
+          `Failed to fetch solved games: ${response.status} ${response.statusText}`
         );
         const errorText = await response.text();
         console.error(`Error response: ${errorText}`);
@@ -200,7 +198,6 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
           Create New Game Board
         </button>
       )}
-
       {/* Age-based message for minors */}
       {!isAdult && userAge !== null && (
         <div
@@ -216,7 +213,6 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
           hidden for users under 18.
         </div>
       )}
-
       {/* Message for non-logged-in users */}
       {!token && (
         <div
@@ -232,7 +228,6 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
           verify your age to access all content.
         </div>
       )}
-
       {/* Filters */}
       <div className="filter-container mb-4">
         {/* Difficulty Filter */}
@@ -273,7 +268,8 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
             </label>
           </div>
         )}
-      </div>      {/* List of existing game boards */}
+      </div>{" "}
+      {/* List of existing game boards */}
       <div className="table-wrapper">
         <table className="data-table">
           <thead>

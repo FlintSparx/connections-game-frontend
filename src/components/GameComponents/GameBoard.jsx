@@ -67,6 +67,25 @@ function GameBoard({ gameId: propGameId }) {
     }, totalDuration);
   };
 
+  // Move getUsername here so it's available everywhere in the component
+  const getUsername = async (createdBy) => {
+    if (createdBy && typeof createdBy === "object" && createdBy.username) {
+      setCreatorUsername(createdBy.username);
+    } else if (createdBy) {
+      // It's an ID, fetch the user
+      try {
+        const userRes = await fetch(`${API_URL}/users/username/${createdBy}`);
+        if (!userRes.ok) throw new Error(`HTTP ${userRes.status}`);
+        const userData = await userRes.json();
+        setCreatorUsername(userData.username);
+      } catch (err) {
+        setCreatorUsername("Unknown");
+      }
+    } else {
+      setCreatorUsername("Unknown");
+    }
+  };
+
   // Fetch a specific game if gameId is provided, otherwise fetch a new random game
   const fetchGame = async () => {
     try {
@@ -122,11 +141,7 @@ function GameBoard({ gameId: propGameId }) {
 
         setGameName(data.name); // Set the game name for random game
         // Set creator username if available for random game
-        if (data.createdBy && data.createdBy.username) {
-          setCreatorUsername(data.createdBy.username);
-        } else {
-          setCreatorUsername("Unknown");
-        }
+        getUsername(data.createdBy);
         const all = [
           ...data.category1.words.map((w) => ({
             word: w,
@@ -196,7 +211,7 @@ function GameBoard({ gameId: propGameId }) {
       if (!data) throw new Error("No games available");
       setGameId(data._id);
       setGameName(data.name);
-      setCreatorUsername(data.createdBy?.username || "Unknown");
+      getUsername(data.createdBy);
       const all = [
         ...data.category1.words.map((w) => ({
           word: w,

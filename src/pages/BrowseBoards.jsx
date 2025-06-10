@@ -10,7 +10,6 @@ function BrowseBoards({ setShowCreateGameOverlay }) {
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    console.log("Password submitted:", input);
     setShowPrompt(false);
     setInput("");
   };
@@ -21,7 +20,10 @@ function BrowseBoards({ setShowCreateGameOverlay }) {
         <h2 className="list-page-title">Browse Game Boards</h2>
       </div>
       {showPrompt && (
-        <form onSubmit={handlePasswordSubmit} className="mb-4 flex gap-3 align-center">
+        <form
+          onSubmit={handlePasswordSubmit}
+          className="mb-4 flex gap-3 align-center"
+        >
           <input
             type="password"
             value={input}
@@ -30,10 +32,7 @@ function BrowseBoards({ setShowCreateGameOverlay }) {
             className="form-control"
             autoFocus
           />
-          <button
-            type="submit"
-            className="btn btn-primary"
-          >
+          <button type="submit" className="btn btn-primary">
             Submit
           </button>
           <button
