@@ -262,10 +262,13 @@
   gap: 8px;
   background: #fff;
   border-radius: 0 0 6px 6px;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-top: none;
   padding: 8px;
   justify-items: center;
+}
+.word-tile:hover {
+  background-color: #bfdbfe !important;
 }
 
 @media (max-width: 900px) {
