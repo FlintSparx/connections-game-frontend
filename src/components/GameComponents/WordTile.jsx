@@ -32,7 +32,7 @@ function WordTile({
       onClick={onClick}
       className={`word-tile${isJumping ? " jump-up" : ""}${
         isShaking ? " shake" : ""
-      }`}
+      }${selected ? " selected" : ""}`}
       style={{ background: tileBackground }}
     >
       <span className="word-tile-text">{word}</span>

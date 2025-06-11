@@ -77,10 +77,7 @@ button {
 button:hover,
 .nav-link.active,
 .btn.active,
-button.active,
-.nav-link[aria-current="page"],
-.btn[aria-current="page"],
-button[aria-current="page"] {
+button.active {
   background: #2563eb;
   color: #fff;
   font-weight: bold;
@@ -246,7 +243,18 @@ button[aria-current="page"] {
 /* Dark Mode Compatibility */
 @media (prefers-color-scheme: dark) {
   .navbar {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px #ee0303;
+  }
+  /* Red hover effects for all navigation elements in dark mode */
+  .nav-link:hover,
+  .btn:hover,
+  button:hover,
+  .nav-link.active,
+  .btn.active,
+  button.active,
+  .navbar-logo:hover {
+    background: #ee0303 !important;
+    box-shadow: 0 0 16px 2px #ee0303;
   }
 }
 

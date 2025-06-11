@@ -214,7 +214,8 @@
   }
 }
 
-@media (max-width: 360px) {  /* Extra compact for very narrow screens */
+@media (max-width: 360px) {
+  /* Extra compact for very narrow screens */
   .word-tile {
     height: 2.75rem;
     padding: 0.05rem;
@@ -300,14 +301,18 @@
 @media (prefers-color-scheme: dark) {
   /* Word tiles in dark mode - solid colors for visibility */
   .word-tile {
-    background-color: #374151 !important;
-    color: #f3f4f6 !important;
-    border-color: #6b7280;
+    background-color: #ffffff;
+    color: black;
+    border-color: #e4e4e4;
   }
 
   .word-tile:hover {
-    background-color: #374151 !important;
-    color: #f3f4f6 !important;
+    background-color: #ee0303 !important;
+  }
+
+  /* Selected tile red color in dark mode */
+  .word-tile.selected {
+    background: #ee0303 !important;
   }
 
   /* Congratulations message - override inline styles */

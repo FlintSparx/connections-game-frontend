@@ -118,14 +118,19 @@
    ============================================================================= */
 
 @media (prefers-color-scheme: dark) {
-  /* Admin dashboard container */
   .admin-dashboard {
     background: #2d3748;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
-  /* Admin header title */
   .admin-header-container h2 {
     color: #f7fafc;
+  }
+
+  /* Red hover effects for admin tabs in dark mode */
+  .admin-tab:hover,
+  .admin-tab.active {
+    background: #dc2626 ;
+    box-shadow: 0 0 16px 2px #dc2626;
   }
 }
