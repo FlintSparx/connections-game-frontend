@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 
 // Color scheme for the four different categories with semantic names
 const CATEGORY_COLORS = [
@@ -19,6 +19,8 @@ function WordTile({
   isJumping, // Whether the tile is currently jumping
   isShaking, // Whether the tile is currently shaking
 }) {
+  const textRef = useRef(null);
+
   // Set background color based on tile state
   const tileBackground =
     typeof foundGroupCatIndex === "number"
@@ -35,7 +37,9 @@ function WordTile({
       }${selected ? " selected" : ""}`}
       style={{ background: tileBackground }}
     >
-      <span className="word-tile-text">{word}</span>
+      <span ref={textRef} className="word-tile-text">
+        {word}
+      </span>
       {categoryName && (
         <div className="word-tile-category-name">{categoryName}</div>
       )}
