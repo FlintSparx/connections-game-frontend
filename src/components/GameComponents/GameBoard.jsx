@@ -534,21 +534,32 @@ function GameBoard({ gameId: propGameId }) {
             className="game-action-btn"
             onClick={() => {
               const gameUrl = `${window.location.origin}/play/${gameId}`;
-              navigator.clipboard
-                .writeText(gameUrl)
-                .then(() => {
-                  alert("Game URL has been copied to your clipboard!");
-                })
-                .catch(() => {
-                  // Fallback for older browsers
-                  const textArea = document.createElement("textarea");
-                  textArea.value = gameUrl;
-                  document.body.appendChild(textArea);
-                  textArea.select();
-                  document.execCommand("copy");
-                  document.body.removeChild(textArea);
-                  alert("Game URL has been copied to your clipboard!");
-                });
+              if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard
+                  .writeText(gameUrl)
+                  .then(() => {
+                    alert("Game URL has been copied to your clipboard!");
+                  })
+                  .catch(() => {
+                    // fallback below
+                    const textArea = document.createElement("textarea");
+                    textArea.value = gameUrl;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textArea);
+                    alert("Game URL has been copied to your clipboard!");
+                  });
+              } else {
+                // fallback for HTTP or unsupported browsers
+                const textArea = document.createElement("textarea");
+                textArea.value = gameUrl;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+                alert("Game URL has been copied to your clipboard!");
+              }
             }}
           >
             Share Game
