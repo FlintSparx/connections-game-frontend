@@ -244,11 +244,10 @@ button.active {
 @media (prefers-color-scheme: dark) {
   .navbar {
     box-shadow: 0 2px 8px #ee0303;
-  }
-  /* Red hover effects for all navigation elements in dark mode */
+  } /* Red hover effects for all navigation elements in dark mode */
   .nav-link:hover,
-  .btn:hover,
-  button:hover,
+  .btn:hover:not(:disabled),
+  button:hover:not(:disabled),
   .nav-link.active,
   .btn.active,
   button.active,
