@@ -488,7 +488,6 @@ body {
   textarea,
   button {
     font-size: 1rem !important;
-    padding: 0.5rem !important;
   }
 
   /* More space for form controls */

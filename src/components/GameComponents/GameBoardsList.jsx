@@ -347,7 +347,7 @@ function GameBoardsList({ admin, setShowCreateGameOverlay }) {
                           fontWeight: "bold",
                         }}
                       >
-                        ✓✓✓ Solved
+                        ✓ Solved
                       </span>
                     )}
                   </td>
