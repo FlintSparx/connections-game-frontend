@@ -130,7 +130,7 @@
   /* Red hover effects for admin tabs in dark mode */
   .admin-tab:hover,
   .admin-tab.active {
-    background: #dc2626 ;
+    background: #dc2626;
     box-shadow: 0 0 16px 2px #dc2626;
   }
 }

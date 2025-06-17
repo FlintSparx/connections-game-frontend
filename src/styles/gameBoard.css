@@ -2,7 +2,16 @@
    GAME ACTION BUTTONS
    ============================================================================= */
 
-/* Game action button styles (Submit, Shuffle, New Game) */
+/* Game buttons container */
+.game-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* Game  button styles */
 .game-action-btn {
   background: #4a5568;
   color: #fff;
@@ -10,7 +19,6 @@
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   transition: all 0.2s ease;
-  min-width: 100px;
 }
 
 .game-action-btn:hover:not(:disabled) {
@@ -23,6 +31,13 @@
   opacity: 0.5;
   cursor: not-allowed;
   background: #718096;
+}
+
+/* Media query for 2x2 button layout on smaller screens */
+@media (max-width: 587px) {
+  .game-action-btn {
+    flex: 0 0 calc(50% - 0.5rem); /* 2 buttons per row with gap */
+  }
 }
 
 /* =============================================================================
@@ -145,8 +160,8 @@
 
 .word-tile-category-name {
   width: 90%;
-  font-size: clamp(0.4rem, 1.8vw, 0.7rem);
-  margin-top: 0.25rem;
+  font-size: clamp(0.5rem, 1.9vw, 0.8rem);
+  padding-bottom: 0.3rem;
   opacity: 0.8;
   text-align: center;
   white-space: nowrap;
@@ -179,8 +194,6 @@
     padding: 0; /* Remove padding to give more space for text */
   }
 
-  /* Font size handled by JavaScript auto-resize */
-
   /* Reduce gaps and margins in game board - increase width for more tile space */
   .game-board {
     gap: 0.4rem;
@@ -200,8 +213,6 @@
     padding: 0; /* Remove padding to maximize text space */
   }
 
-  /* Font size handled by JavaScript auto-resize */
-
   .game-board {
     gap: 0.25rem;
     margin-bottom: 0.75rem;
@@ -215,8 +226,6 @@
     height: 2.75rem;
     padding: 0; /* Remove all padding for maximum text space */
   }
-
-  /* Font size handled by JavaScript auto-resize */
 
   .game-board {
     gap: 0.2rem;
@@ -264,28 +273,10 @@
   background-color: #bfdbfe !important;
 }
 
-@media (max-width: 900px) {
-  .word-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (max-width: 500px) {
   .word-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (min-width: 390px) and (max-width: 492px) {
-  .word-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, 1fr);
     margin: 0 auto;
-  }
-}
-
-@media (min-width: 493px) {
-  .word-grid {
-    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -338,7 +329,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  font-size: clamp(0.6rem, 2.2vw, 1.3rem);
+  font-size: clamp(0.6rem, 2.3vw, 1.3rem);
   /* Reduced size slightly to prevent cutoff: 0.6rem (small) to 1.3rem (large) */
   text-align: center;
   line-height: 1.2;
@@ -346,19 +337,6 @@
   overflow: hidden;
   box-sizing: border-box;
   padding: 0;
-}
-
-/* Media queries for responsive adjustments - JavaScript will handle font sizing */
-@media (min-width: 871px) {
-  /* Font size handled by JavaScript auto-resize */
-}
-
-@media (min-width: 1200px) {
-  /* Font size handled by JavaScript auto-resize */
-}
-
-@media (min-width: 1600px) {
-  /* Font size handled by JavaScript auto-resize */
 }
 
 /* =============================================================================
