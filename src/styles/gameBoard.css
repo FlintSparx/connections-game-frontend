@@ -279,7 +279,6 @@
 @media (min-width: 390px) and (max-width: 492px) {
   .word-grid {
     grid-template-columns: repeat(2, 1fr) !important;
-    max-width: 280px;
     margin: 0 auto;
   }
 }
